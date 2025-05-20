@@ -1,6 +1,6 @@
 import "../CSS/Footer.css";
 import Logo from "../assets/Yajveer.png";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <>
@@ -55,7 +55,7 @@ export default function Footer() {
               <Link>
                 <p className="comp"><i className="bi bi-chat-dots fs-4"></i> Live Chat</p>
               </Link>
-              <Link>
+              <Link to="/policies">
                 <p className="comp"><i className="bi bi-file-earmark-text fs-4"></i> Policies </p>
               </Link>
               <Link>

@@ -7,6 +7,7 @@ import SignUp from './components/signup';
 import ReviewForm from './components/ReviewForm';
 import ProductDetails from './components/ProductDetails';
 import AboutUs from './components/AboutUs';
+import Policies from './components/Footer/Policies';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/reviewForm" element={<ReviewForm></ReviewForm>}></Route>
             <Route path="/product/:id" element={<ProductDetails></ProductDetails>}></Route>
             <Route path="/aboutUs" element={<AboutUs></AboutUs>}></Route>
+            <Route path="/policies" element={<Policies></Policies>}></Route>
         </Routes>
         </>
     )
