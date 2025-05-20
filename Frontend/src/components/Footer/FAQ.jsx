@@ -4,6 +4,8 @@ import Navbar from '../Navbar';
 import Navbar2 from '../Navbar2';
 import MainNav from '../MainNav';
 import Footer from '../Footer';
+import Sidebar from '../Home/sidebar';
+import Sidebar1 from '../Home/sidebar1';
 
 const FAQ = () => {
     const [openIndex, setOpenIndex] = useState(null);
@@ -144,12 +146,16 @@ const FAQ = () => {
             )
         },
     ];
-
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+      const handleOpenSidebar = () => setSidebarOpen(true);
+      const handleCloseSidebar = () => setSidebarOpen(false);
     return (
         <>
-            <Navbar />
-            <Navbar2 />
-            <MainNav />
+            {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+                  <Sidebar onOpenSidebar={handleOpenSidebar} />
+                  <Navbar />
+                  <Navbar2></Navbar2>
+                  <MainNav></MainNav>
             <div className="faq-container">
                 <h1>Frequently Asked Questions</h1>
                 <div className="faq-grid">

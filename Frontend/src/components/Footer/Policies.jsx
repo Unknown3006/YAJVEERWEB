@@ -1,20 +1,28 @@
 import React from 'react';
+import { useState } from 'react';
 import "../../CSS/Footer/Policies.css";
 import Navbar from '../Navbar';
 import Navbar2 from '../Navbar2';
 import MainNav from '../MainNav';
 import Footer from '../Footer';
+import Sidebar from '../Home/sidebar';
+import Sidebar1 from '../Home/sidebar1';
 
 function Policies() {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const handleOpenSidebar = () => setSidebarOpen(true);
+  const handleCloseSidebar = () => setSidebarOpen(false);
   return (
     <>
+      {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+      <Sidebar onOpenSidebar={handleOpenSidebar} />
       <Navbar />
-      <Navbar2 />
-      <MainNav />
+      <Navbar2></Navbar2>
+      <MainNav></MainNav>
       <div className="policies-container">
         <h1>Return and Refund Policy</h1>
         <p className="policy-intro">
-          At Yajveer, we are committed to ensuring customer satisfaction with our Ayurvedic products. 
+          At Yajveer, we are committed to ensuring customer satisfaction with our Ayurvedic products.
           If you are not entirely satisfied with your purchase, we're here to help with our return and refund policy outlined below.
         </p>
 
