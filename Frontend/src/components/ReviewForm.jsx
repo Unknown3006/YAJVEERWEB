@@ -2,7 +2,7 @@ import { useState  } from "react";
 import Navbar from "./navbar";
 import Navbar2 from "./navbar2";
 import MainNav from "./mainnav";
-import Footer from "./Footer";
+import Footer from './Footer/Footer';
 import "../CSS/ReviewForm.css";
 import Logo from "../assets/Yajveer.png";
 import Sidebar from './Home/sidebar';

@@ -1,4 +1,4 @@
-import "../CSS/Footer.css";
+import "../../CSS/Footer/Footer.css";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -33,29 +33,24 @@ export default function Footer() {
           <h3>Quick Links</h3>
           <ul>
             <li>
-              <Link to="/about">
-                <i className="bi bi-info-circle"></i> About Us
-              </Link>
+              <i className="bi bi-info-circle"></i>
+              <Link to="/about">About Us</Link>
             </li>
             <li>
-              <Link to="/testimonials">
-                <i className="bi bi-star"></i> Testimonials
-              </Link>
+              <i className="bi bi-star"></i>
+              <Link to="/testimonials">Testimonials</Link>
             </li>
             <li>
-              <Link to="/products">
-                <i className="bi bi-box-seam"></i> Our Products
-              </Link>
+              <i className="bi bi-box-seam"></i>
+              <Link to="/products">Our Products</Link>
             </li>
             <li>
-              <Link to="/blog">
-                <i className="bi bi-newspaper"></i> Blog
-              </Link>
+              <i className="bi bi-newspaper"></i>
+              <Link to="/blog">Blog</Link>
             </li>
             <li>
-              <Link to="/contact">
-                <i className="bi bi-envelope"></i> Contact Us
-              </Link>
+              <i className="bi bi-envelope"></i>
+              <Link to="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>

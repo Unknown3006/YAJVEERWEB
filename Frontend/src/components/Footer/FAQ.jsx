@@ -3,7 +3,7 @@ import "../../CSS/Footer/FAQ.css";
 import Navbar from '../Navbar';
 import Navbar2 from '../Navbar2';
 import MainNav from '../MainNav';
-import Footer from '../Footer';
+import Footer from '../Footer/Footer';
 import Sidebar from '../Home/sidebar';
 import Sidebar1 from '../Home/sidebar1';
 
