@@ -14,7 +14,7 @@ function Policies() {
       <div className="policies-container">
         <h1>Return and Refund Policy</h1>
         <p className="policy-intro">
-          At Amarvira, we are committed to ensuring customer satisfaction with our Ayurvedic products. 
+          At Yajveer, we are committed to ensuring customer satisfaction with our Ayurvedic products. 
           If you are not entirely satisfied with your purchase, we're here to help with our return and refund policy outlined below.
         </p>
 
@@ -89,9 +89,9 @@ function Policies() {
           <h2>5. Contact Us</h2>
           <p>For any questions regarding our Return and Refund Policy, feel free to contact us at:</p>
           <div className="contact-info">
-            <p><strong>Amarvira</strong></p>
+            <p><strong>Yajveer</strong></p>
             <p>3037, Palledium mall, yogi chowk, Surat,395006</p>
-            <p>Email: amarvira@gmail.com</p>
+            <p>Email: Yajveer@gmail.com</p>
             <p>Phone: +91 98248 48145</p>
           </div>
         </section>
