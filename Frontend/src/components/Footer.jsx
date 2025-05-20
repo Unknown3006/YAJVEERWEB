@@ -61,7 +61,7 @@ export default function Footer() {
               <Link>
                 <p className="comp"><i className="bi bi-exclamation-circle fs-4"></i> Report Query</p>
               </Link>
-              <Link>
+              <Link to="/faq">
                 <p className="comp"><i className="bi bi-question-circle fs-4"></i> FAQs </p>
               </Link>
             </div>

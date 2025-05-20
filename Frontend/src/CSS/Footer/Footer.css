@@ -1,0 +1,40 @@
+.mf {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: var(--your-background-color);
+}
+
+.info.deep-inner-button1 {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.info2 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .info2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .info.deep-inner-button1 {
+        padding: 1rem;
+    }
+
+    .info2 {
+        grid-template-columns: 1fr;
+    }
+}
