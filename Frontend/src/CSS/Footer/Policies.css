@@ -1,10 +1,18 @@
 .policies-container {
     max-width: 1000px;
     margin: 2rem auto;
-    padding: 0 20px;
-    font-family: 'Nunito', sans-serif,Arial, sans-serif;
+    padding: 2rem 20px;
+    font-family: 'Nunito', sans-serif, Arial, sans-serif;
     line-height: 1.6;
     color: #333;
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.policies-container:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 }
 
 .policies-container h1 {
@@ -12,58 +20,156 @@
     color: #2c3e50;
     margin-bottom: 2rem;
     font-size: 2.5rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.policies-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    border-radius: 2px;
 }
 
 .policy-intro {
     font-size: 1.1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     text-align: justify;
+    color: #555;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
 }
 
 .policy-section {
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.policy-section:hover {
+    transform: translateY(-5px);
 }
 
 .policy-section h2 {
     color: #2c3e50;
     border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.8rem;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.policy-section h2::before {
+    content: '→';
+    margin-right: 10px;
+    color: #3498db;
 }
 
 .policy-section h3 {
     color: #34495e;
-    margin: 1.5rem 0 1rem;
+    margin: 1.8rem 0 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
 .policy-section ul, 
 .policy-section ol {
-    margin-left: 2rem;
-    margin-bottom: 1.5rem;
+    margin-left: 2.5rem;
+    margin-bottom: 1.8rem;
+    color: #444;
 }
 
 .policy-section li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.policy-section li::marker {
+    color: #3498db;
 }
 
 .contact-info {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-top: 1rem;
+    background: linear-gradient(145deg, #f8f9fa, #ffffff);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
 }
 
 .contact-info p {
-    margin: 0.5rem 0;
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.contact-info p strong {
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+
+.policy-section a {
+    color: #3498db;
+    text-decoration: none;
+    border-bottom: 1px dashed #3498db;
+    transition: all 0.3s ease;
+}
+
+.policy-section a:hover {
+    color: #2980b9;
+    border-bottom-style: solid;
+}
+
+.policy-section strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+
+.policies-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.policies-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.policies-container::-webkit-scrollbar-thumb {
+    background: #3498db;
+    border-radius: 4px;
+}
+
+.policies-container::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+}
+
 
 @media (max-width: 768px) {
     .policies-container {
-        padding: 0 15px;
+        padding: 1.5rem 15px;
+        margin: 1rem;
     }
 
     .policies-container h1 {
         font-size: 2rem;
+    }
+
+    .policy-section {
+        padding: 1.5rem;
     }
 
     .policy-section h2 {
@@ -72,5 +178,45 @@
 
     .policy-section h3 {
         font-size: 1.2rem;
+    }
+
+    .contact-info {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .policies-container {
+        padding: 1rem 12px;
+    }
+
+    .policies-container h1 {
+        font-size: 1.8rem;
+    }
+
+    .policy-intro {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+
+    .policy-section {
+        padding: 1rem;
+    }
+
+    .contact-info {
+        padding: 1rem;
+    }
+}
+
+@media print {
+    .policies-container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .policy-section {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 }
