@@ -9,10 +9,13 @@ import ProductDetails from './components/ProductDetails';
 import FAQ from './components/Footer/FAQ';
 import ContactUs from './components/Footer/ContactUs';
 import AboutUs from './components/AboutUs';
+import ScrollToTop from './components/ScrollToTop';
+import Policies from './components/Footer/Policies';
 
 const App = () => {
   return (
         <>
+        <ScrollToTop />
         <Routes>
             <Route path="/" element={<Home></Home>}></Route>
             <Route path='/login' element={<Login></Login>}></Route>
@@ -22,6 +25,7 @@ const App = () => {
             <Route path="/aboutUs" element={<AboutUs></AboutUs>}></Route>
             <Route path="/faq" element={<FAQ></FAQ>}></Route>
             <Route path="/contact" element={<ContactUs></ContactUs>}></Route>
+            <Route path="/policies" element={<Policies></Policies>}></Route>
         </Routes>
         </>
     )
