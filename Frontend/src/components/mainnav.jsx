@@ -29,9 +29,11 @@ export default function MainNav() {
     <nav className="mainNav">
       <div className="left">
         <div className="items deep-inner-button" ref={categoryRef}>
+          {/* Made the entire title div clickable */}
           <div
             className="title"
             onClick={() => handleDropdownClick('category')}
+            style={{ cursor: 'pointer', width: '100%' }}
           >
             <p>
               All Category{" "}
@@ -48,15 +50,16 @@ export default function MainNav() {
       </div>
 
       <div className="mid">
-        <div className="home deep-inner-button">
-          <Link to='/'>
+        <Link to='/' className="home deep-inner-button" style={{ textDecoration: 'none' }}>
+          <div>
             <p>Home</p>
-          </Link>
-        </div>
+          </div>
+        </Link>
         <div className="dp deep-inner-button" ref={powderRef}>
           <div
             className="title"
             onClick={() => handleDropdownClick('powder')}
+            style={{ cursor: 'pointer', width: '100%' }}
           >
             <p>
               Powder{" "}
@@ -75,6 +78,7 @@ export default function MainNav() {
           <div
             className="title"
             onClick={() => handleDropdownClick('packets')}
+            style={{ cursor: 'pointer', width: '100%' }}
           >
             <p>
               Packets{" "}
