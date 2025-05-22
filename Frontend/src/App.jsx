@@ -10,6 +10,7 @@ import ProductDetails from './components/ProductDetails';
 import AboutUs from './components/AboutUs';
 import Policies from './components/Footer/Policies';
 import FAQ from './components/Footer/FAQ';
+import ContactUs from './components/Footer/ContactUs';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/aboutUs" element={<AboutUs></AboutUs>}></Route>
             <Route path="/policies" element={<Policies></Policies>}></Route>
             <Route path="/faq" element={<FAQ></FAQ>}></Route>
+            <Route path="/contact" element={<ContactUs></ContactUs>}></Route>
         </Routes>
         </>
     )
