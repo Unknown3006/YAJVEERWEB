@@ -44,52 +44,42 @@ export default function MainNav() {
             <p>Karela powder</p>
           </div>
         </div>
-      </div>
-
-      <div className="mid">
-        <Link to='/' className="home deep-inner-button" style={{ textDecoration: 'none' }}>
-          <div>
-            <p>Home</p>
-          </div>
+      </div>      <div className="mid">
+        <Link to="/" className="nav-link deep-inner-button">
+          <p>Home</p>
         </Link>
+
         <div className="dp deep-inner-button" ref={powderRef}>
-          <div
-            className="title"
-            onClick={() => handleDropdownClick('powder')}
-            style={{ cursor: 'pointer', width: '100%' }}
-          >
+          <div className="title" onClick={() => handleDropdownClick('powder')}>
             <p>
-              Powder{" "}
-              <i className="bi bi-caret-down-fill" style={{ fontSize: "1rem" }}></i>
+              Powder <i className="bi bi-caret-down-fill"></i>
             </p>
-          </div>          <div className={`Menulist ${openDropdown === 'powder' ? 'active' : ''}`}>
-            <p>Herbal Powder</p>
-            <p>Karela powder</p>
+          </div>
+          <div className={`Menulist ${openDropdown === 'powder' ? 'active' : ''}`}>
+            <Link to="/herbal-powder" className="dropdown-link"><p>Herbal Powder</p></Link>
+            <Link to="/karela-powder" className="dropdown-link"><p>Karela powder</p></Link>
           </div>
         </div>
 
         <div className="pack deep-inner-button" ref={packetsRef}>
-          <div
-            className="title"
-            onClick={() => handleDropdownClick('packets')}
-            style={{ cursor: 'pointer', width: '100%' }}
-          >
+          <div className="title" onClick={() => handleDropdownClick('packets')}>
             <p>
-              Packets{" "}
-              <i className="bi bi-caret-down-fill" style={{ fontSize: "1rem" }}></i>
+              Packets <i className="bi bi-caret-down-fill"></i>
             </p>
-          </div>          <div className={`Menulist ${openDropdown === 'packets' ? 'active' : ''}`}>
-            <p>Herbal Powder</p>
-            <p>Karela powder</p>
+          </div>
+          <div className={`Menulist ${openDropdown === 'packets' ? 'active' : ''}`}>
+            <Link to="/herbal-packets" className="dropdown-link"><p>Herbal Powder</p></Link>
+            <Link to="/karela-packets" className="dropdown-link"><p>Karela powder</p></Link>
           </div>
         </div>
-        <div className="use deep-inner-button">
-          <p>Instructions</p>
-        </div>
 
-        <div className="review deep-inner-button">
-          <Link to="/reviewForm"><p>Reviews</p></Link>
-        </div>
+        <Link to="/instructions" className="nav-link deep-inner-button">
+          <p>Instructions</p>
+        </Link>
+
+        <Link to="/reviewForm" className="nav-link deep-inner-button">
+          <p>Reviews</p>
+        </Link>
       </div>
 
       <div className="right">
