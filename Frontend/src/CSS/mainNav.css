@@ -1,5 +1,5 @@
 .mainNav{
-    width: 99vw;
+    width: 100vw;
     height: 10vh;
     background-color: white;
     display: flex;
@@ -115,6 +115,10 @@
 
 .dp:hover{
     color: green;
+}
+
+.dp:hover .Menulist{
+    display: flex;
 }
 
 .pack{

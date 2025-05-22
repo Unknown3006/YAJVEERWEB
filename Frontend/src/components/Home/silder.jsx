@@ -10,7 +10,7 @@ import "../../CSS/Home/slider.css";
 const Slider = () => {
   const slides = [
      {
-      text: "Diabetsss Powder for Sugar Control",
+      text: "Diabets Powder for Sugar Control",
       subText: "Naturally support glucose levels with Diabetsss.",
       buttonText: "Explore Shop",
       buttonLink: "/shop",

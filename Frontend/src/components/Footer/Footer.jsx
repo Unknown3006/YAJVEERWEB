@@ -1,5 +1,5 @@
 import "../../CSS/Footer/Footer.css";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function Footer() {
   return (
@@ -82,17 +82,14 @@ export default function Footer() {
           <h3>Contact Us</h3>
           <ul>
             <li>
-              <i className="bi bi-telephone"></i> +91-7688800202
+              <i className="bi bi-telephone"></i> +91-7405430230
             </li>
             <li>
-              <i className="bi bi-telephone"></i> +91-7688800303
+              <i className="bi bi-envelope"></i> yajveerayurved@gmail.com
             </li>
             <li>
-              <i className="bi bi-envelope"></i> theamarayurveda@gmail.com
-            </li>
-            <li>
-              <i className="bi bi-geo-alt"></i> Amar Ayurveda, 1st floor,
-              Bharat Apartments, Vaishali Nagar, Jaipur, Rajasthan 302021
+              <i className="bi bi-geo-alt"></i> 146 , M.G Dreams Near
+              Bapasitaram chok , Kamrej , 394185
             </li>
             {/* <li>
               <img
@@ -108,7 +105,7 @@ export default function Footer() {
       {/* Copyright Row */}
       <div className="footer-bottom">
         <p>
-          Copyright © 2024 Amarvira Ayurvedic Pvt. Ltd. All Rights Reserved.
+          Copyright © 2025 Yajveer Ayurvedic Pvt. Ltd. All Rights Reserved.
         </p>
       </div>
     </footer>
