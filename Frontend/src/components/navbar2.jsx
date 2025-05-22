@@ -1,6 +1,14 @@
+import React, { useState } from "react";
 import "../CSS/navabar2.css";
 import Logo from "../assets/yajveer-logo.jpg";
+
 export default function Navbar2() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdownClick = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <>
       <nav className="Navbar2">
@@ -10,7 +18,7 @@ export default function Navbar2() {
         <div className="search">
           <div className="s1">
             <div className="list">
-              <div className="title">
+              <div className="title" onClick={handleDropdownClick}>
                 <p>
                   All Categories{" "}
                   <i
@@ -19,10 +27,12 @@ export default function Navbar2() {
                   ></i>
                 </p>
               </div>
-              <div className="Menulist">
-                <p>Herbal Powder</p>
-                <p>Karela powder</p>
-              </div>
+              {isDropdownOpen && (
+                <div className="Menulist">
+                  <p>Herbal Powder</p>
+                  <p>Karela powder</p>
+                </div>
+              )}
             </div>
             <div className="content">
               <div className="input">

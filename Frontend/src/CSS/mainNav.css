@@ -117,10 +117,6 @@
     color: green;
 }
 
-.dp:hover .Menulist{
-    display: flex;
-}
-
 .pack{
    width: 18%;
     height: 80%;
