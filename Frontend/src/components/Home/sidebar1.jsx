@@ -19,10 +19,8 @@ export default function Sidebar1({ onClose }) {
         <div className="sidebar1cont">
           {product.map((item) => (
             <div className="side1con" key={item.id}>
-              <Link >
-                <div className="itemsName">
-                  <p>{item.Name}</p>
-                </div>
+              <Link className="itemsName">
+                <p>{item.Name}</p>
               </Link>
             </div>
           ))}

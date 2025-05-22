@@ -23,11 +23,9 @@ export default function MainNav() {
         </div>
 
         <div className="mid">
-          <div className="home deep-inner-button">
-            <Link to='/'>
+          <Link to='/' className="home deep-inner-button">
             <p>Home</p>
-            </Link>
-          </div>
+          </Link>
           <div className="dp deep-inner-button">
             <div className="title">
               <p>
@@ -63,20 +61,20 @@ export default function MainNav() {
             <p>Instructions</p>
           </div>
           
-          <div className="review deep-inner-button">
-            <Link to="/reviewForm"><p>Reviews</p></Link>
-          </div>
+          <Link to="/reviewForm" className="review deep-inner-button">
+            <p>Reviews</p>
+          </Link>
         </div>
 
         <div className="right">
-            <div className="mail deep-inner-button">
-                    <i className="bi bi-envelope"></i>
-                <p>Contact</p>
-            </div>
-            <div className="call deep-inner-button">
-              <i className="bi bi-telephone"></i>
-              <p>Call </p>
-            </div>
+          <Link to="/contact" className="mail deep-inner-button">
+            <i className="bi bi-envelope"></i>
+            <p>Contact</p>
+          </Link>
+          <div className="call deep-inner-button">
+            <i className="bi bi-telephone"></i>
+            <p>Call</p>
+          </div>
         </div>
       </nav>
     </>
