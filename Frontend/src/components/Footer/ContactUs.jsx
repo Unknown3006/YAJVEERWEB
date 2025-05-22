@@ -1,11 +1,3 @@
-// import React, { useState, useRef, useEffect } from 'react';
-// import "../../CSS/Footer/ContactUs.css";
-// import Navbar from '../Navbar';
-// import Navbar2 from '../Navbar2';
-// import MainNav from '../Footer/MainNav';
-// import Footer from './Footer';
-// import Sidebar from '../Home/sidebar';
-// import Sidebar1 from '../Home/sidebar1';
 import React, { useState,useRef,useEffect } from 'react';
 import "../../CSS/Footer/ContactUs.css";
 import Navbar from '../Navbar';
@@ -86,7 +78,7 @@ function ContactUs() {
                     </div>
 
                     <div className="contact-form">
-                        <h2>Send us a Message</h2>
+                        <h2>Send us a message</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <input

@@ -34,7 +34,7 @@ export default function Footer() {
           <ul>
             <li>
               <i className="bi bi-info-circle"></i>
-              <Link to="/about">About Us</Link>
+              <Link to="/aboutUs">About Us</Link>
             </li>
             <li>
               <i className="bi bi-star"></i>
