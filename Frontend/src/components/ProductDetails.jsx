@@ -5,7 +5,7 @@ import Navbar2 from "./navbar2";
 import MainNav from "./mainnav";
 import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
-import Footer from './Footer/Footer';
+import Footer from "./Footer/Footer";
 import "../CSS/ProductDetails.css";
 
 export default function ProductDetails() {

@@ -1,18 +1,6 @@
-import React, { useState, useRef } from "react";
 import "../CSS/navabar2.css";
 import Logo from "../assets/yajveer-logo.jpg";
-import { useClickOutside } from '../hooks/useClickOutside';
-
 export default function Navbar2() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
-
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
   return (
     <>
       <nav className="Navbar2">
@@ -21,8 +9,8 @@ export default function Navbar2() {
         </div>
         <div className="search">
           <div className="s1">
-            <div className="list" ref={dropdownRef}>
-              <div className="title" onClick={handleDropdownClick}>
+            <div className="list">
+              <div className="title">
                 <p>
                   All Categories{" "}
                   <i
@@ -31,12 +19,10 @@ export default function Navbar2() {
                   ></i>
                 </p>
               </div>
-              {isDropdownOpen && (
-                <div className="Menulist">
-                  <p>Herbal Powder</p>
-                  <p>Karela powder</p>
-                </div>
-              )}
+              <div className="Menulist">
+                <p>Herbal Powder</p>
+                <p>Karela powder</p>
+              </div>
             </div>
             <div className="content">
               <div className="input">

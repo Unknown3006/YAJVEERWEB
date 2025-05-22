@@ -5,7 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Navbar from './navbar';
 import Navbar2 from './navbar2';
 import MainNav from './mainnav';
-import Footer from './Footer/Footer';
+import Footer from "./Footer/Footer";
 import Sidebar from './Home/sidebar';
 import Sidebar1 from './Home/sidebar1';
 
