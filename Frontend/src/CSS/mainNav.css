@@ -11,9 +11,9 @@
     height: 100%;
     background-color: white;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    /* border : 1px solid rgb(188, 183, 183); */
+    padding-right: 20px;
 }
 
 .items{
@@ -32,6 +32,8 @@
     color: gray;
     position: relative;
     text-align: center;
+    padding: 0;
+    overflow: visible;
 }
 
 
@@ -56,9 +58,9 @@
 
 .Menulist {
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
   width: 150px;
   background-color: white;
   color: gray;
@@ -69,7 +71,7 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   z-index: 1000;
   text-align: center;
-  margin-top: 5px;
+  margin: 0 auto;
 }
 
 .Menulist > p {
@@ -105,16 +107,17 @@
 .mid{
     width: 60%;
     height: 100%;
-    /* background-color: red; */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 20px;
     font: 400;
     font-family: nunito;
     font-size: 17px;
     color: gray;
     cursor: pointer;
+    padding-left: 20px;
 }
 
 .home{
@@ -136,12 +139,13 @@
     height: 80%;
     background-color: white;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
     text-align: center;
+    padding: 0;
+    overflow: visible;
 }
 
 .dp:hover, .pack:hover {
