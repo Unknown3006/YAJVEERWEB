@@ -39,13 +39,10 @@ export default function MainNav() {
               All Category{" "}
               <i className="bi bi-caret-down-fill" style={{ fontSize: "1rem" }}></i>
             </p>
+          </div>          <div className={`Menulist ${openDropdown === 'category' ? 'active' : ''}`}>
+            <p>Herbal Powder</p>
+            <p>Karela powder</p>
           </div>
-          {openDropdown === 'category' && (
-            <div className="Menulist">
-              <p>Herbal Powder</p>
-              <p>Karela powder</p>
-            </div>
-          )}
         </div>
       </div>
 
@@ -65,13 +62,10 @@ export default function MainNav() {
               Powder{" "}
               <i className="bi bi-caret-down-fill" style={{ fontSize: "1rem" }}></i>
             </p>
+          </div>          <div className={`Menulist ${openDropdown === 'powder' ? 'active' : ''}`}>
+            <p>Herbal Powder</p>
+            <p>Karela powder</p>
           </div>
-          {openDropdown === 'powder' && (
-            <div className="Menulist">
-              <p>Herbal Powder</p>
-              <p>Karela powder</p>
-            </div>
-          )}
         </div>
 
         <div className="pack deep-inner-button" ref={packetsRef}>
@@ -84,13 +78,10 @@ export default function MainNav() {
               Packets{" "}
               <i className="bi bi-caret-down-fill" style={{ fontSize: "1rem" }}></i>
             </p>
+          </div>          <div className={`Menulist ${openDropdown === 'packets' ? 'active' : ''}`}>
+            <p>Herbal Powder</p>
+            <p>Karela powder</p>
           </div>
-          {openDropdown === 'packets' && (
-            <div className="Menulist">
-              <p>Herbal Powder</p>
-              <p>Karela powder</p>
-            </div>
-          )}
         </div>
         <div className="use deep-inner-button">
           <p>Instructions</p>

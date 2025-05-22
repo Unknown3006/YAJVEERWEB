@@ -17,7 +17,7 @@
 }
 
 .items{
-    width: 80%;
+    width: 150px;
     height: 80%;
     background-color: white;
     border-radius: 5px;
@@ -31,19 +31,27 @@
     font-size: 17px;
     color: gray;
     position: relative;
+    text-align: center;
 }
 
 
 .title {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 8px;
+  text-align: center;
 }
 
 .title p {
   margin: 0;
   width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .Menulist {
@@ -51,33 +59,46 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  min-width: 150px;
+  width: 150px;
   background-color: white;
   color: gray;
   display: none;
   flex-direction: column;
-  padding: 5px;
+  padding: 8px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 10;
-  white-space: nowrap;
+  z-index: 1000;
+  text-align: center;
+  margin-top: 5px;
 }
 
-.Menulist > p{
+.Menulist > p {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding: 5px;
+    padding: 10px 15px;
     border-radius: 5px;
+    margin: 2px 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    font-size: 16px;
+    justify-content: center;
 }
 
-.Menulist > p:hover{
+.Menulist > p:hover {
     background-color: #dcfce7;
     color: green;
+    transform: translateY(-1px);
 }
 
-.items:hover .Menulist{
-    display: flex;
+.Menulist.active {
+    display: flex !important;
+}
+
+.items .Menulist,
+.dp .Menulist,
+.pack .Menulist {
+    display: none;
 }
 
 
@@ -97,20 +118,21 @@
 }
 
 .home{
-    width: 18%;
+    width: 150px;
     height: 80%;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 
 .home:hover{
     color: green;
 }
-.dp{
-    width: 18%;
+.dp, .pack {
+    width: 150px;
     height: 80%;
     background-color: white;
     display: flex;
@@ -119,27 +141,14 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    text-align: center;
 }
 
-.dp:hover{
+.dp:hover, .pack:hover {
     color: green;
 }
 
-.pack{
-   width: 18%;
-    height: 80%;
-    background-color: white;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.pack:hover .Menulist{
-    display: flex;
-}
+/* Removed hover-based display in favor of click-based */
 
 .pack:hover{
     color:green;
