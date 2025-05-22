@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import "../CSS/mainNav.css";
 import { Link } from "react-router";
+import { useClickOutside } from '../hooks/useClickOutside';
 
 export default function MainNav() {
   const [openDropdown, setOpenDropdown] = useState(null);
+  const categoryRef = useRef(null);
+  const powderRef = useRef(null);
+  const packetsRef = useRef(null);
+
+  useClickOutside(categoryRef, () => {
+    if (openDropdown === 'category') setOpenDropdown(null);
+  });
+
+  useClickOutside(powderRef, () => {
+    if (openDropdown === 'powder') setOpenDropdown(null);
+  });
+
+  useClickOutside(packetsRef, () => {
+    if (openDropdown === 'packets') setOpenDropdown(null);
+  });
 
   const handleDropdownClick = (dropdownName) => {
     setOpenDropdown(openDropdown === dropdownName ? null : dropdownName);
@@ -12,8 +28,8 @@ export default function MainNav() {
   return (
     <nav className="mainNav">
       <div className="left">
-        <div className="items deep-inner-button">
-          <div 
+        <div className="items deep-inner-button" ref={categoryRef}>
+          <div
             className="title"
             onClick={() => handleDropdownClick('category')}
           >
@@ -37,8 +53,8 @@ export default function MainNav() {
             <p>Home</p>
           </Link>
         </div>
-        <div className="dp deep-inner-button">
-          <div 
+        <div className="dp deep-inner-button" ref={powderRef}>
+          <div
             className="title"
             onClick={() => handleDropdownClick('powder')}
           >
@@ -55,8 +71,8 @@ export default function MainNav() {
           )}
         </div>
 
-        <div className="pack deep-inner-button">
-          <div 
+        <div className="pack deep-inner-button" ref={packetsRef}>
+          <div
             className="title"
             onClick={() => handleDropdownClick('packets')}
           >
@@ -75,7 +91,7 @@ export default function MainNav() {
         <div className="use deep-inner-button">
           <p>Instructions</p>
         </div>
-        
+
         <div className="review deep-inner-button">
           <Link to="/reviewForm"><p>Reviews</p></Link>
         </div>

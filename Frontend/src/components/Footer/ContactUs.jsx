@@ -1,71 +1,31 @@
-// import React, { useState, useRef, useEffect } from 'react';
-// import "../../CSS/Footer/ContactUs.css";
-// import Navbar from '../Navbar';
-// import Navbar2 from '../Navbar2';
-// import MainNav from '../Footer/MainNav';
-// import Footer from './Footer';
-// import Sidebar from '../Home/sidebar';
-// import Sidebar1 from '../Home/sidebar1';
-import React, { useState,useRef,useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import { useClickOutside } from '../../hooks/useClickOutside';
 import "../../CSS/Footer/ContactUs.css";
-import Navbar from '../Navbar';
-import Navbar2 from '../Navbar2';
-import MainNav from '../MainNav';
+import Navbar from '../navbar';
+import Navbar2 from '../navbar2';
+import MainNav from '../mainnav';
 import Footer from '../Footer/Footer';
 import Sidebar from '../Home/sidebar';
 import Sidebar1 from '../Home/sidebar1';
 
 function ContactUs() {
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '', 
-        message: ''
-    });
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedSubject, setSelectedSubject] = useState('');
     const dropdownRef = useRef(null);
 
-    const handleOpenSidebar = () => setSidebarOpen(true);
-    const handleCloseSidebar = () => setSidebarOpen(false);
+    useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add your form submission logic here
-        console.log('Form submitted:', formData);
-    };
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    // Add click outside handler
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsDropdownOpen(false);
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+          const handleOpenSidebar = () => setSidebarOpen(true);
+          const handleCloseSidebar = () => setSidebarOpen(false);
 
     return (
         <>
-            {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
-            <Sidebar onOpenSidebar={handleOpenSidebar} />
-            <Navbar />
-            <Navbar2 />
-            <MainNav />
-
+        {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+                          <Sidebar onOpenSidebar={handleOpenSidebar} />
+                          <Navbar />
+                          <Navbar2></Navbar2>
+                          <MainNav></MainNav>
             <div className="contact-container">
                 <h1>Contact Us</h1>
                 <div className="contact-content">
@@ -87,15 +47,13 @@ function ContactUs() {
 
                     <div className="contact-form">
                         <h2>Send us a Message</h2>
-                        <form onSubmit={handleSubmit}>
+                        <form>
                             <div className="form-group">
                                 <input
                                     type="text"
                                     name="name"
                                     placeholder="Your Name"
                                     required
-                                    value={formData.name}
-                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="form-group">
@@ -104,8 +62,6 @@ function ContactUs() {
                                     name="email"
                                     placeholder="Your Email"
                                     required
-                                    value={formData.email}
-                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="form-group">
@@ -114,8 +70,6 @@ function ContactUs() {
                                     name="phone"
                                     placeholder="Your Phone"
                                     required
-                                    value={formData.phone}
-                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="custom-select" ref={dropdownRef}>
@@ -130,22 +84,18 @@ function ContactUs() {
                                         <p onClick={() => {
                                             setSelectedSubject('Delivery & Order');
                                             setIsDropdownOpen(false);
-                                            setFormData({...formData, subject: 'delivery'});
                                         }}>Delivery & Order</p>
                                         <p onClick={() => {
                                             setSelectedSubject('Diet & Exercise');
                                             setIsDropdownOpen(false);
-                                            setFormData({...formData, subject: 'diet'});
                                         }}>Diet & Exercise</p>
                                         <p onClick={() => {
                                             setSelectedSubject('Share Your Success');
                                             setIsDropdownOpen(false);
-                                            setFormData({...formData, subject: 'success'});
                                         }}>Share Your Success</p>
                                         <p onClick={() => {
                                             setSelectedSubject('Wholesale And Returns');
                                             setIsDropdownOpen(false);
-                                            setFormData({...formData, subject: 'wholesale'});
                                         }}>Wholesale And Returns</p>
                                     </div>
                                 )}
@@ -155,8 +105,6 @@ function ContactUs() {
                                     name="message"
                                     placeholder="Your Message"
                                     required
-                                    value={formData.message}
-                                    onChange={handleChange}
                                 ></textarea>
                             </div>
                             <button type="submit">Send Message</button>
@@ -164,7 +112,6 @@ function ContactUs() {
                     </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );
