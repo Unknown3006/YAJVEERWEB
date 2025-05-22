@@ -5,7 +5,7 @@ export default function MainNav() {
     <>
       <nav className="mainNav">
         <div className="left">
-          <div className="items deep-inner-button">
+          <Link to="/products" className="items deep-inner-button">
             <div className="title">
               <p>
                 All Category{" "}
@@ -19,14 +19,14 @@ export default function MainNav() {
               <p>Herbal Powder</p>
               <p>Karela powder</p>
             </div>
-          </div>
+          </Link>
         </div>
 
         <div className="mid">
           <Link to='/' className="home deep-inner-button">
             <p>Home</p>
           </Link>
-          <div className="dp deep-inner-button">
+          <Link to="/products" className="dp deep-inner-button">
             <div className="title">
               <p>
                  Powder{" "}
@@ -40,9 +40,9 @@ export default function MainNav() {
               <p>Herbal Powder</p>
               <p>Karela powder</p>
             </div>
-          </div>
+          </Link>
 
-          <div className="pack deep-inner-button">
+          <Link to="/packets" className="pack deep-inner-button">
             <div className="title">
               <p>
                  Packtes{" "}
@@ -56,10 +56,10 @@ export default function MainNav() {
               <p>Herbal Powder</p>
               <p>Karela powder</p>
             </div>
-          </div>
-          <div className="use deep-inner-button">
+          </Link>
+          <Link to="/instructions" className="use deep-inner-button">
             <p>Instructions</p>
-          </div>
+          </Link>
           
           <Link to="/reviewForm" className="review deep-inner-button">
             <p>Reviews</p>
@@ -71,10 +71,10 @@ export default function MainNav() {
             <i className="bi bi-envelope"></i>
             <p>Contact</p>
           </Link>
-          <div className="call deep-inner-button">
+          <Link to="tel:+917405430230" className="call deep-inner-button">
             <i className="bi bi-telephone"></i>
             <p>Call</p>
-          </div>
+          </Link>
         </div>
       </nav>
     </>
