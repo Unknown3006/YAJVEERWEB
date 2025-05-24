@@ -41,6 +41,7 @@
 
 .form-group {
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .form-group label {
@@ -53,7 +54,7 @@
 
 .form-group input {
   width: 100%;
-  padding: 0.875rem;
+  padding: 0.875rem 1rem;
   border: 2px solid #d1d5db;
   border-radius: 8px;
   font-size: 1rem;
@@ -150,7 +151,7 @@
   text-decoration: underline;
 }
 
-/* Auth container styles */
+/* Auth container and wrapper styles */
 .auth-container {
   min-height: 100vh;
   display: flex;
@@ -158,12 +159,13 @@
   align-items: center;
   background-color: #f3f4f6;
   padding: 2rem;
+  padding-top: 8rem; /* Add padding for headline */
 }
 
 .auth-wrapper {
   display: flex;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px; /* Increased max-width for better proportion */
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -172,7 +174,7 @@
 }
 
 .auth-image {
-  flex: 1;
+  width: 50%; /* Fixed width of 50% */
   display: none;
 }
 
@@ -183,8 +185,41 @@
 }
 
 .auth-content {
-  flex: 1;
+  width: 50%;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
   padding: 2rem;
+}
+
+/* Add headline styles */
+.auth-headline {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.auth-headline h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #065f46;
+  margin-bottom: 0.5rem;
+}
+
+.auth-headline p {
+  font-size: 1.25rem;
+  color: #4b5563;
 }
 
 /* Responsive adjustments */
@@ -196,6 +231,18 @@
 
   .login-box h2 {
     font-size: 1.5rem;
+  }
+  
+  .auth-headline h1 {
+    font-size: 2rem;
+  }
+  
+  .auth-headline p {
+    font-size: 1rem;
+  }
+  
+  .auth-container {
+    padding-top: 6rem;
   }
 }
 
@@ -211,7 +258,48 @@
   }
 }
 
-/* Update existing styles to match new structure */
-.login-box {
-  max-width: 100%;
+@media (max-width: 767px) {
+  .auth-content {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .auth-box {
+    padding: 1.5rem;
+  }
+
+  .auth-wrapper {
+    margin: 0 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group input {
+    padding: 0.75rem;
+  }
+
+  .login-btn {
+    margin-top: 1rem;
+  }
+}
+
+/* Maintain consistent spacing for very small screens */
+@media (max-width: 360px) {
+  .auth-content {
+    padding: 1rem;
+  }
+
+  .auth-box {
+    padding: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .forgot-password {
+    margin-bottom: 0.75rem;
+  }
 }

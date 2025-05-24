@@ -135,7 +135,7 @@ function Register() {
             </form>
             <div className="newus">
               <p className="ne">Already have an account? </p>
-              <Link to='/login'>
+              <Link to='/'>
                 <p className="ne1">Login</p>
               </Link>
             </div>
