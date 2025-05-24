@@ -4,7 +4,7 @@ import "../../CSS/Footer/Policies.css";
 import Navbar from '../Navbar';
 import Navbar2 from '../Navbar2';
 import MainNav from '../MainNav';
-import Footer from '../Footer';
+import Footer from './Footer';
 import Sidebar from '../Home/sidebar';
 import Sidebar1 from '../Home/sidebar1';
 
