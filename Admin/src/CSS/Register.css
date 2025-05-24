@@ -183,8 +183,10 @@
 
 .auth-headline {
   width: 100%;
+  max-width: 1200px;
   text-align: center;
-  margin-bottom: 2rem;
+  margin: 0 auto;
+  padding: 0 2rem;
   position: absolute;
   top: 2rem;
   left: 50%;
@@ -203,7 +205,7 @@
   color: #4b5563;
 }
 
-/* Adjust container to account for headline */
+/* Adjust container padding for headline */
 .auth-container {
   padding-top: 8rem;
 }
@@ -265,6 +267,22 @@
   .form-group input {
     padding: 0.75rem;
   }
+
+  .auth-headline {
+    padding: 0 1.5rem;
+  }
+
+  .auth-headline h1 {
+    font-size: 2rem;
+  }
+
+  .auth-headline p {
+    font-size: 1.125rem;
+  }
+
+  .auth-container {
+    padding-top: 7rem;
+  }
 }
 
 /* Maintain consistent spacing for very small screens */
@@ -279,5 +297,21 @@
 
   .form-group {
     margin-bottom: 1rem;
+  }
+
+  .auth-headline {
+    padding: 0 1rem;
+  }
+
+  .auth-headline h1 {
+    font-size: 1.75rem;
+  }
+
+  .auth-headline p {
+    font-size: 1rem;
+  }
+
+  .auth-container {
+    padding-top: 6rem;
   }
 }
