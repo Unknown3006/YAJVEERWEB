@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Register.css";
+import logpImage from "../assets/logp.jpg";
 
 function Register() {
   const navigate = useNavigate();
@@ -72,63 +73,72 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
-      <div className="register-content">
-        <div className="register-box">
-          <h2>Admin Registration</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Enter your email"
-                className={errors.email ? "error" : ""}
-              />
-              {errors.email && <span className="error-message">{errors.email}</span>}
+    <div className="auth-container">
+      <div className="auth-headline">
+        <h1>Yajveer Ayurvedic</h1>
+        <p>Admin Dashboard Registration</p>
+      </div>
+      <div className="auth-wrapper">
+        <div className="auth-image">
+          <img src={logpImage} alt="Ayurvedic" />
+        </div>
+        <div className="auth-content">
+          <div className="auth-box">
+            <h2>Admin Registration</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your email"
+                  className={errors.email ? "error" : ""}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your password"
+                  className={errors.password ? "error" : ""}
+                  minLength="6"
+                />
+                {errors.password && <span className="error-message">{errors.password}</span>}
+              </div>
+              <div className="form-group">
+                <label htmlFor="mobileNumber">Mobile Number</label>
+                <input
+                  type="tel"
+                  id="mobileNumber"
+                  name="mobileNumber"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your mobile number"
+                  className={errors.mobileNumber ? "error" : ""}
+                />
+                {errors.mobileNumber && (
+                  <span className="error-message">{errors.mobileNumber}</span>
+                )}
+              </div>
+              <button type="submit" className="register-btn">Register</button>
+            </form>
+            <div className="newus">
+              <p className="ne">Already have an account? </p>
+              <Link to='/login'>
+                <p className="ne1">Login</p>
+              </Link>
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Enter your password"
-                className={errors.password ? "error" : ""}
-                minLength="6"
-              />
-              {errors.password && <span className="error-message">{errors.password}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="mobileNumber">Mobile Number</label>
-              <input
-                type="tel"
-                id="mobileNumber"
-                name="mobileNumber"
-                value={formData.mobileNumber}
-                onChange={handleChange}
-                required
-                placeholder="Enter your mobile number"
-                className={errors.mobileNumber ? "error" : ""}
-              />
-              {errors.mobileNumber && (
-                <span className="error-message">{errors.mobileNumber}</span>
-              )}
-            </div>
-            <button type="submit" className="register-btn">Register</button>
-          </form>
-          <div className="newus">
-            <p className="ne">Already have an account? </p>
-            <Link to='/login'>
-              <p className="ne1">Login</p>
-            </Link>
           </div>
         </div>
       </div>

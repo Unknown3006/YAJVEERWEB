@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Login.css";
+import logpImage from "../assets/logp.jpg";
 
 function Login() {
   const navigate = useNavigate(); 
@@ -61,52 +62,61 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-content">
-        <div className="login-box">
-          <h2>Admin Login</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Enter your email"
-                className={errors.email ? "error" : ""}
-              />
-              {errors.email && <span className="error-message">{errors.email}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                placeholder="Enter your password"
-                className={errors.password ? "error" : ""}
-                minLength="6"
-              />
-              {errors.password && <span className="error-message">{errors.password}</span>}
-            </div>
-            <div className="forgot-password">
-              <Link to="/forgotPassword" className="forgot-btn">
-                Forgot Password?
+    <div className="auth-container">
+      <div className="auth-headline">
+        <h1>Yajveer Ayurvedic</h1>
+        <p>Admin Dashboard Login</p>
+      </div>
+      <div className="auth-wrapper">
+        <div className="auth-image">
+          <img src={logpImage} alt="Ayurvedic" />
+        </div>
+        <div className="auth-content">
+          <div className="auth-box">
+            <h2>Admin Login</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your email"
+                  className={errors.email ? "error" : ""}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your password"
+                  className={errors.password ? "error" : ""}
+                  minLength="6"
+                />
+                {errors.password && <span className="error-message">{errors.password}</span>}
+              </div>
+              <div className="forgot-password">
+                <Link to="/forgotPassword" className="forgot-btn">
+                  Forgot Password?
+                </Link>
+              </div>
+              <button type="submit" className="login-btn">Login</button>
+            </form>
+            <div className="newus">
+              <p className="ne">New User? </p>
+              <Link to='/register'>
+                <p className="ne1">SignUp</p>
               </Link>
             </div>
-            <button type="submit" className="login-btn">Login</button>
-          </form>
-          <div className="newus">
-            <p className="ne">New User? </p>
-            <Link to='/register'>
-              <p className="ne1">SignUp</p>
-            </Link>
           </div>
         </div>
       </div>
