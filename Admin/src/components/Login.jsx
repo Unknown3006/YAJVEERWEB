@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; 
 import "../CSS/Login.css";
-// Import image with error handling
-const Ayur = new URL("../assets/logp.jpg", import.meta.url).href;
 
 function Login() {
   const navigate = useNavigate(); 
@@ -16,6 +14,7 @@ function Login() {
     password: "",
   });
 
+  // Using the exact schema validation for email
   const validateEmail = (email) => {
     const emailRegex = /^\w+([.+-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     return emailRegex.test(email);
@@ -39,11 +38,13 @@ function Login() {
     let newErrors = {};
     let isValid = true;
 
+    // Email validation using schema regex
     if (!validateEmail(formData.email)) {
       newErrors.email = "Please provide a valid email";
       isValid = false;
     }
 
+    // Password validation from schema
     if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters long";
       isValid = false;
@@ -54,19 +55,13 @@ function Login() {
       return;
     }
 
-    
     console.log("Login data:", formData);
-    
     alert("Login successful!");
-    navigate('/home'); 
+    navigate('/home'); // Navigate to home page after successful login
   };
 
   return (
     <div className="login-container">
-      <div 
-        className="login-image" 
-        style={{ backgroundImage: `url(${Ayur})` }}
-      ></div>
       <div className="login-content">
         <div className="login-box">
           <h2>Admin Login</h2>
@@ -99,6 +94,11 @@ function Login() {
                 minLength="6"
               />
               {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
+            <div className="forgot-password">
+              <Link to="/forgotPassword" className="forgot-btn">
+                Forgot Password?
+              </Link>
             </div>
             <button type="submit" className="login-btn">Login</button>
           </form>

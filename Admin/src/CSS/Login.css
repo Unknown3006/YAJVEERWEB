@@ -133,6 +133,23 @@
   text-decoration: underline;
 }
 
+.forgot-password {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.forgot-btn {
+  color: #22c55e;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.forgot-btn:hover {
+  color: #16a34a;
+  text-decoration: underline;
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .login-box {
