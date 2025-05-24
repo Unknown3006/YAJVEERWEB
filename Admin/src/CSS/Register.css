@@ -158,7 +158,10 @@
 
 .auth-image {
   width: 50%;
-  display: none;
+  display: block; /* Changed from 'none' to 'block' */
+  background-image: url('../assets/logp.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .auth-image img {
@@ -205,29 +208,13 @@
 
 /* Update responsive styles */
 @media (max-width: 767px) {
+  .auth-image {
+    display: none; /* Hide image only on mobile */
+  }
+
   .auth-content {
-    width: 100%;
+    width: 100%; /* Take full width when image is hidden */
     padding: 1rem;
-  }
-
-  .auth-box {
-    padding: 1.25rem;
-  }
-
-  .auth-wrapper {
-    margin: 0 0.75rem;
-  }
-
-  .auth-headline {
-    margin-bottom: 1rem;
-  }
-
-  .auth-headline h1 {
-    font-size: 1.75rem;
-  }
-
-  .auth-headline p {
-    font-size: 1rem;
   }
 }
 

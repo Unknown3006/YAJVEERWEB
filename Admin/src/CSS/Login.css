@@ -174,8 +174,11 @@
 }
 
 .auth-image {
-  width: 50%; /* Fixed width of 50% */
-  display: none;
+  width: 50%;
+  display: block; /* Changed from none to block */
+  background-image: url('../assets/logp.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 .auth-image img {
@@ -253,43 +256,20 @@
 
 @media (min-width: 1024px) {
   .login-image {
-    display: block;
+    display: none; /* Remove this if not needed */
   }
 }
 
 @media (max-width: 767px) {
+  .auth-image {
+    display: none; /* Only hide on mobile */
+  }
+
   .auth-content {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .auth-box {
-    padding: 1.25rem;
-  }
-
-  .auth-wrapper {
-    margin: 0 0.75rem;
-  }
-
-  .form-group {
-    margin-bottom: 1rem;
-  }
-
-  .auth-headline {
-    padding: 0 1rem;
-    top: 0.5rem;
-  }
-
-  .auth-container {
-    padding-top: 4rem;
-  }
-
-  .forgot-password {
-    margin-bottom: 0.875rem;
+    width: 100%; /* Take full width when image is hidden */
   }
 }
 
-/* Add smaller screens breakpoint */
 @media (max-width: 480px) {
   .auth-content {
     padding: 0.75rem;
