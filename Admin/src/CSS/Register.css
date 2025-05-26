@@ -1,24 +1,31 @@
-.log{
-    width: 100vw;
-    min-height: 85vh; /* Increased from 80vh */
+.log {
+    width: 100%; /* Changed from 100vw */
+    min-height: 85vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2rem 0;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-.imgsec{
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.imgsec {
     width: 30%;
     height: 100%; /* Changed to 100% */
     display: flex;
     justify-content: center;
     align-items: center;
     border-top-left-radius: 25px;
-    border-bottom-left-radius:25px ;
+    border-bottom-left-radius: 25px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.imgsec > img{
+.imgsec>img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -26,8 +33,9 @@
     border-bottom-left-radius: 25px;
 }
 
-.logform{
+.logform {
     width: 40%;
+    max-width: 600px; /* Add max-width */
     height: 100%; /* Changed to 100% */
     display: flex;
     align-items: center;
@@ -37,173 +45,174 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.mainlog{
-  width: 75%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 0;
+.mainlog {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
 }
 
-.wel{
-  width: 100%;
-  height: 20%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  font-family: nunito;
-  color: gray;
+.wel {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-family: nunito;
+    color: gray;
 }
 
 .wel p {
-  color: #4b5563;
-  margin: 0;
-  font-size: 1rem;
+    color: #4b5563;
+    margin: 0;
+    font-size: 1rem;
 }
 
-.logn{
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.logn {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.field{
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
+.field {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-.logf{
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem 0;
-  color:rgb(52, 42, 42);
+.logf {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    color: rgb(52, 42, 42);
 }
 
-.logf label{
-  font-family : nunito;
-  color:rgb(52, 42, 42);
-  font: 800;
-}
-.logf input{
-  border: 1.5px solid gray;
-  width: 80%;
-  border-radius : 5px;
-  height: 45px;
-  padding: 5px;
-  color: #8c8c8f;
-  font-size: 15px;
+.logf label {
+    font-family: nunito;
+    color: rgb(52, 42, 42);
+    font: 800;
 }
 
-.logf>p{
-  cursor: pointer;
-  height: 10%;
-  font-family:nunito;
-  color:rgb(52, 42, 42);
-  font: 900;
+.logf input {
+    border: 1.5px solid gray;
+    width: 80%;
+    border-radius: 5px;
+    height: 45px;
+    padding: 5px;
+    color: #8c8c8f;
+    font-size: 15px;
+}
+
+.logf>p {
+    cursor: pointer;
+    height: 10%;
+    font-family: nunito;
+    color: rgb(52, 42, 42);
+    font: 900;
 }
 
 .logf p:hover {
-  color: #22c55e;
+    color: #22c55e;
 }
 
-.logf>button{
-  background-color: #22c55e;
-  width: 80%;
-  padding: 1rem;
-  border-radius: 10px;
-  cursor: pointer;
-  color: white;
-  margin-bottom: 1rem;
+.logf>button {
+    background-color: #22c55e;
+    width: 80%;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 1rem;
 }
 
-.usn{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 25%;
+.usn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 25%;
 }
 
-.usp{
-  display: flex;
-  flex-direction: column;
-  height: 25%;
+.usp {
+    display: flex;
+    flex-direction: column;
+    height: 25%;
 }
 
-.usm{
-   display: flex;
-  flex-direction: column;
-  height: 25%;
-}
-.newus{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
+.usm {
+    display: flex;
+    flex-direction: column;
+    height: 25%;
 }
 
-.ne{
-  color: gray;
+.newus {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
 }
 
-.ne1:hover{
-  color: #22c55e;
+.ne {
+    color: gray;
+}
+
+.ne1:hover {
+    color: #22c55e;
 }
 
 .logf input:focus {
-  outline: none;
-  border: 1px solid gray;
+    outline: none;
+    border: 1px solid gray;
 }
 
-@media (max-width : 1024px){
-  .imgsec{
-    display: none;
-  }
+@media (max-width: 1024px) {
+    .imgsec {
+        display: none;
+    }
 
-  .logform{
-    width: 50%;
-    /* background-image: url("../assets/banner-bg.png"); */
-    border-radius: 25px;
-  }
+    .logform {
+        width: 90%;
+        max-width: 500px;
+    }
 }
 
+@media (max-width: 600px) {
+    .imgsec {
+        display: none;
+    }
 
-@media (max-width : 600px){
-  .imgsec{
-    display: none;
-  }
-
-  .logform{
-    width: 80%;
-  }
+    .logform {
+        width: 95%;
+        margin: 0 auto;
+    }
 }
 
 /* Update responsive styles */
 @media (max-width: 480px) {
-  .wel {
-    margin-bottom: 1.5rem;
-  }
-  
-  .wel p {
-    font-size: 0.875rem;
-  }
-  
-  .logn {
-    font-size: 1.5rem;
-  }
+    .wel {
+        margin-bottom: 1.5rem;
+    }
+
+    .wel p {
+        font-size: 0.875rem;
+    }
+
+    .logn {
+        font-size: 1.5rem;
+    }
 }
 
 .welcome-header {
@@ -239,7 +248,7 @@
     .welcome-header h1 {
         font-size: 2rem;
     }
-    
+
     .welcome-header p {
         font-size: 1.125rem;
     }
@@ -254,7 +263,7 @@
     .welcome-header h1 {
         font-size: 1.75rem;
     }
-    
+
     .welcome-header p {
         font-size: 1rem;
     }
@@ -267,74 +276,77 @@
 
 /* Add media queries for better responsive behavior */
 @media (max-width: 490px) {
-  .auth-wrapper {
-    margin: 0 0.75rem;
-    width: calc(100% - 1.5rem);
-  }
+    .auth-wrapper {
+        margin: 0 0.75rem;
+        width: calc(100% - 1.5rem);
+    }
 
-  .auth-content {
-    width: 100%;
-    padding: 1rem 0.75rem;
-  }
+    .auth-content {
+        width: 100%;
+        padding: 1rem 0.75rem;
+    }
 
-  .auth-box {
-    padding: 1.25rem;
-    max-width: 100%;
-  }
+    .auth-box {
+        padding: 1.25rem;
+        max-width: 100%;
+    }
 
-  .form-group input {
-    width: 100%;
-    max-width: none;
-  }
+    .form-group input {
+        width: 100%;
+        max-width: none;
+    }
 
-  .field {
-    padding: 0;
-    margin: 0;
-  }
-   
-  .logf {
-    gap: 1rem;
-  }
+    .field {
+        padding: 0;
+        margin: 0;
+    }
 
-  .logf input {
-    width: 100%;
-  }
+    .logf {
+        gap: 1rem;
+    }
 
-  .usn, .usp, .usm {
-    width: 100%;
-    height: auto;
-    margin-bottom: 1rem;
-  }
+    .logf input {
+        width: 100%;
+    }
 
-  .newus {
-    width: 100%;
-    margin-top: 1rem;
-    padding-top: 0.75rem;
-    gap: 6px;
-  }
+    .usn,
+    .usp,
+    .usm {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+    }
 
-  .ne, .ne1 {
-    font-size: 0.875rem;
-  }
+    .newus {
+        width: 100%;
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+        gap: 6px;
+    }
+
+    .ne,
+    .ne1 {
+        font-size: 0.875rem;
+    }
 }
 
 @media (max-width: 360px) {
-  .auth-content {
-    padding: 0.75rem;
-  }
+    .auth-content {
+        padding: 0.75rem;
+    }
 
-  .auth-box {
-    padding: 1rem;
-  }
+    .auth-box {
+        padding: 1rem;
+    }
 
-  .newus {
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-  }
+    .newus {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+    }
 
-  .logf input {
-    padding: 0.625rem;
-  }
+    .logf input {
+        padding: 0.625rem;
+    }
 }
 
 
