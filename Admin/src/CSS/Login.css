@@ -48,18 +48,26 @@
   height: 20%;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
   font-family: nunito;
   color: gray;
 }
 
-.logn{
-  font-size: 22px;
-  font:900;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color:rgb(52, 42, 42);
+.wel p {
+  color: #4b5563;
+  margin: 0;
+  font-size: 1rem;
 }
 
+.logn{
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 
 .field{
   width: 100%;
@@ -150,9 +158,6 @@
   color: #22c55e;
 }
 
-
-
-
 .logf input:focus {
   outline: none;
   border: 1px solid gray;
@@ -178,6 +183,21 @@
 
   .logform{
     width: 80%;
+  }
+}
+
+/* Update responsive styles */
+@media (max-width: 480px) {
+  .wel {
+    margin-bottom: 1.5rem;
+  }
+  
+  .wel p {
+    font-size: 0.875rem;
+  }
+  
+  .logn {
+    font-size: 1.5rem;
   }
 }
 
