@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import "../CSS/Login.css";
 import Ayur from "../assets/logp.jpg";
 import { Link } from "react-router";
