@@ -5,24 +5,17 @@ import { Link } from "react-router";
 export default function Login(){
     return(
         <>
-            {/* <Sidebar1></Sidebar1>
-            <Sidebar></Sidebar> */}
-            {/* {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
-            <Sidebar onOpenSidebar={handleOpenSidebar} /> */}
-            {/* <Navbar></Navbar> */}
-            {/* <Navbar2></Navbar2> */}
-            {/* <MainNav></MainNav> */}
+            <div className="welcome-header">
+                <h1>Welcome to Yajveer!</h1>
+                <p>Please Login to your account</p>
+            </div>
             <div className="log">
                     <div className="imgsec">
                         <img src={Ayur} alt="Yajveer" />
                     </div>
-                    <div className="logform ">
+                    <div className="logform">
                         <div className="mainlog">
-                            <div className="wel">
-                                <p className="logn">Login</p>
-                                <p>Welcome to Yajveer!</p>
-                                <p> Please Login to your account</p>
-                            </div>
+                            <h2 className="form-title">Admin Login</h2>
                             <div className="field">
                                 <form action="" className="logf">
                                     <div className="usn">
@@ -33,7 +26,9 @@ export default function Login(){
                                              <label htmlFor="password">Password : </label>
                                      <input type="password" id="password" name="password" placeholder="Enter Your Password"></input>
                                     </div>
+                                    <Link to='/forgotpassword'>
                                     <p>Forgot Your Password</p>
+                                    </Link>
                                     <button>Login</button>
                                 </form>
                                 
@@ -47,7 +42,6 @@ export default function Login(){
                         </div>
                     </div>
             </div>
-            {/* <Footer></Footer> */}
         </>
     )
 };

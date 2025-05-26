@@ -201,4 +201,62 @@
   }
 }
 
+.welcome-header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.welcome-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #065f46;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-header p {
+    font-size: 1.25rem;
+    color: #4b5563;
+}
+
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+    .welcome-header h1 {
+        font-size: 2rem;
+    }
+    
+    .welcome-header p {
+        font-size: 1.125rem;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .welcome-header p {
+        font-size: 1rem;
+    }
+
+    .form-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+}
+
 
