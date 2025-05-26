@@ -1,16 +1,13 @@
-import "../CSS/login.css";
+import "../CSS/Register.css";
 import Ayur from "../assets/logp.jpg";
 import { Link } from "react-router";
 export default function SignUp() {
-
   return (
     <>
-      {/* <Sidebar1></Sidebar1>
-        <Sidebar></Sidebar> */}
-        <div className="welcome-header">
-                <h1>Welcome to Yajveer!</h1>
-                <p>Please Login to your account</p>
-            </div>
+      <div className="welcome-header">
+        <h1>Welcome to Yajveer!</h1>
+        <p>Please create your account</p>
+      </div>
       <div className="log">
         <div className="imgsec">
           <img src={Ayur} alt="Yajveer" />
@@ -40,17 +37,21 @@ export default function SignUp() {
                 </div>
                 <div className="usm">
                   <label htmlFor="PhoneNo">Mobile No : </label>
-                  <input type="tel" id="PhoneNo" name="PhoneNo" placeholder="Enter Your Mobile No" />
+                  <input
+                    type="tel"
+                    id="PhoneNo"
+                    name="PhoneNo"
+                    placeholder="Enter Your Mobile No"
+                  />
                 </div>
                 <button>Sign Up</button>
-              </form>
-
               <div className="newus">
                 <p className="ne">Already Have Account ? </p>
-                <Link to='/'>
+                <Link to="/">
                   <p className="ne1">Login</p>
                 </Link>
               </div>
+              </form>
             </div>
           </div>
         </div>

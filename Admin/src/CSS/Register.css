@@ -1,14 +1,15 @@
 .log{
     width: 100vw;
-    height: 80vh;
+    min-height: 85vh; /* Increased from 80vh */
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem 0;
 }
 
 .imgsec{
     width: 30%;
-    height: 90%;
+    height: 100%; /* Changed to 100% */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,13 +28,13 @@
 
 .logform{
     width: 40%;
-    height: 90%;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
+    height: 100%; /* Changed to 100% */
     display: flex;
     align-items: center;
     justify-content: center;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .mainlog{
@@ -41,6 +42,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 2rem 0;
 }
 
 .wel{
@@ -71,15 +73,18 @@
 
 .field{
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 }
 
 .logf{
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  padding: 1rem 0;
   color:rgb(52, 42, 42);
 }
 
@@ -144,7 +149,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 1.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
 }
@@ -217,6 +223,7 @@
 .welcome-header p {
     font-size: 1.25rem;
     color: #4b5563;
+    content: "Please create your account";
 }
 
 .form-title {
@@ -258,36 +265,75 @@
     }
 }
 
-/* Add responsive styles */
-@media (max-width: 480px) {
-  .newus {
-    margin-top: 1rem;
-    padding-top: 0.75rem;
-    gap: 6px;
+/* Add media queries for better responsive behavior */
+@media (max-width: 490px) {
+  .auth-wrapper {
+    margin: 0 0.75rem;
+    width: calc(100% - 1.5rem);
   }
 
-  .ne {
-    font-size: 0.875rem;
+  .auth-content {
+    width: 100%;
+    padding: 1rem 0.75rem;
   }
 
-  .ne1 {
-    font-size: 0.875rem;
+  .auth-box {
+    padding: 1.25rem;
+    max-width: 100%;
+  }
+
+  .form-group input {
+    width: 100%;
+    max-width: none;
   }
 
   .field {
     padding: 0;
     margin: 0;
   }
-
+   
   .logf {
     gap: 1rem;
+  }
+
+  .logf input {
+    width: 100%;
+  }
+
+  .usn, .usp, .usm {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .newus {
+    width: 100%;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    gap: 6px;
+  }
+
+  .ne, .ne1 {
+    font-size: 0.875rem;
   }
 }
 
 @media (max-width: 360px) {
+  .auth-content {
+    padding: 0.75rem;
+  }
+
+  .auth-box {
+    padding: 1rem;
+  }
+
   .newus {
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
     padding-top: 0.5rem;
+  }
+
+  .logf input {
+    padding: 0.625rem;
   }
 }
 
