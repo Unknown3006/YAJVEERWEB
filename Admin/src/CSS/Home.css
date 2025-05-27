@@ -4,12 +4,16 @@
 }
 
 .sidebar {
-  width: 260px;
+  width: 280px;
   background: white;
-  padding: 1.5rem;
+  padding: 1rem;  /* Reduced padding */
   border-right: 1px solid #e5e7eb;
   height: 100vh;
   position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  z-index: 1000;
 }
 
 .sidebar-header {
@@ -38,6 +42,9 @@
   text-decoration: none;
   border-radius: 8px;
   transition: all 0.2s;
+  white-space: nowrap;  /* Prevent text wrapping */
+  overflow: hidden;     /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ... if text is too long */
 }
 
 .nav-item:hover {
@@ -52,7 +59,7 @@
 
 .main-content {
   flex: 1;
-  margin-left: 260px;
+  margin-left: 280px;  /* Added margin back */
   padding: 2rem;
   background: #f3f4f6;
 }
@@ -101,6 +108,10 @@
 }
 
 @media (max-width: 768px) {
+  .admin-dashboard {
+    padding-left: 0;
+  }
+
   .sidebar {
     width: 100%;
     height: auto;
