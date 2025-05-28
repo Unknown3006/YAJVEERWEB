@@ -103,21 +103,30 @@ body {
 }
 
 .logf input {
-    border: 1.5px solid gray;
+    border: 1.5px solid #e5e7eb;
     width: 80%;
-    border-radius: 5px;
+    border-radius: 8px;
     height: 45px;
-    padding: 5px;
-    color: #8c8c8f;
-    font-size: 15px;
+    padding: 0.75rem;
+    color: #4b5563;
+    font-size: 0.95rem;
+    background: #f9fafb;
+    transition: all 0.2s ease;
+}
+
+.logf input:focus {
+    outline: none;
+    border-color: #22c55e;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
 
 .logf>p {
     cursor: pointer;
     height: 10%;
     font-family: nunito;
-    color: rgb(52, 42, 42);
-    font: 900;
+    color: #4b5563;
+    font-weight: 500;
 }
 
 .logf p:hover {

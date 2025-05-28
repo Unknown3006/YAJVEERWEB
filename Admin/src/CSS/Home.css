@@ -1,12 +1,16 @@
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .sidebar {
   width: 260px;
   background: white;
-  padding: 0; /* Remove padding from sidebar */
+  padding: 0;
   border-right: 1px solid #e5e7eb;
   height: 100vh;
   position: fixed;
@@ -16,6 +20,7 @@
   flex-direction: column;
   z-index: 1000;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 .sidebar-header {
@@ -81,11 +86,51 @@
 
 .main-content {
   flex: 1;
-  margin-left: 260px; /* Match exact sidebar width */
+  margin-left: 260px;
   padding: 2rem;
   background: #f3f4f6;
-  box-sizing: border-box; /* Include padding in width calculation */
-  min-width: 0; /* Prevent flex item from overflowing */
+  box-sizing: border-box;
+  min-width: 0;
+  width: calc(100% - 260px);
+  max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .main-content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    width: 0;
+    transform: translateX(-100%);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 1rem;
+  }
 }
 
 .dashboard-header {
