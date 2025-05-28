@@ -4,23 +4,25 @@
 }
 
 .sidebar {
-  width: 260px; /* Reduced width to account for padding */
+  width: 260px;
   background: white;
-  padding: 1.5rem;
+  padding: 0; /* Remove padding from sidebar */
   border-right: 1px solid #e5e7eb;
   height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   z-index: 1000;
-  box-sizing: border-box; /* Include padding in width calculation */
+  box-sizing: border-box;
 }
 
 .sidebar-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 0;
   border-bottom: 1px solid #e5e7eb;
+  background: white;
 }
 
 .sidebar-header h2 {
@@ -33,6 +35,25 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 1.5rem;
+  overflow-y: auto;
+  height: calc(100vh - 85px); /* Subtract header height */
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e #f3f4f6;
+}
+
+/* Webkit scrollbar styles */
+.sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background-color: #22c55e;
+  border-radius: 3px;
 }
 
 .nav-item {
@@ -81,27 +102,41 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
+  width: 100%;
+  padding: 1rem;
 }
 
 .metric-card {
   background: white;
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   gap: 1rem;
+  min-height: 100px;
 }
 
 .metric-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 2rem;
   color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.metric-details {
+  flex: 1;
 }
 
 .metric-details h3 {
   color: #4b5563;
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .metric-value {

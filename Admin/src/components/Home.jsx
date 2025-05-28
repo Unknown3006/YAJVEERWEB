@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Routes, Route } from 'react-router-dom'
 import { FiHome, FiUsers, FiBox, FiMessageSquare, FiSettings } from 'react-icons/fi'
 import { HiOutlineDocumentReport, HiOutlineCash } from 'react-icons/hi'
+import Products from './Products'
 import '../CSS/Home.css'
 
 function Home() {
@@ -51,23 +52,34 @@ function Home() {
       </aside>
 
       <main className="main-content">
-        <div className="dashboard-header">
-          <h1>Dashboard Overview</h1>
-        </div>
-        
-        <div className="metrics-grid">
-          {metrics.map((metric) => (
-            <div key={metric.id} className="metric-card">
-              <div className="metric-icon">
-                {metric.icon}
+        <Routes>
+          <Route path="/" element={
+            <>
+              <div className="dashboard-header">
+                <h1>Dashboard Overview</h1>
               </div>
-              <div className="metric-details">
-                <h3>{metric.title}</h3>
-                <div className="metric-value">{metric.value}</div>
+              <div className="metrics-grid">
+                {metrics.map((metric) => (
+                  <div key={metric.id} className="metric-card">
+                    <div className="metric-icon">
+                      {metric.icon}
+                    </div>
+                    <div className="metric-details">
+                      <h3>{metric.title}</h3>
+                      <div className="metric-value">{metric.value}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
+            </>
+          } />
+          <Route path="/products/*" element={<Products />} />
+          <Route path="/users" element={<div>Users Page (Coming Soon)</div>} />
+          <Route path="/orders" element={<div>Orders Page (Coming Soon)</div>} />
+          <Route path="/reviews" element={<div>Reviews Page (Coming Soon)</div>} />
+          <Route path="/reports" element={<div>Reports Page (Coming Soon)</div>} />
+          <Route path="/settings" element={<div>Settings Page (Coming Soon)</div>} />
+        </Routes>
       </main>
     </div>
   )
