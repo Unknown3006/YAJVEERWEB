@@ -6,6 +6,8 @@ import '../CSS/Products.css';
 const Products = () => {
   const [showForm, setShowForm] = useState(false);
   const [products, setProducts] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
     photos: [],
     productName: '',
@@ -17,7 +19,6 @@ const Products = () => {
     rating: 0
   });
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -26,7 +27,7 @@ const Products = () => {
     }));
   };
 
-  // Handle array inputs (ingredients and benefits)
+  
   const handleArrayInput = (index, value, field) => {
     setFormData(prev => ({
       ...prev,
@@ -34,7 +35,7 @@ const Products = () => {
     }));
   };
 
-  // Add new input field for arrays
+  
   const addArrayField = (field) => {
     setFormData(prev => ({
       ...prev,
@@ -42,7 +43,7 @@ const Products = () => {
     }));
   };
 
-  // Remove array field
+  
   const removeArrayField = (index, field) => {
     setFormData(prev => ({
       ...prev,
@@ -50,14 +51,14 @@ const Products = () => {
     }));
   };
 
-  // Handle image upload
+  
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
     if (files.length + formData.photos.length > 7) {
       alert('You can only upload up to 7 photos');
       return;
     }
-    // Convert files to URLs for preview
+    
     const newPhotos = files.map(file => URL.createObjectURL(file));
     setFormData(prev => ({
       ...prev,
@@ -65,12 +66,16 @@ const Products = () => {
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add new product to the products array
-    setProducts(prev => [...prev, { ...formData, id: Date.now() }]);
-    // Reset form
+ 
+  const handleEditProduct = (product) => {
+    setFormData(product);
+    setIsEditing(true);
+    setEditingId(product.id);
+    setShowForm(true);
+  };
+
+  
+  const resetForm = () => {
     setFormData({
       photos: [],
       productName: '',
@@ -81,12 +86,37 @@ const Products = () => {
       actualPrice: '',
       rating: 0
     });
-    setShowForm(false);
+    setIsEditing(false);
+    setEditingId(null);
   };
 
-  // Handle product deletion
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isEditing) {
+      // Update existing product
+      setProducts(prev => 
+        prev.map(product => 
+          product.id === editingId ? { ...formData, id: editingId } : product
+        )
+      );
+    } else {
+      
+      setProducts(prev => [...prev, { ...formData, id: Date.now() }]);
+    }
+    setShowForm(false);
+    resetForm();
+  };
+
+  
   const handleDeleteProduct = (productId) => {
     setProducts(prev => prev.filter(product => product.id !== productId));
+  };
+
+  
+  const handleCloseForm = () => {
+    setShowForm(false);
+    resetForm();
   };
 
   return (
@@ -98,7 +128,7 @@ const Products = () => {
         </button>
       </div>
 
-      {/* Product List */}
+      
       <div className="products-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
@@ -116,9 +146,36 @@ const Products = () => {
                 )}
               </div>
               <p className="product-description">{product.description}</p>
+              
+              
+              {product.ingredients && product.ingredients.length > 0 && (
+                <div className="product-details">
+                  <h4>Ingredients:</h4>
+                  <ul className="details-list">
+                    {product.ingredients.map((ingredient, index) => (
+                      ingredient && <li key={index}>{ingredient}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              
+              {product.benefits && product.benefits.length > 0 && (
+                <div className="product-details">
+                  <h4>Benefits:</h4>
+                  <ul className="details-list">
+                    {product.benefits.map((benefit, index) => (
+                      benefit && <li key={index}>{benefit}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
             <div className="product-actions">
-              <button className="edit-btn">
+              <button 
+                className="edit-btn"
+                onClick={() => handleEditProduct(product)}
+              >
                 <FiEdit2 /> Edit
               </button>
               <button 
@@ -132,20 +189,20 @@ const Products = () => {
         ))}
       </div>
 
-      {/* Modal Form */}
+      
       {showForm && (
         <div className="modal-overlay" onClick={(e) => {
           if (e.target.className === 'modal-overlay') {
-            setShowForm(false);
+            handleCloseForm();
           }
         }}>
           <div className="modal-content">
-            <button className="modal-close-btn" onClick={() => setShowForm(false)}>
+            <button className="modal-close-btn" onClick={handleCloseForm}>
               <FiX />
             </button>
-            <h2>Add New Product</h2>
+            <h2>{isEditing ? 'Edit Product' : 'Add New Product'}</h2>
             <form onSubmit={handleSubmit} className="product-form">
-              {/* Image Upload Section */}
+              
               <div className="image-upload-section">
                 <label className="upload-label">
                   <AiOutlineCloudUpload className="upload-icon" />
@@ -179,7 +236,7 @@ const Products = () => {
                 </div>
               </div>
 
-              {/* Basic Information */}
+              
               <div className="form-group">
                 <label>Product Name</label>
                 <input
@@ -227,7 +284,7 @@ const Products = () => {
                 </div>
               </div>
 
-              {/* Ingredients Section */}
+              
               <div className="form-group">
                 <label>Ingredients</label>
                 {formData.ingredients.map((ingredient, index) => (
@@ -258,7 +315,7 @@ const Products = () => {
                 </button>
               </div>
 
-              {/* Benefits Section */}
+              
               <div className="form-group">
                 <label>Benefits</label>
                 {formData.benefits.map((benefit, index) => (
@@ -290,11 +347,11 @@ const Products = () => {
               </div>
 
               <div className="form-actions">
-                <button type="button" onClick={() => setShowForm(false)} className="cancel-btn">
+                <button type="button" onClick={handleCloseForm} className="cancel-btn">
                   Cancel
                 </button>
                 <button type="submit" className="submit-btn">
-                  Add Product
+                  {isEditing ? 'Update Product' : 'Add Product'}
                 </button>
               </div>
             </form>
