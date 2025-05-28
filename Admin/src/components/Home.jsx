@@ -21,14 +21,14 @@ function Home() {
 
   return (
     <div className="admin-dashboard">
-      <button className="sidebar-toggle" onClick={toggleSidebar}>
-        {isSidebarOpen ? <FiX /> : <FiMenu />}
-      </button>
       <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
         <div className="sidebar-header">
           <h2>Admin Panel</h2>
         </div>
         <nav className="sidebar-nav">
+          <button className="nav-close-btn" onClick={toggleSidebar}>
+            <FiX />
+          </button>
           <Link to="/admin" className="nav-item">
             <span className="nav-icon"><FiHome /></span>
             Dashboard
@@ -57,42 +57,15 @@ function Home() {
             <span className="nav-icon"><FiSettings /></span>
             Settings
           </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
-          <Link to="/admin/settings" className="nav-item">
-            <span className="nav-icon"><FiSettings /></span>
-            Settings
-          </Link>
         </nav>
       </aside>
 
       <main className="main-content">
+        {!isSidebarOpen && (
+          <button className="sidebar-toggle" onClick={toggleSidebar}>
+            <FiMenu />
+          </button>
+        )}
         <Routes>
           <Route path="/" element={
             <>

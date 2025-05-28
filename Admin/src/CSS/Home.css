@@ -45,6 +45,29 @@
   height: calc(100vh - 85px); /* Subtract header height */
   scrollbar-width: thin;
   scrollbar-color: #22c55e #f3f4f6;
+  position: relative;
+}
+
+.nav-close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #4b5563;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-close-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
 }
 
 /* Webkit scrollbar styles */
@@ -112,17 +135,21 @@
   display: none;
   position: fixed;
   top: 1rem;
-  left: 1rem;
   z-index: 1001;
   background: white;
   border: none;
   border-radius: 8px;
-  padding: 0.5rem;
-  font-size: 1.5rem;
+  padding: 0.75rem;
+  font-size: 1.25rem;
   color: #4b5563;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  left: 1rem;
+}
+
+.sidebar.active ~ .main-content .sidebar-toggle {
+  display: none;
 }
 
 .sidebar-toggle:hover {
@@ -135,6 +162,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: fixed;
+  }
+  
+  .nav-close-btn {
+    display: flex;
   }
 
   .sidebar {
@@ -150,6 +182,18 @@
     margin-left: 0;
     width: 100%;
     padding: 1.25rem 1.5rem;
+    position: relative;
+  }
+
+  /* Adjust header padding to prevent overlap with toggle button */
+  .dashboard-header {
+    padding-top: 0.5rem;
+    padding-left: 3.5rem;
+  }
+
+  .sidebar.active ~ .main-content .dashboard-header {
+    padding-left: 1rem;
+    padding-right: 3.5rem;
   }
 }
 
