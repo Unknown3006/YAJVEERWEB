@@ -5,6 +5,7 @@ import '../CSS/Products.css';
 
 const Products = () => {
   const [showForm, setShowForm] = useState(false);
+  const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
     photos: [],
     productName: '',
@@ -67,9 +68,25 @@ const Products = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your API call here to save the product
-    console.log(formData);
+    // Add new product to the products array
+    setProducts(prev => [...prev, { ...formData, id: Date.now() }]);
+    // Reset form
+    setFormData({
+      photos: [],
+      productName: '',
+      description: '',
+      discount: 0,
+      ingredients: [''],
+      benefits: [''],
+      actualPrice: '',
+      rating: 0
+    });
     setShowForm(false);
+  };
+
+  // Handle product deletion
+  const handleDeleteProduct = (productId) => {
+    setProducts(prev => prev.filter(product => product.id !== productId));
   };
 
   return (
@@ -81,6 +98,41 @@ const Products = () => {
         </button>
       </div>
 
+      {/* Product List */}
+      <div className="products-grid">
+        {products.map((product) => (
+          <div key={product.id} className="product-card">
+            <div className="product-image">
+              {product.photos[0] && (
+                <img src={product.photos[0]} alt={product.productName} />
+              )}
+            </div>
+            <div className="product-info">
+              <h3>{product.productName}</h3>
+              <div className="product-price">
+                <span className="actual-price">₹{product.actualPrice}</span>
+                {product.discount > 0 && (
+                  <span className="discount">-{product.discount}%</span>
+                )}
+              </div>
+              <p className="product-description">{product.description}</p>
+            </div>
+            <div className="product-actions">
+              <button className="edit-btn">
+                <FiEdit2 /> Edit
+              </button>
+              <button 
+                className="delete-btn"
+                onClick={() => handleDeleteProduct(product.id)}
+              >
+                <FiTrash2 /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal Form */}
       {showForm && (
         <div className="modal-overlay" onClick={(e) => {
           if (e.target.className === 'modal-overlay') {
@@ -249,11 +301,6 @@ const Products = () => {
           </div>
         </div>
       )}
-
-      {/* Product List will go here */}
-      <div className="products-list">
-        {/* We'll add the product list implementation later */}
-      </div>
     </div>
   );
 };
