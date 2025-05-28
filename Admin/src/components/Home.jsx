@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
-import { FiHome, FiUsers, FiBox, FiMessageSquare, FiSettings } from 'react-icons/fi'
+import { FiHome, FiUsers, FiBox, FiMessageSquare, FiSettings, FiMenu, FiX } from 'react-icons/fi'
 import { HiOutlineDocumentReport, HiOutlineCash } from 'react-icons/hi'
 import Products from './Products'
 import '../CSS/Home.css'
 
 function Home() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   const metrics = [
     { id: 1, title: 'Total Users', value: '1,234', icon: <FiUsers /> },
     { id: 2, title: 'Total Products', value: '45', icon: <FiBox /> },
@@ -15,7 +21,10 @@ function Home() {
 
   return (
     <div className="admin-dashboard">
-      <aside className="sidebar">
+      <button className="sidebar-toggle" onClick={toggleSidebar}>
+        {isSidebarOpen ? <FiX /> : <FiMenu />}
+      </button>
+      <aside className={`sidebar ${isSidebarOpen ? 'active' : ''}`}>
         <div className="sidebar-header">
           <h2>Admin Panel</h2>
         </div>
@@ -43,6 +52,38 @@ function Home() {
           <Link to="/admin/reports" className="nav-item">
             <span className="nav-icon"><HiOutlineDocumentReport /></span>
             Reports
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
+          </Link>
+          <Link to="/admin/settings" className="nav-item">
+            <span className="nav-icon"><FiSettings /></span>
+            Settings
           </Link>
           <Link to="/admin/settings" className="nav-item">
             <span className="nav-icon"><FiSettings /></span>

@@ -87,7 +87,7 @@
 .main-content {
   flex: 1;
   margin-left: 260px;
-  padding: 2rem;
+  padding: 2rem 2.5rem;
   background: #f3f4f6;
   box-sizing: border-box;
   min-width: 0;
@@ -104,32 +104,52 @@
   .main-content {
     margin-left: 220px;
     width: calc(100% - 220px);
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
   }
+}
+
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  color: #4b5563;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.sidebar-toggle:hover {
+  color: #22c55e;
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .sidebar {
-    width: 200px;
+    width: 250px;
+    transform: translateX(-100%);
   }
   
-  .main-content {
-    margin-left: 200px;
-    width: calc(100% - 200px);
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .sidebar {
-    width: 0;
-    transform: translateX(-100%);
+  .sidebar.active {
+    transform: translateX(0);
   }
   
   .main-content {
     margin-left: 0;
     width: 100%;
-    padding: 1rem;
+    padding: 1.25rem 1.5rem;
   }
 }
 
@@ -148,7 +168,8 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   width: 100%;
-  padding: 1rem;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .metric-card {
@@ -191,27 +212,25 @@
 }
 
 @media (max-width: 768px) {
-  .admin-dashboard {
-    flex-direction: column;
-    padding-left: 0;
+  .sidebar {
+    width: 200px;
+    transform: translateX(-100%);
+    position: fixed;
   }
 
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    padding: 1rem;
-    min-height: auto;
+  .sidebar.active {
+    transform: translateX(0);
   }
 
   .main-content {
     margin-left: 0;
     width: 100%;
-    padding: 1rem;
+    padding: 1.25rem;
   }
 
   .metrics-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
   }
 
   .metric-card {
