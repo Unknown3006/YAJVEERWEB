@@ -16,15 +16,11 @@ export default function sidebar({ onOpenSidebar }){
                     <p style={{fontFamily : 'Constantia'}}>Yajveer Ayurvedic</p>
                 </div>
                 <div className="mnadd">
+                    <Link>
                      <div className="mn1like">
-                              <Link><i className="bi bi-cart-plus"></i></Link>
+                        <i className="bi bi-cart-plus"></i>
                     </div>
-                     <div className="mn1addtocart">
-                            <Link><i className="bi bi-heart"></i></Link>    
-                     </div>
-                     <div className="mn1account">
-                           <Link to="/login"><i className="bi bi-person-plus"></i></Link>
-                     </div>
+                    </Link>
                 </div>
             </div>
         </>

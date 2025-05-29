@@ -57,51 +57,24 @@
     background-color:white ;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 5%;
+    justify-content: flex-end;
 }
 
 .mn1like{
-    width: 20%;
     height: 75%;
-    background-color: #15803d;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    color: white;
+    color: #15803d;
     font-size: 20px;
     font: 900;
     cursor: pointer;
+    font-size: 30px;
+    padding-right: 10px;
 }
 
-.mn1addtocart{
-    width: 20%;
-    height: 75%;
-    background-color: #15803d;
-        display: flex;
-    align-items: center;
-    justify-content: center;
-        color: white;
-    border-radius: 50%;
-    font-size: 20px;
-    font: 900;
-        cursor: pointer;
-}
 
-.mn1account{
-    width: 20%;
-    height: 75%;
-    background-color: #15803d;
-        display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-        color: white;
-    font-size: 20px;
-    font: 900;
-        cursor: pointer;
-}
 
 @media (min-width:1024px) {
     .mn1{
@@ -109,32 +82,15 @@
     }
 }
 
-@media (max-width:700px) {
-    .mn1like , .mn1account ,  .mn1addtocart{
-        width: 25%;
-        height: 72%;
-    }
-}
+
 
 @media (max-width:550px) {
-      .mn1like , .mn1account ,  .mn1addtocart{
-        width: 25%;
-        height: 60%;
-        font-size: 17px;
-    }
-
     .mn1lo p{
         font-size: 22px;
     }
 }
 
 @media (max-width:400px) {
-    .mn1like , .mn1account ,  .mn1addtocart{
-        width: 30%;
-        height: 40%;
-        font-size: 14px;
-    }
-
     .mn1lo p{
         font-size: 19px;
     }

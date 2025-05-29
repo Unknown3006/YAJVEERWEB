@@ -24,14 +24,15 @@ const productSchema = new Schema(
     discount: { //in percentage
       type: Number,
       min: 0,
-      max: 100
+      max: 100,
+      default : 0 
     },
     ingredients: {
       type: [String],
       default: []
     },
     benefits: {
-      type: [String], 
+      type: [String],
       default: []
     },
     actualPrice: {
@@ -42,7 +43,8 @@ const productSchema = new Schema(
     rating: {
       type: Number,
       min: [0, "Rating cannot be negative"],
-      max: [5, "Rating cannot be more than 5"]
+      max: [5, "Rating cannot be more than 5"],
+      default : 0 
     }
   },
   { timestamps: true }

@@ -32,8 +32,8 @@
 .faq-grid {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start; 
     gap: 2rem;
-    padding: 1rem;
 }
 
 .faq-item {
@@ -162,7 +162,6 @@
     }
 
     .faq-answer {
-        font-size: 15px;
+        font-size: 15px;
     }
 }
-

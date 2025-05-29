@@ -66,7 +66,7 @@ export default function Footer() {
               <Link to="/shipping">Shipping Policy</Link>
             </li>
             <li>
-              <Link to="/policies">Refund & Return Policy</Link>
+              <Link to="/returnpolicy">Refund & Return Policy</Link>
             </li>
             <li>
               <Link to="/privacy">Privacy Policy</Link>

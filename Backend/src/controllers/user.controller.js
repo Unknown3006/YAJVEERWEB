@@ -91,7 +91,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secire: true,
+    secure: true,
+    sameSite : "None",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   };
 
   return res
@@ -126,12 +128,13 @@ const logoutUser = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  const isProduction = process.env.NODE_ENV === "production";
+  // const isProduction = process.env.NODE_ENV === "production";
 
   const options = {
     httpOnly: true,
-    secure: isProduction, // ✅ Dynamic based on environment
-    sameSite: isProduction ? "strict" : "lax",
+    secure: true, // ✅ Dynamic based on environment
+    sameSite: "None",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
   };
 
   return res
