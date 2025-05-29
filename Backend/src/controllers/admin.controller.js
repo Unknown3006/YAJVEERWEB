@@ -1,9 +1,9 @@
-import { ApiError } from "../utils/Apierror.js";
+import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { Admin } from "../models/admin.model.js";
 import jwt from "jsonwebtoken";
 
-// Predefined admin credentials
 const ADMIN_EMAIL = "admin@gmail.com";
 const ADMIN_PASSWORD = "Admin@123";
 
@@ -14,12 +14,29 @@ export const loginAdmin = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Email and password are required");
     }
 
-    // Check against predefined credentials
     if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
         throw new ApiError(401, "Invalid admin credentials");
     }
 
-    // Generate tokens
+    // Find or create admin document
+    let admin = await Admin.findOne({ email });
+    
+    if (!admin) {
+        admin = await Admin.create({
+            email,
+            password: "hashed_password", // In production, use proper password hashing
+        });
+    }
+
+    // Update login history
+    admin.lastLogin = new Date();
+    admin.loginHistory.push({
+        timestamp: new Date(),
+        ipAddress: req.ip,
+        userAgent: req.headers["user-agent"]
+    });
+    await admin.save();
+
     const accessToken = jwt.sign(
         { email, role: "admin" },
         process.env.ACCESS_TOKEN_SECRET,
@@ -47,7 +64,8 @@ export const loginAdmin = asyncHandler(async (req, res) => {
                 200,
                 {
                     accessToken,
-                    refreshToken
+                    refreshToken,
+                    lastLogin: admin.lastLogin,
                 },
                 "Admin logged in successfully"
             )
