@@ -4,23 +4,14 @@ import cookieParser from "cookie-parser";
 import ServerlessHttp from "serverless-http";
 
 const app = express();
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://yajveer.vercel.app"  
-];
-// !origin || allowedOrigins.includes(origin) ||
+
 // CORS middleware
 app.use(
   cors({
-    // origin: function (origin, callback) {
-    //   if (process.env.CORS_ORIGIN) {
-    //     callback(null, true);
-    //   } else {
-    //     callback(new Error("CORS not allowed for this origin"));
-    //   }
-    // },
-    origin: "*",
-    credentials: true, // only if you're using cookies
+    origin: "http://localhost:5173", // Your React app's URL
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -34,12 +25,10 @@ app.use(cookieParser());
 
 // Import routes
 import userRouter from "./routes/user.routes.js";
-import productrouter from "./routes/product.routes.js"
+import productrouter from "./routes/product.routes.js";
 
-app.use("/api/v1/users", userRouter); 
-app.use("/api/v1/products",productrouter);
-
-
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productrouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statuscode || 500;
@@ -53,11 +42,11 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/api/v1", (req, res) => {
-    res.send("Welcome to CKS_dev");
+  res.send("Welcome to CKS_dev");
 });
 
 app.get("/", (req, res) => {
-    res.send("Hello from Yajveer Backend!");
+  res.send("Hello from Yajveer Backend!");
 });
 
 export { app };

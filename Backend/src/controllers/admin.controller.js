@@ -1,148 +1,68 @@
-import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/Apierror.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { Admin } from "../models/admin.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import jwt from "jsonwebtoken";
 
-const generateAccessAndRefreshTokens = async (userId) => {
-  try {
-    const user = await Admin.findById(userId);
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
+// Predefined admin credentials
+const ADMIN_EMAIL = "admin@gmail.com";
+const ADMIN_PASSWORD = "Admin@123";
 
-    user.refreshTokenadmin = refreshToken;
-    await user.save({ validateBeforeSave: false });
+export const loginAdmin = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
 
-    return { accessToken, refreshToken };
-  } catch (error) {
-    throw new ApiError(
-      500,
-      "Something went wrong while generting refresh and access token"
+    if (!email || !password) {
+        throw new ApiError(400, "Email and password are required");
+    }
+
+    // Check against predefined credentials
+    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+        throw new ApiError(401, "Invalid admin credentials");
+    }
+
+    // Generate tokens
+    const accessToken = jwt.sign(
+        { email, role: "admin" },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
     );
-  }
-};
 
-const registerAdmin = asyncHandler(async (req, res) => {
-  const { email, password, mobileNumber } = req.body;
-  console.log(email);
-  console.log(req.body);
-  if (
-    // console.log(email);
-    [email, password, mobileNumber].some((field) => field?.trim() === "")
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
-
-  const existedUser = await Admin.findOne({
-    $or: [{ email }],
-  });
-
-  if (existedUser) {
-    console.log(email);
-    throw new ApiError(409, "Admin with email already exists");
-  }
-
-  const user = await Admin.create({
-    email,
-    password,
-    mobileNumber,
-  });
-
-  const createdUser = await Admin.findById(user._id).select(
-    "-password -refreshToken"
-  );
-
-  if (!createdUser) {
-    throw new ApiError(500, "Something went wrong while registering the user");
-  }
-
-  return res
-    .status(201)
-    .json(new ApiResponse(200, createdUser, "Admin registered successfully"));
-});
-
-const loginAdmin = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  console.log(req.body);
-
-  if (!email) {
-    throw new ApiError(400, "email is required");
-  }
-
-  const user = await Admin.findOne({
-    $or: [{ email }],
-  });
-
-  if (!user) {
-    throw new ApiError(404, "Admin Does not exist");
-  }
-
-  const ispasswordvalid = await user.ispasswordcorrect(password);
-
-  if (!ispasswordvalid) {
-    throw new ApiError(401, "Password is incorrect");
-  }
-
-  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
-    user._id
-  );
-
-  const loggedInUser = await Admin.findById(user._id).select(
-    "-password -refreshtokenadmin"
-  );
-
-  const options = {
-    httpOnly: true,
-    secure: true,
-    sameSite : "None",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  };
-
-  return res
-    .status(200)
-    .cookie("accessTokenadmin", accessToken, options)
-    .cookie("refreshTokenadmin", refreshToken, options)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          user: loggedInUser,
-          accessToken,
-          refreshToken,
-        },
-        "User logged In Successfully"
-      )
+    const refreshToken = jwt.sign(
+        { email, role: "admin" },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
     );
+
+    const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+    };
+
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    accessToken,
+                    refreshToken
+                },
+                "Admin logged in successfully"
+            )
+        );
 });
 
-const logoutAdmin = asyncHandler(async (req, res) => {
-  if (!req.user?._id) {
-    throw new ApiError(401, "Unauthorized: No user to log out");
-  }
+export const logoutAdmin = asyncHandler(async (req, res) => {
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
 
-  await Admin.findByIdAndUpdate(
-    req.user._id,
-    {
-      $set: {
-        refreshTokenadmin: null
-      },
-    },
-    { new: true }
-  );
-
-  // const isProduction = process.env.NODE_ENV === "production";
-
-  const options = {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  };
-
-  return res
-    .status(200)
-    .clearCookie("accessTokenadmin", options)
-    .clearCookie("refreshTokenadmin", options)
-    .json({ success: true, message: "Logged out successfully" });
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "Admin logged out successfully"))
 });
-
-export { registerAdmin, loginAdmin, logoutAdmin };

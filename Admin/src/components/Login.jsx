@@ -2,7 +2,7 @@ import "../CSS/Login.css";
 import Ayur from "../assets/logp.jpg";
 import { Link } from "react-router";
 import ErrorPopup from "./ErrorPopup";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../Redux/authSlice";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import axios from "axios";
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [redirect, setRedirect] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -45,8 +46,11 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "https://yajveer-testing.vercel.app/api/v1/users/adminlogin",
-        formData,
+        "http://localhost:8000/api/v1/users/adminlogin",
+        {
+          email: formData.email,
+          password: formData.password,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -55,19 +59,15 @@ export default function Login() {
         }
       );
 
-      // const result = await response.json();
-        const result = response.data;
-      if (result.success) {
-        dispatch(loginSuccess(result));
-        console.log(result);
-        setPopupMessage(result.message);
+      if (response.data.success) {
+        dispatch(loginSuccess(response.data));
+        console.log(response.data);
+        setPopupMessage(response.data.message);
         setTimeout(() => setRedirect(true), 2000);
       } else {
-        setPopupMessage(result.message);
+        setPopupMessage(response.data.message);
       }
     } catch (error) {
-      // console.error("Error posting data:", error);
-      // setPopupMessage("Network error or server not responding.");
       if (error.response?.data?.message) {
         setPopupMessage(error.response.data.message);
       } else {
