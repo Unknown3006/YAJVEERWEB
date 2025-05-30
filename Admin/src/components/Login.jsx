@@ -2,20 +2,23 @@ import "../CSS/Login.css";
 import Ayur from "../assets/logp.jpg";
 import { Link } from "react-router";
 import ErrorPopup from "./ErrorPopup";
-import { Navigate, useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../Redux/authSlice";
+import { Navigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
-
+import { useEffect } from "react";
 export default function Login() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [redirect, setRedirect] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedInAdmin");
+    if (isLoggedIn === "true") {
+      setRedirect(true);
+    }
+  }, []);
 
   const [popupMessage, setPopupMessage] = useState("");
 
@@ -46,11 +49,8 @@ export default function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/users/adminlogin",
-        {
-          email: formData.email,
-          password: formData.password,
-        },
+        `${import.meta.env.VITE_SERVER}/api/v1/users/adminlogin`,
+        formData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -59,20 +59,17 @@ export default function Login() {
         }
       );
 
-      if (response.data.success) {
-        dispatch(loginSuccess(response.data));
-        console.log(response.data);
-        setPopupMessage(response.data.message);
+      const result = response.data;
+      if (result.success) {
+        console.log("Login successful:", result);
+        sessionStorage.setItem("isLoggedInAdmin", "true");
+        sessionStorage.setItem("adminToken", result.data.accessToken);
+        setPopupMessage("Login successful!");
         setTimeout(() => setRedirect(true), 2000);
-      } else {
-        setPopupMessage(response.data.message);
       }
     } catch (error) {
-      if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
-      } else {
-        setPopupMessage("Something went wrong. Please try again.");
-      }
+      console.error("Login error:", error.response?.data);
+      setPopupMessage(error.response?.data?.message || "Login failed");
     }
   };
 

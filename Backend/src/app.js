@@ -5,15 +5,28 @@ import ServerlessHttp from "serverless-http";
 
 const app = express();
 
-// CORS middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Your React app's URL
+// Define allowed origins based on environment
+const allowedOrigins = [
+    "http://localhost:5173",    // Admin frontend
+    "http://localhost:3000",    // Frontend
+    "https://yajveer-admin.vercel.app", // Production Admin URL
+    "https://yajveer.vercel.app"       // Production Frontend URL
+];
+
+// CORS configuration
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl requests)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Body parsers
 app.use(express.json({ limit: "16kb" }));
@@ -25,10 +38,12 @@ app.use(cookieParser());
 
 // Import routes
 import userRouter from "./routes/user.routes.js";
-import productrouter from "./routes/product.routes.js";
+import productrouter from "./routes/product.routes.js"
 
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/products", productrouter);
+app.use("/api/v1/users", userRouter); 
+app.use("/api/v1/products",productrouter);
+
+
 
 app.use((err, req, res, next) => {
   const statusCode = err.statuscode || 500;
@@ -41,12 +56,21 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.get("/api/v1", (req, res) => {
-  res.send("Welcome to CKS_dev");
+
+// Root route
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome to Yajveer Backend API"
+    });
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello from Yajveer Backend!");
+// API route
+app.get("/api/v1", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome to Yajveer API - Version 1"
+    });
 });
 
 export { app };

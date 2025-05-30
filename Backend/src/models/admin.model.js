@@ -34,18 +34,7 @@ const AdminSchema = new Schema(
     refreshTokenadmin: {
       type: String,
       default: null,
-    },
-    lastLogin: {
-      type: Date,
-      default: null,
-    },
-    loginHistory: [
-      {
-        timestamp: Date,
-        ipAddress: String,
-        userAgent: String,
-      },
-    ],
+    }
   },
   {
     timestamps: true,

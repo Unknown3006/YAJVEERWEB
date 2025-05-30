@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import ErrorPopup from "../ErrorPopup";
 import axios from "axios";
+import LoadingAnimation from "../LoadingAnimation";
 
 export default function Sidebar1({ onClose }) {
   const product = [
@@ -16,6 +17,7 @@ export default function Sidebar1({ onClose }) {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const loginStatus = localStorage.getItem("isLoginUser") === "true";
@@ -23,9 +25,10 @@ export default function Sidebar1({ onClose }) {
   }, []);
 
   const handleLogout = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://yajveer-testing.vercel.app/api/v1/users/userlogout",
+        `${import.meta.env.VITE_SERVER}/api/v1/users/userlogout`,
         {},
         { withCredentials: true }
       );
@@ -45,10 +48,14 @@ export default function Sidebar1({ onClose }) {
       } else {
         setPopupMessage("Something went wrong. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingAnimation />
+  ) : (
     <div className="sidebar1-overlay">
       <div className="sidebar1-content">
         <div className="sdclose" onClick={onClose}>
@@ -105,4 +112,3 @@ export default function Sidebar1({ onClose }) {
     </div>
   );
 }
-

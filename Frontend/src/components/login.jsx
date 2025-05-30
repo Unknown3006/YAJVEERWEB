@@ -11,10 +11,11 @@ import Sidebar from "./Home/sidebar";
 import ErrorPopup from "./ErrorPopup";
 import { Navigate } from "react-router";
 import axios from "axios";
+import LoadingAnimation from "./LoadingAnimation";
 
 export default function Login() {
-
   const [redirect, setRedirect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -45,28 +46,16 @@ export default function Login() {
     e.preventDefault();
 
     if (!validate()) return;
-
+    setIsLoading(true);
     try {
-      // const response = await fetch(
-      //   "https://yajveer-testing.vercel.app/api/v1/users/userlogin",
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     credentials: "include",
-      //     body: JSON.stringify(formData),
-      //   }
-      // );
-
       const response = await axios.post(
-        "https://yajveer-testing.vercel.app/api/v1/users/userlogin",
+        `${import.meta.env.VITE_SERVER}/api/v1/users/userlogin`,
         formData,
         {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true, // equivalent to fetch's `credentials: "include"`
+          withCredentials: true,
         }
       );
 
@@ -86,6 +75,8 @@ export default function Login() {
       } else {
         setPopupMessage("Something went wrong. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -98,62 +89,71 @@ export default function Login() {
   }
   return (
     <>
-      {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
-      <Sidebar onOpenSidebar={handleOpenSidebar} />
-      <Navbar></Navbar>
-      <Navbar2></Navbar2>
-      <MainNav></MainNav>
-      <div className="log">
-        <div className="imgsec">
-          <img src={Ayur} alt="Yajveer" />
-        </div>
-        <div className="logform ">
-          <div className="mainlog">
-            <div className="wel">
-              <p className="logn">Login</p>
-              <p>Welcome to Yajveer!</p>
-              <p> Please Login to your account</p>
+      {isLoading ? (
+        <LoadingAnimation></LoadingAnimation>
+      ) : (
+        <>
+          {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+          <Sidebar onOpenSidebar={handleOpenSidebar} />
+          <Navbar></Navbar>
+          <Navbar2></Navbar2>
+          <MainNav></MainNav>
+          <div className="log">
+            <div className="imgsec">
+              <img src={Ayur} alt="Yajveer" />
             </div>
-            <div className="field">
-              <form action="" className="logf" onSubmit={handleSubmit}>
-                <div className="usn">
-                  <label htmlFor="email">Email : </label>
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="Enter Your Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
+            <div className="logform ">
+              <div className="mainlog">
+                <div className="wel">
+                  <p className="logn">Login</p>
+                  <p>Welcome to Yajveer!</p>
+                  <p> Please Login to your account</p>
                 </div>
-                <div className="usp">
-                  <label htmlFor="password">Password : </label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter Your Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                  ></input>
-                </div>
-                <p>Forgot Your Password</p>
-                <button>Login</button>
-              </form>
+                <div className="field">
+                  <form action="" className="logf" onSubmit={handleSubmit}>
+                    <div className="usn">
+                      <label htmlFor="email">Email : </label>
+                      <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        placeholder="Enter Your Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="usp">
+                      <label htmlFor="password">Password : </label>
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter Your Password"
+                        value={formData.password}
+                        onChange={handleChange}
+                      ></input>
+                    </div>
+                    <Link to="/forgotpassword"><p>Forgot Your Password</p></Link>
+                    <button>Login</button>
+                  </form>
 
-              <div className="newus">
-                <p className="ne">New User ? </p>
-                <Link to="/signUp">
-                  <p className="ne1">SignUp</p>
-                </Link>
+                  <div className="newus">
+                    <p className="ne">New User ? </p>
+                    <Link to="/signUp">
+                      <p className="ne1">SignUp</p>
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <Footer></Footer>
-      <ErrorPopup message={popupMessage} onClose={() => setPopupMessage("")} />
+          <Footer></Footer>
+          <ErrorPopup
+            message={popupMessage}
+            onClose={() => setPopupMessage("")}
+          />
+        </>
+      )}
     </>
   );
 }

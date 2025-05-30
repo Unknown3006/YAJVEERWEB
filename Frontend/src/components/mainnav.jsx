@@ -67,7 +67,7 @@ export default function MainNav() {
         </div>
 
         <div className="right">
-          <Link to="mailto:yajveerayurved@gmail.com" className="mail deep-inner-button">
+          <Link to="/contact" className="mail deep-inner-button">
             <i className="bi bi-envelope"></i>
             <p>Contact</p>
           </Link>

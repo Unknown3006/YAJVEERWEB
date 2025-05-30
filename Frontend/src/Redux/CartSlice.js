@@ -4,7 +4,7 @@ const Fectchdata = createAsyncThunk(
     'cart/Fectch',
     async (args, thunkAPI) => {
         try {
-            const response = await fetch('https://yajveer-testing.vercel.app/api/v1/products/');
+            const response = await fetch(`${import.meta.env.VITE_SERVER}/api/v1/products/`);
             const data = await response.json();
             return data.data;
         } 

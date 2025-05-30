@@ -1,10 +1,7 @@
 // components/ProtectedRoute.js
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router";
-
 export default function ProtectedRoute({ children }) {
-  const isAuthenticated = useSelector((state) => state.auth.isLoggedIn);
-  console.log(isAuthenticated);
+  const isAuthenticated = sessionStorage.getItem("isLoggedInAdmin") === "true";
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }

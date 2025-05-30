@@ -18,6 +18,9 @@ import TermsAndConditions from "./components/TermsConditions";
 import ShippingPolicy from "./components/ShippingPolices";
 import LoadingAnimation from "./components/LoadingAnimation";
 import { Fectchdata } from "./Redux/CartSlice";
+import Forgotpassword from "./components/Forgotpass";
+import Forgotpassword1 from "./components/Forgotpass1";
+import Forgotpassword2 from "./components/Forgotpass2";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -76,6 +79,9 @@ const App = () => {
           path="/shipping"
           element={<ShippingPolicy></ShippingPolicy>}
         ></Route>
+        <Route path="/forgotpassword" element={<Forgotpassword></Forgotpassword>}></Route>
+        <Route path="/forgotpassword1" element={<Forgotpassword1></Forgotpassword1>}></Route>
+        <Route path="/forgotpassword2" element={<Forgotpassword2></Forgotpassword2>}></Route>
       </Routes>
     </>
   );
