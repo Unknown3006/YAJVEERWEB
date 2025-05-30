@@ -27,6 +27,12 @@ const productSchema = new Schema(
       max: 100,
       default : 0 
     },
+    packagingType: {
+      type: String,
+      enum: ['box', 'pouch'],
+      required: true,
+      default: 'box'
+    },
     ingredients: {
       type: [String],
       default: []

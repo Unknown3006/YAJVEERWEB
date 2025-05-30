@@ -19,6 +19,7 @@ const Products = () => {
     benefits: [""],
     actualPrice: "",
     files: [],
+    packagingType: "box", // Default value
   });
 
   const handleChange = (e) => {
@@ -105,6 +106,11 @@ const Products = () => {
       setPopupMessage("Discount must be between 0 and 100");
       return false;
     }
+
+    if (!formData.packagingType) {
+      setPopupMessage("Please select a packaging type");
+      return false;
+    }
     
     const filledIngredients = formData.ingredients.filter((ing) => ing.trim());
     if (filledIngredients.length === 0) {
@@ -150,6 +156,7 @@ const Products = () => {
       benefits: [""],
       actualPrice: "",
       files: [],
+      packagingType: "box", // Reset to default value
     });
   };
 
@@ -160,11 +167,6 @@ const Products = () => {
       return;
     }
 
-    if (formData.files.length === 0) {
-      setPopupMessage("At least one product photo is required");
-      return;
-    }
-
     setIsLoading(true);
     try {
       const formDataToSend = new FormData();
@@ -172,6 +174,7 @@ const Products = () => {
       formDataToSend.append("description", formData.description.trim());
       formDataToSend.append("discount", formData.discount);
       formDataToSend.append("actualPrice", formData.actualPrice);
+      formDataToSend.append("packagingType", formData.packagingType);
       
       // Filter out empty entries before sending
       const filteredIngredients = formData.ingredients.filter((ing) => ing.trim());
@@ -337,6 +340,19 @@ const Products = () => {
                         value={formData.discount}
                         onChange={handleChange}
                       />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Packaging Type</label>
+                      <select
+                        name="packagingType"
+                        value={formData.packagingType}
+                        onChange={handleChange}
+                        className="packaging-select"
+                      >
+                        <option value="box">Box</option>
+                        <option value="pouch">Pouch</option>
+                      </select>
                     </div>
                   </div>
 
