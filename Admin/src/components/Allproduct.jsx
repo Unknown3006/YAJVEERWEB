@@ -1,45 +1,62 @@
 import "../CSS/Allproduct.css";
 import { useSelector } from "react-redux";
 import { FiTrash2 } from "react-icons/fi";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function Allproduct() {
   const { data: products } = useSelector((state) => state.cart);
   const [currentSlides, setCurrentSlides] = useState({});
-  const slidesInitialized = useRef(false);
+  const intervalsRef = useRef({});
 
-  // Initialize currentSlides state
+  // Initialize slides for new products
   useEffect(() => {
-    if (!products || slidesInitialized.current) return;
-    
-    const newSlides = {};
-    products.forEach((product) => {
-      newSlides[product._id] = 0;
-    });
+    if (!products?.length) return;
 
-    setCurrentSlides(newSlides);
-    slidesInitialized.current = true;
+    setCurrentSlides(prev => {
+      const newSlides = { ...prev };
+      products.forEach((product) => {
+        if (!newSlides[product._id]) {
+          newSlides[product._id] = 0;
+        }
+      });
+      return newSlides;
+    });
+  }, [products]);
+
+  // Set up automatic sliding
+  const setupIntervals = useCallback(() => {
+    if (!products?.length) return;
+
+    // Clear existing intervals
+    Object.values(intervalsRef.current).forEach(interval => {
+      if (interval) clearInterval(interval);
+    });
+    intervalsRef.current = {};
+
+    // Set up new intervals
+    products.forEach((product) => {
+      if (product._id && product.photos.length > 1) {
+        intervalsRef.current[product._id] = setInterval(() => {
+          setCurrentSlides(prev => ({
+            ...prev,
+            [product._id]: (prev[product._id] + 1) % product.photos.length
+          }));
+        }, 3000);
+      }
+    });
   }, [products]);
 
   // Handle automatic sliding
   useEffect(() => {
-    if (!products || !slidesInitialized.current) return;
-
-    const intervals = {};
-    
-    products.forEach((product) => {
-      intervals[product._id] = setInterval(() => {
-        setCurrentSlides(prev => ({
-          ...prev,
-          [product._id]: (prev[product._id] + 1) % product.photos.length
-        }));
-      }, 3000);
-    });
+    setupIntervals();
 
     return () => {
-      Object.values(intervals).forEach(interval => clearInterval(interval));
+      Object.values(intervalsRef.current).forEach(interval => {
+        if (interval) clearInterval(interval);
+      });
+      intervalsRef.current = {};
     };
-  }, [products]);
+  }, [setupIntervals]);
 
   // Function to calculate discounted price
   const calculateDiscountedPrice = (actualPrice, discount) => {
@@ -49,6 +66,7 @@ export default function Allproduct() {
   // Function to parse JSON string arrays
   const parseJSONString = (str) => {
     try {
+      // Handle both string and array inputs
       if (typeof str === 'string') {
         const cleaned = str[0] === '[' ? JSON.parse(str) : str;
         return Array.isArray(cleaned) ? cleaned : [cleaned];
@@ -59,6 +77,13 @@ export default function Allproduct() {
     }
   };
 
+  if (!products?.length) {
+    return <div className="all-products-container">
+      <h1>All Products</h1>
+      <p className="no-products">No products available</p>
+    </div>;
+  }
+
   return (
     <div className="all-products-container">
       <h1>All Products</h1>
@@ -67,7 +92,7 @@ export default function Allproduct() {
           <div key={product._id || index} className="product-card">
             <div className="product-image">
               <div className="slider-container">
-                {product.photos.map((photo, photoIndex) => (
+                {product.photos?.map((photo, photoIndex) => (
                   <img
                     key={photoIndex}
                     src={photo}
@@ -77,14 +102,10 @@ export default function Allproduct() {
                   />
                 ))}
                 <div className="slider-dots">
-                  {product.photos.map((_, photoIndex) => (
+                  {product.photos?.map((_, photoIndex) => (
                     <span
                       key={photoIndex}
                       className={`dot ${photoIndex === currentSlides[product._id] ? 'active' : ''}`}
-                      onClick={() => setCurrentSlides(prev => ({
-                        ...prev,
-                        [product._id]: photoIndex
-                      }))}
                     />
                   ))}
                 </div>
@@ -95,7 +116,6 @@ export default function Allproduct() {
             </div>
             <div className="product-info">
               <h3 className="product-name">{product.productName}</h3>
-              
               <div className="price-info">
                 <div className="prices">
                   <span className="actual-price">₹{product.actualPrice}</span>
@@ -110,11 +130,9 @@ export default function Allproduct() {
                 )}
               </div>
 
-              {product.type && (
-                <div className="packaging-type">
-                  Type: <span>{product.type}</span>
-                </div>
-              )}
+              <div className="packaging-type">
+                Type: <span>{product.type}</span>
+              </div>
 
               <p className="product-description">{product.description}</p>
               
@@ -123,7 +141,7 @@ export default function Allproduct() {
                   <h4>Ingredients</h4>
                   <ul>
                     {parseJSONString(product.ingredients).map((ingredient, i) => (
-                      <li key={i}>{ingredient}</li>
+                      <li key={i}>{ingredient.replace(/^"|"$/g, '')}</li>
                     ))}
                   </ul>
                 </div>
@@ -132,7 +150,7 @@ export default function Allproduct() {
                   <h4>Benefits</h4>
                   <ul>
                     {parseJSONString(product.benefits).map((benefit, i) => (
-                      <li key={i}>{benefit}</li>
+                      <li key={i}>{benefit.replace(/^"|"$/g, '')}</li>
                     ))}
                   </ul>
                 </div>
