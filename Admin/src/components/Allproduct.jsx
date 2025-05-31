@@ -8,7 +8,7 @@ export default function Allproduct() {
   const [currentSlides, setCurrentSlides] = useState({});
   const intervalsRef = useRef({});
 
-  
+
   useEffect(() => {
     if (!products?.length) return;
 
@@ -23,17 +23,17 @@ export default function Allproduct() {
     });
   }, [products]);
 
-  
+
   const setupIntervals = useCallback(() => {
     if (!products?.length) return;
 
-    
+
     Object.values(intervalsRef.current).forEach(interval => {
       if (interval) clearInterval(interval);
     });
     intervalsRef.current = {};
 
-    
+
     products.forEach((product) => {
       if (product._id && product.photos.length > 1) {
         intervalsRef.current[product._id] = setInterval(() => {
@@ -46,7 +46,7 @@ export default function Allproduct() {
     });
   }, [products]);
 
-  
+
   useEffect(() => {
     setupIntervals();
 
@@ -58,12 +58,12 @@ export default function Allproduct() {
     };
   }, [setupIntervals]);
 
-  
+
   const calculateDiscountedPrice = (actualPrice, discount) => {
     return Math.round(actualPrice - (actualPrice * discount) / 100);
   };
 
-  
+
   const parseJSONString = (str) => {
     try {
       // Handle both string and array inputs
@@ -83,80 +83,109 @@ export default function Allproduct() {
       <p className="no-products">No products available</p>
     </div>;
   }
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleDetailsClick = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedProduct(null);
+  };
 
   return (
     <div className="all-products-container">
       <h1>All Products</h1>
       <div className="products-grid">
-        {products?.map((product, index) => (
-          <div key={product._id || index} className="product-card">
-            <div className="product-image">
-              <div className="slider-container">
-                {product.photos?.map((photo, photoIndex) => (
-                  <img
-                    key={photoIndex}
-                    src={photo}
-                    alt={`${product.productName} - ${photoIndex + 1}`}
-                    loading="lazy"
-                    className={photoIndex === currentSlides[product._id] ? 'active' : ''}
-                  />
-                ))}
-                <div className="slider-dots">
-                  {product.photos?.map((_, photoIndex) => (
-                    <span
-                      key={photoIndex}
-                      className={`dot ${photoIndex === currentSlides[product._id] ? 'active' : ''}`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <button className="delete-btn">
-                <FiTrash2 />
-              </button>
+        {products?.map((product) => (
+          <div key={product._id} className="Menucard">
+            <div className="menui">
+              <img
+                src={product.photos[0]}
+                alt={product.productName}
+                className="ig"
+              />
             </div>
-            <div className="product-info">
-              <h3 className="product-name">{product.productName}</h3>
-              <div className="price-info">
-                <div className="prices">
-                  <span className="actual-price">₹{product.actualPrice}</span>
-                  {product.discount > 0 && (
-                    <span className="discounted-price">
-                      ₹{calculateDiscountedPrice(product.actualPrice, product.discount)}
-                    </span>
-                  )}
-                </div>
-                {product.discount > 0 && (
-                  <span className="discount-badge">{product.discount}% OFF</span>
-                )}
-              </div>
-              <div className="packaging-type">
-                Type: <span>{product.type}</span>
-              </div>
-              <p className="product-description-full">{product.description}</p>
-
-              <div className="product-lists">
-                <div className="ingredients">
-                  <h4>Ingredients</h4>
-                  <ul>
-                    {JSON.parse(product.ingredients).map((ingredient, i) => (
-                      <li key={i}>{ingredient}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="benefits">
-                  <h4>Benefits</h4>
-                  <ul>
-                    {JSON.parse(product.benefits).map((benefit, i) => (
-                      <li key={i}>{benefit}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+            <div className="pname">
+              <p>{product.productName}</p>
+            </div>
+            <div className="pprice">
+              <p className="dis">{product.discount}% OFF</p>
+              <p className="dsp">₹{product.actualPrice}</p>
+              <p className="acp">₹{calculateDiscountedPrice(product.actualPrice, product.discount)}</p>
+            </div>
+            <div className="menucart" onClick={() => handleDetailsClick(product)}>
+              <p>Details</p>
             </div>
           </div>
         ))}
-      </div>
+      </div>      {selectedProduct && (
+        <div className="product-detail">
+          <div className="product-info">
+            <button className="close-btn" onClick={handleCloseDetails}>×</button>
+            <button className="delete-btn">
+              <FiTrash2 />
+            </button>
+
+            <div className="slider-container">
+              {selectedProduct.photos?.map((photo, photoIndex) => (
+                <img
+                  key={photoIndex}
+                  src={photo}
+                  alt={`${selectedProduct.productName} - ${photoIndex + 1}`}
+                  className={photoIndex === currentSlides[selectedProduct._id] ? 'active' : ''}
+                />
+              ))}
+              <div className="slider-dots">
+                {selectedProduct.photos?.map((_, photoIndex) => (
+                  <span
+                    key={photoIndex}
+                    className={`dot ${photoIndex === currentSlides[selectedProduct._id] ? 'active' : ''}`}
+                  />
+                ))}
+              </div>
+            </div>
+            <h3 className="product-name">{selectedProduct.productName}</h3>
+            <div className="price-info">
+              <div className="prices">
+                <span className="actual-price">₹{selectedProduct.actualPrice}</span>
+                {selectedProduct.discount > 0 && (
+                  <span className="discounted-price">
+                    ₹{calculateDiscountedPrice(selectedProduct.actualPrice, selectedProduct.discount)}
+                  </span>
+                )}
+              </div>
+              {selectedProduct.discount > 0 && (
+                <span className="discount-badge">{selectedProduct.discount}% OFF</span>
+              )}
+            </div>
+            <div className="packaging-type">
+              Type: <span>{selectedProduct.type}</span>
+            </div>
+            <p className="product-description-full">{selectedProduct.description}</p>
+
+            <div className="product-lists">
+              <div className="ingredients">
+                <h4>Ingredients</h4>
+                <ul>
+                  {JSON.parse(selectedProduct.ingredients).map((ingredient, i) => (
+                    <li key={i}>{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="benefits">
+                <h4>Benefits</h4>
+                <ul>
+                  {JSON.parse(selectedProduct.benefits).map((benefit, i) => (
+                    <li key={i}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

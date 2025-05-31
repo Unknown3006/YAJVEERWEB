@@ -15,43 +15,59 @@
 }
 
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  padding: 0.5rem;
+  padding: 1rem;
   width: 100%;
-  margin: 0;
+  margin: 0 auto;
   box-sizing: border-box;
+  justify-content: center;
 }
 
-.product-card {
+.Menucard {
+  flex: 0 0 20%;
+  height: 98%;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgb(188, 188, 188);
   background: white;
-  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  box-sizing: border-box;
+  transition: transform 0.3s ease;
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
 }
 
-.product-card:hover {
+.Menucard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Update the product-image and slider-container styles */
-.product-image {
-  position: relative;
+.menui {
   width: 100%;
-  height: 280px;
-  background-color: #f8f8f8;
+  height: 70%;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
-  margin: 0;
-  padding: 0;
+  background-color: #e5f0da;
+}
+
+.menui img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  transition: all 0.3s ease;
+  object-fit: cover;
+}
+
+.menui:hover img {
+  transform: scale(1.12);
 }
 
 .slider-container {
@@ -299,11 +315,152 @@
 }
 
 .product-info {
-  padding: 1.25rem;
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2rem;
+  margin: auto;
+}
+
+.product-info .slider-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.product-info .slider-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-info .slider-container img.active {
+  opacity: 1;
+}
+
+.product-info .slider-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
+  gap: 0.5rem;
+}
+
+.product-info .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.product-info .dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.product-info .close-btn,
+.product-info .delete-btn {
+  position: fixed;
+  top: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.product-info .close-btn {
+  right: calc(5% + 1.5rem);
+  background: #fee2e2;
+  color: #ef4444;
+  font-size: 24px;
+}
+
+.product-info .delete-btn {
+  right: 5%;
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.product-info .close-btn:hover,
+.product-info .delete-btn:hover {
+  transform: scale(1.1);
+  background: #fecaca;
+}
+
+.product-info .product-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.product-info .price-info {
+  margin-bottom: 1.5rem;
+}
+
+.product-info .product-lists {
+  margin-top: 2rem;
+}
+
+.product-info .product-lists h4 {
+  color: #16a34a;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.product-info .product-lists ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.product-info .product-lists li {
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+@media (max-width: 768px) {
+  .product-info {
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .product-info .slider-container {
+    height: 250px;
+  }
+
+  .product-info .close-btn,
+  .product-info .delete-btn {
+    top: 1rem;
+  }
+
+  .product-info .close-btn {
+    right: calc(2.5% + 1rem);
+  }
+
+  .product-info .delete-btn {
+    right: 2.5%;
+  }
 }
 
 .product-name {
@@ -418,5 +575,114 @@
   .product-lists {
     flex-direction: column;
     gap: 1rem;
+  }
+}
+
+.product-detail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.product-detail .slider-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: #f3f4f6;
+}
+
+.product-detail .slider-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.product-detail .slider-container img.active {
+  opacity: 1;
+}
+
+.product-detail .slider-dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.product-detail .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-detail .dot.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.product-detail .close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+}
+
+.product-detail .delete-btn {
+  position: absolute;
+  top: 1rem;
+  right: 4rem;
+  z-index: 10;
+}
+
+.product-detail .product-name {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (max-width: 768px) {
+  .product-detail {
+    padding: 1rem;
+  }
+
+  .product-detail .slider-container {
+    height: 300px;
+  }
+
+  .product-detail .product-info {
+    padding: 1.5rem;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-detail .slider-container {
+    height: 250px;
+  }
+
+  .product-detail .product-info {
+    padding: 1rem;
+    margin: 5px;
   }
 }
