@@ -8,7 +8,7 @@ export default function Allproduct() {
   const [currentSlides, setCurrentSlides] = useState({});
   const intervalsRef = useRef({});
 
-  // Initialize slides for new products
+  
   useEffect(() => {
     if (!products?.length) return;
 
@@ -23,17 +23,17 @@ export default function Allproduct() {
     });
   }, [products]);
 
-  // Set up automatic sliding
+  
   const setupIntervals = useCallback(() => {
     if (!products?.length) return;
 
-    // Clear existing intervals
+    
     Object.values(intervalsRef.current).forEach(interval => {
       if (interval) clearInterval(interval);
     });
     intervalsRef.current = {};
 
-    // Set up new intervals
+    
     products.forEach((product) => {
       if (product._id && product.photos.length > 1) {
         intervalsRef.current[product._id] = setInterval(() => {
@@ -46,7 +46,7 @@ export default function Allproduct() {
     });
   }, [products]);
 
-  // Handle automatic sliding
+  
   useEffect(() => {
     setupIntervals();
 
@@ -58,12 +58,12 @@ export default function Allproduct() {
     };
   }, [setupIntervals]);
 
-  // Function to calculate discounted price
+  
   const calculateDiscountedPrice = (actualPrice, discount) => {
     return Math.round(actualPrice - (actualPrice * discount) / 100);
   };
 
-  // Function to parse JSON string arrays
+  
   const parseJSONString = (str) => {
     try {
       // Handle both string and array inputs
@@ -129,19 +129,17 @@ export default function Allproduct() {
                   <span className="discount-badge">{product.discount}% OFF</span>
                 )}
               </div>
-
               <div className="packaging-type">
                 Type: <span>{product.type}</span>
               </div>
+              <p className="product-description-full">{product.description}</p>
 
-              <p className="product-description">{product.description}</p>
-              
               <div className="product-lists">
                 <div className="ingredients">
                   <h4>Ingredients</h4>
                   <ul>
-                    {parseJSONString(product.ingredients).map((ingredient, i) => (
-                      <li key={i}>{ingredient.replace(/^"|"$/g, '')}</li>
+                    {JSON.parse(product.ingredients).map((ingredient, i) => (
+                      <li key={i}>{ingredient}</li>
                     ))}
                   </ul>
                 </div>
@@ -149,8 +147,8 @@ export default function Allproduct() {
                 <div className="benefits">
                   <h4>Benefits</h4>
                   <ul>
-                    {parseJSONString(product.benefits).map((benefit, i) => (
-                      <li key={i}>{benefit.replace(/^"|"$/g, '')}</li>
+                    {JSON.parse(product.benefits).map((benefit, i) => (
+                      <li key={i}>{benefit}</li>
                     ))}
                   </ul>
                 </div>
