@@ -5,11 +5,13 @@ import ErrorPopup from "./ErrorPopup";
 import "../CSS/Products.css";
 import LoadingAnimation from "./LoadingAnimation";
 import axios from "axios";
+import Allproduct from "./Allproduct";
 
 const Products = () => {
   const [showForm, setShowForm] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     photos: [],
     productName: "",
@@ -19,7 +21,7 @@ const Products = () => {
     benefits: [""],
     actualPrice: "",
     files: [],
-    packagingType: "box", // Default value
+    type: "box", // Default value
   });
 
   const handleChange = (e) => {
@@ -53,7 +55,7 @@ const Products = () => {
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    
+
     // Validate total number of photos
     if (files.length + formData.photos.length > 7) {
       setPopupMessage("You can only upload up to 7 photos in total");
@@ -61,15 +63,17 @@ const Products = () => {
     }
 
     // Validate file types and sizes
-    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+    const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
     const maxSize = 5 * 1024 * 1024; // 5MB
 
     const invalidFiles = files.filter(
-      file => !validTypes.includes(file.type) || file.size > maxSize
+      (file) => !validTypes.includes(file.type) || file.size > maxSize
     );
 
     if (invalidFiles.length > 0) {
-      setPopupMessage("Please only upload images (JPG, PNG, WEBP) less than 5MB in size");
+      setPopupMessage(
+        "Please only upload images (JPG, PNG, WEBP) less than 5MB in size"
+      );
       return;
     }
 
@@ -86,44 +90,49 @@ const Products = () => {
       setPopupMessage("At least one product photo is required");
       return false;
     }
-    
+
     if (!formData.productName.trim()) {
       setPopupMessage("Product name is required");
       return false;
     }
-    
-    if (!formData.description.trim() || formData.description.trim().length < 10) {
-      setPopupMessage("Description is required and should be at least 10 characters long");
+
+    if (
+      !formData.description.trim() ||
+      formData.description.trim().length < 10
+    ) {
+      setPopupMessage(
+        "Description is required and should be at least 10 characters long"
+      );
       return false;
     }
-    
+
     if (!formData.actualPrice || formData.actualPrice <= 0) {
       setPopupMessage("Price must be greater than 0");
       return false;
     }
-    
+
     if (formData.discount < 0 || formData.discount > 100) {
       setPopupMessage("Discount must be between 0 and 100");
       return false;
     }
 
-    if (!formData.packagingType) {
+    if (!formData.type) {
       setPopupMessage("Please select a packaging type");
       return false;
     }
-    
+
     const filledIngredients = formData.ingredients.filter((ing) => ing.trim());
     if (filledIngredients.length === 0) {
       setPopupMessage("At least one ingredient is required");
       return false;
     }
-    
+
     const filledBenefits = formData.benefits.filter((ben) => ben.trim());
     if (filledBenefits.length === 0) {
       setPopupMessage("At least one benefit is required");
       return false;
     }
-    
+
     return true;
   };
 
@@ -132,7 +141,7 @@ const Products = () => {
     return () => {
       // Cleanup URLs when component unmounts
       formData.photos.forEach((photoUrl) => {
-        if (photoUrl.startsWith('blob:')) {
+        if (photoUrl.startsWith("blob:")) {
           URL.revokeObjectURL(photoUrl);
         }
       });
@@ -142,11 +151,11 @@ const Products = () => {
   const resetForm = () => {
     // Cleanup URLs when form is reset
     formData.photos.forEach((photoUrl) => {
-      if (photoUrl.startsWith('blob:')) {
+      if (photoUrl.startsWith("blob:")) {
         URL.revokeObjectURL(photoUrl);
       }
     });
-    
+
     setFormData({
       photos: [],
       productName: "",
@@ -156,7 +165,7 @@ const Products = () => {
       benefits: [""],
       actualPrice: "",
       files: [],
-      packagingType: "box", // Reset to default value
+      type: "box", // Reset to default value
     });
   };
 
@@ -174,12 +183,14 @@ const Products = () => {
       formDataToSend.append("description", formData.description.trim());
       formDataToSend.append("discount", formData.discount);
       formDataToSend.append("actualPrice", formData.actualPrice);
-      formDataToSend.append("packagingType", formData.packagingType);
-      
+      formDataToSend.append("type", formData.type);
+
       // Filter out empty entries before sending
-      const filteredIngredients = formData.ingredients.filter((ing) => ing.trim());
+      const filteredIngredients = formData.ingredients.filter((ing) =>
+        ing.trim()
+      );
       const filteredBenefits = formData.benefits.filter((ben) => ben.trim());
-      
+
       formDataToSend.append("ingredients", JSON.stringify(filteredIngredients));
       formDataToSend.append("benefits", JSON.stringify(filteredBenefits));
 
@@ -203,7 +214,7 @@ const Products = () => {
         setPopupMessage("Product successfully added!");
         setShowForm(false);
         resetForm();
-        
+
         // You might want to refresh the products list here
         // await fetchProducts();
       } else {
@@ -213,7 +224,9 @@ const Products = () => {
       console.error("Error adding product:", error);
       setPopupMessage(
         "Error adding product: " +
-          (error.response?.data?.message || error.message || "Unknown error occurred")
+          (error.response?.data?.message ||
+            error.message ||
+            "Unknown error occurred")
       );
     } finally {
       setIsLoading(false);
@@ -223,7 +236,7 @@ const Products = () => {
   const handleCloseForm = () => {
     // Cleanup URLs when form is closed
     formData.photos.forEach((photoUrl) => {
-      if (photoUrl.startsWith('blob:')) {
+      if (photoUrl.startsWith("blob:")) {
         URL.revokeObjectURL(photoUrl);
       }
     });
@@ -248,7 +261,7 @@ const Products = () => {
           </div>
 
           <div className="products-grid">
-            <p>Products will be displayed from database</p>
+            <Allproduct></Allproduct>
           </div>
 
           {showForm && (
@@ -345,8 +358,8 @@ const Products = () => {
                     <div className="form-group">
                       <label>Packaging Type</label>
                       <select
-                        name="packagingType"
-                        value={formData.packagingType}
+                        name="type"
+                        value={formData.type}
                         onChange={handleChange}
                         className="packaging-select"
                       >

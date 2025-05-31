@@ -9,49 +9,50 @@ const productSchema = new Schema(
         validator: function (arr) {
           return arr.length <= 7;
         },
-        message: "You can upload a maximum of 7 photos."
-      }
+        message: "You can upload a maximum of 7 photos.",
+      },
     },
     productName: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
-    discount: { //in percentage
+    discount: {
+      // in percentage
       type: Number,
       min: 0,
       max: 100,
-      default : 0 
-    },
-    packagingType: {
-      type: String,
-      enum: ['box', 'pouch'],
-      required: true,
-      default: 'box'
     },
     ingredients: {
       type: [String],
-      default: []
+      default: [],
     },
     benefits: {
       type: [String],
-      default: []
+      default: [],
     },
     actualPrice: {
       type: Number,
       required: true,
-      min: 0
+      min: 0,
     },
     rating: {
       type: Number,
       min: [0, "Rating cannot be negative"],
       max: [5, "Rating cannot be more than 5"],
-      default : 0 
-    }
+    },
+    type: {
+      type: String,
+      required: true,
+      enum: {
+        values: ["box", "pouch"],
+        message: 'Product type must be either "box" or "pouch".',
+      },
+    },
   },
   { timestamps: true }
 );

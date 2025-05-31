@@ -61,15 +61,19 @@ export default function Login() {
 
       const result = response.data;
       if (result.success) {
-        console.log("Login successful:", result);
+        console.log(result);
         sessionStorage.setItem("isLoggedInAdmin", "true");
-        sessionStorage.setItem("adminToken", result.data.accessToken);
-        setPopupMessage("Login successful!");
+        setPopupMessage(result.message);
         setTimeout(() => setRedirect(true), 2000);
+      } else {
+        setPopupMessage(result.message);
       }
     } catch (error) {
-      console.error("Login error:", error.response?.data);
-      setPopupMessage(error.response?.data?.message || "Login failed");
+      if (error.response?.data?.message) {
+        setPopupMessage(error.response.data.message);
+      } else {
+        setPopupMessage("Something went wrong. Please try again.");
+      }
     }
   };
 

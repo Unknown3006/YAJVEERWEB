@@ -44,10 +44,6 @@ const App = () => {
     );
   }
 
-  if (data) {
-    console.log(data);
-  }
-
   return (
     <>
       <ScrollToTop />

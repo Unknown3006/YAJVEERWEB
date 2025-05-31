@@ -4,29 +4,26 @@ import cookieParser from "cookie-parser";
 import ServerlessHttp from "serverless-http";
 
 const app = express();
-
-// Define allowed origins based on environment
 const allowedOrigins = [
-    "http://localhost:5173",    // Admin frontend
-    "http://localhost:3000",    // Frontend
-    "https://yajveer-admin.vercel.app", // Production Admin URL
-    "https://yajveer.vercel.app"       // Production Frontend URL
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://yajveer.vercel.app" ,
+  "https://yajveer-admin.vercel.app"
 ];
-
-// CORS configuration
-app.use(cors({
+// CORS middleware
+app.use(
+  cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl requests)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed for this origin"));
+      }
     },
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
+    // origin: "http://localhost:5173",
+    credentials: true, // only if you're using cookies
+  })
+);
 
 // Body parsers
 app.use(express.json({ limit: "16kb" }));
@@ -56,21 +53,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-// Root route
-app.get("/", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Welcome to Yajveer Backend API"
-    });
-});
-
-// API route
 app.get("/api/v1", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Welcome to Yajveer API - Version 1"
-    });
+    res.send("Welcome to CKS_dev");
 });
 
 export { app };
