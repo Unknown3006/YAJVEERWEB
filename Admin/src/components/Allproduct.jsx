@@ -43,14 +43,17 @@ export default function Allproduct() {
 
   // Function to calculate discounted price
   const calculateDiscountedPrice = (actualPrice, discount) => {
-    return actualPrice - (actualPrice * discount) / 100;
+    return Math.round(actualPrice - (actualPrice * discount) / 100);
   };
 
   // Function to parse JSON string arrays
   const parseJSONString = (str) => {
     try {
-      const cleaned = str[0] === '[' ? JSON.parse(str) : str;
-      return Array.isArray(cleaned) ? cleaned : [cleaned];
+      if (typeof str === 'string') {
+        const cleaned = str[0] === '[' ? JSON.parse(str) : str;
+        return Array.isArray(cleaned) ? cleaned : [cleaned];
+      }
+      return Array.isArray(str) ? str : [str];
     } catch {
       return [];
     }
@@ -78,6 +81,10 @@ export default function Allproduct() {
                     <span
                       key={photoIndex}
                       className={`dot ${photoIndex === currentSlides[product._id] ? 'active' : ''}`}
+                      onClick={() => setCurrentSlides(prev => ({
+                        ...prev,
+                        [product._id]: photoIndex
+                      }))}
                     />
                   ))}
                 </div>
@@ -103,15 +110,17 @@ export default function Allproduct() {
                 )}
               </div>
 
-              <div className="packaging-type">
-                Type: <span>{product.type}</span>
-              </div>
+              {product.type && (
+                <div className="packaging-type">
+                  Type: <span>{product.type}</span>
+                </div>
+              )}
 
               <p className="product-description">{product.description}</p>
               
               <div className="product-lists">
                 <div className="ingredients">
-                  <h4>Ingredients:</h4>
+                  <h4>Ingredients</h4>
                   <ul>
                     {parseJSONString(product.ingredients).map((ingredient, i) => (
                       <li key={i}>{ingredient}</li>
@@ -120,7 +129,7 @@ export default function Allproduct() {
                 </div>
 
                 <div className="benefits">
-                  <h4>Benefits:</h4>
+                  <h4>Benefits</h4>
                   <ul>
                     {parseJSONString(product.benefits).map((benefit, i) => (
                       <li key={i}>{benefit}</li>
