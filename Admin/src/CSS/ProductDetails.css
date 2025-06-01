@@ -1,5 +1,5 @@
 .product-details-container {
-  padding: 1rem;
+  padding: 1.5rem; /* Increased padding slightly for more breathing room around the card */
   width: 100%;
   max-width: 1200px;
   margin: 1rem auto;
@@ -31,13 +31,14 @@
 .product-details-card {
   background-color: #fff;
   border-radius: 10px;
-  padding: 1.5rem;
+  padding: 1rem; /* Slightly reduced card padding if container padding is increased */
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr; /* Default to 1 column, will be overridden by media queries if needed */
+  gap: 1.5rem; /* Adjusted gap */
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  width: 100%;
-  max-width: 100%;
+  width: 100%; /* This ensures it tries to fill the container's content box */
+  max-width: 100%; /* Prevents it from exceeding container's content box width */
+  box-sizing: border-box; /* Ensures padding is within the 100% width */
 }
 
 .product-gallery-detailed {
@@ -46,15 +47,15 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  max-width: 500px; /* Added max-width to control gallery (and thus image) size */
+  margin: 0 auto; /* Center the gallery if it's narrower than the card */
 }
 
 .main-product-image-detailed {
   width: 100%;
   height: auto;
-  max-width: 100%;
-  object-fit: contain;
+  max-height: 400px; /* Adjusted max-height to make image potentially smaller */
+  object-fit: contain; /* This ensures the whole image is visible */
   border-radius: 8px;
   margin-bottom: 1rem;
   background-color: #f0f0f0;
@@ -292,31 +293,51 @@
 }
 
 /* Responsive adjustments for ProductDetails.css */
+@media (min-width: 993px) { /* Apply two-column layout for larger screens */
+  .product-details-card {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* More flexible grid */
+    /* Or, if you prefer a fixed 2-column approach for gallery and info: */
+    /* grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); */ /* Example: Gallery takes more space */
+    gap: 2rem;
+  }
+  .product-gallery-detailed {
+    max-width: 100%; /* Allow gallery to use its allocated grid space */
+  }
+}
+
 @media (max-width: 992px) {
   .product-details-card {
     grid-template-columns: 1fr; /* Stack gallery and info */
-    padding: 1.5rem;
+    padding: 1rem; /* Consistent padding */
   }
   
   .main-product-image-detailed {
-    max-height: 350px;
-    width: auto;
-    max-width: 100%;
+    max-height: 350px; /* Keep this or adjust as needed */
+    /* width: auto; */ /* Not needed if width: 100% is set and parent controls size */
+    /* max-width: 100%; */ /* Already set */
+  }
+  .product-gallery-detailed {
+    max-width: 100%; /* Ensure gallery takes full width in single column */
   }
 }
 
 @media (max-width: 768px) {
   .product-details-container {
-    padding: 0.5rem;
+    padding: 1rem; /* Adjusted padding */
+  }
+  .product-details-card {
+    padding: 0.75rem;
+    gap: 1rem;
   }
   
   .product-gallery-detailed,
   .product-info-section-detailed {
-    padding: 0.5rem;
+    padding: 0.5rem; 
   }
   
   .main-product-image-detailed {
     margin-bottom: 0.5rem;
+    max-height: 300px; /* Further adjust max-height for smaller screens */
   }
   
   .image-thumbnails-detailed {
@@ -332,10 +353,16 @@
   .product-details-card {
     padding: 0.5rem;
   }
+  .product-details-card {
+    gap: 0.75rem;
+  }
   
   .product-gallery-detailed,
   .product-info-section-detailed {
     padding: 0.25rem;
+  }
+  .main-product-image-detailed {
+    max-height: 250px; /* Further adjust max-height for very small screens */
   }
   
   .description-section-detailed,
