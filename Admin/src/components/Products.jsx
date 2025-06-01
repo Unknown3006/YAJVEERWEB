@@ -262,11 +262,7 @@ const Products = () => {
             </button>
           </div>
 
-          {/* Replace existing products-grid div with Routes */}
-          <Routes>
-            <Route path="/" element={<Allproduct />} />
-            <Route path="product/:id" element={<ProductDetails />} />
-          </Routes>
+          <Allproduct />
 
           {showForm && (
             <div

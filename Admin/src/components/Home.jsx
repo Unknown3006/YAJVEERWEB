@@ -87,7 +87,8 @@ function Home() {
               </div>
             </>
           } />
-          <Route path="/products/*" element={<Products />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/users" element={<div>Users Page (Coming Soon)</div>} />
           <Route path="/orders" element={<div>Orders Page (Coming Soon)</div>} />
           <Route path="/reviews" element={<div>Reviews Page (Coming Soon)</div>} />

@@ -38,6 +38,7 @@ const ProductDetails = () => {
     const handleDelete = async () => {
         setIsLoading(true);
         setError(null);
+        console.log('Deleting product with id:', id); // Log the product id
         try {
             // Replace with your actual API endpoint for deleting a product
             await axios.delete(`${import.meta.env.VITE_SERVER}/api/v1/products/admin/deleteproduct/${id}`, { withCredentials: true });
