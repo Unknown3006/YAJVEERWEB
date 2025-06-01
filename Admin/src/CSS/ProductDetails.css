@@ -7,7 +7,6 @@
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
   box-sizing: border-box;
-  overflow-x: hidden;
 }
 
 .back-to-products-btn {
@@ -34,11 +33,11 @@
   border-radius: 10px;
   padding: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 2rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  overflow: hidden;
   width: 100%;
+  max-width: 100%;
 }
 
 .product-gallery-detailed {
@@ -47,11 +46,14 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .main-product-image-detailed {
   width: 100%;
-  max-height: min(450px, 50vh);
+  height: auto;
+  max-width: 100%;
   object-fit: contain;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -126,12 +128,10 @@
 .product-info-section-detailed {
   display: flex;
   flex-direction: column;
-  min-width: 0;
   width: 100%;
+  max-width: 100%;
   box-sizing: border-box;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+  padding: 0 1rem;
 }
 
 .product-title-detailed {
@@ -174,6 +174,8 @@
 .description-section-detailed,
 .list-section-detailed {
   margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .description-section-detailed h3,
@@ -191,12 +193,12 @@
   font-size: 0.95rem;
   color: #555;
   line-height: 1.6;
-  white-space: pre-line;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+  white-space: normal;
+  width: 100%;
   max-width: 100%;
-  padding-right: 1rem;
+  word-break: break-word;
+  margin: 0;
+  padding: 0;
 }
 
 .list-section-detailed ul {
@@ -295,76 +297,144 @@
     grid-template-columns: 1fr; /* Stack gallery and info */
     padding: 1.5rem;
   }
+  
   .main-product-image-detailed {
     max-height: 350px;
-  }
-  .product-title-detailed {
-    font-size: 1.6rem;
-  }
-  .product-info-section-detailed {
-    width: 100%;
-    box-sizing: border-box;
-    min-width: 0; /* Reiterate for stacked layout */
-  }
-  .description-section-detailed {
+    width: auto;
     max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   .product-details-container {
-    margin: 1rem auto;
-    padding: 1rem;
+    padding: 0.5rem;
   }
-  .product-details-card {
-    gap: 1.5rem;
+  
+  .product-gallery-detailed,
+  .product-info-section-detailed {
+    padding: 0.5rem;
   }
-  .gallery-nav-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 1.2rem;
+  
+  .main-product-image-detailed {
+    margin-bottom: 0.5rem;
   }
-  .thumbnail-image {
-    width: 60px;
-    height: 60px;
-  }
-  .product-title-detailed {
-    font-size: 1.4rem;
-  }
-  .current-price-detailed {
-    font-size: 1.4rem;
+  
+  .image-thumbnails-detailed {
+    padding: 0.5rem;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 @media (max-width: 480px) {
-  .product-details-container {
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    border-radius: 0;
-  }
+  .product-details-container,
   .product-details-card {
-    padding: 1rem;
-    border-radius: 0;
+    padding: 0.5rem;
   }
-  .back-to-products-btn {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+  
+  .product-gallery-detailed,
+  .product-info-section-detailed {
+    padding: 0.25rem;
   }
-  .main-product-image-detailed {
-    max-height: 280px;
-  }
-  .product-title-detailed {
-    font-size: 1.3rem;
-  }
-  .delete-btn {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-  .confirm-delete-actions {
-    width: 100%;
-  }
-  .confirm-delete-actions .delete-btn {
-    width: 100%;
-    justify-content: center;
+  
+  .description-section-detailed,
+  .list-section-detailed {
+    padding: 0.25rem;
   }
 }
+
+/* Parent container to hold gallery and info sections */
+.product-detail-container { /* Or your existing main container for product details */
+  display: flex;
+  flex-wrap: wrap; /* Wrap on small screens if space is insufficient */
+  gap: 20px; /* Spacing between sections */
+  max-width: 1200px; /* Overall max-width for the layout */
+  margin: 0 auto; /* Center layout on the page */
+  padding: 15px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  /* overflow: hidden; */ /* Consider if this is needed on the main container; often better on children */
+}
+
+/* Gallery section - ensures images stay contained */
+.product-gallery-detailed {
+  flex: 1; /* Allows the gallery to grow and shrink as needed */
+  min-width: 300px; /* Minimum width before wrapping or becoming too small */
+  /* max-width: 600px; */ /* Max-width can be useful, but flex-basis might be more flexible with flex:1 */
+  overflow: hidden; /* Clip overflowing content, like oversized images before they are scaled */
+  border-radius: 8px; /* Optional: for aesthetics */
+  background: #f5f5f5; /* Optional: background for the gallery area */
+  display: flex; /* To help manage internal image layout if needed */
+  flex-direction: column; /* Stack main image and thumbnails if any */
+}
+
+/* Constrain images proportionally within the gallery */
+.product-gallery-detailed img, /* Target all images, or be more specific e.g., .main-product-image-detailed */
+.main-product-image-detailed img { /* If you have a specific class for the main image */
+  width: 100%; /* Make image responsive to gallery width */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Ensure image does not exceed gallery width */
+  object-fit: contain; /* Scale image to fit within bounds, preserving aspect ratio without cropping */
+  display: block; /* Remove extra space below image */
+}
+
+/* Info section - scrollable for long content */
+.product-info-section-detailed {
+  flex: 1; /* Allows the info section to grow and shrink */
+  min-width: 300px; /* Minimum width before wrapping or becoming too small */
+  /* max-width: 500px; */ /* Max-width can be useful, adjust as needed */
+  max-height: 80vh; /* Limit height to 80% of viewport height to prevent excessive length */
+  overflow-y: auto; /* Enable vertical scrollbar if content exceeds max-height */
+  padding: 15px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  border: 1px solid #eee; /* Optional: for visual separation */
+  border-radius: 8px; /* Optional: for aesthetics */
+}
+
+/* Mobile responsiveness - adjustments for smaller screens */
+@media (max-width: 768px) {
+  .product-detail-container { /* Or your existing main container */
+    flex-direction: column; /* Stack gallery and info sections vertically */
+    gap: 15px; /* Adjust gap for stacked layout */
+  }
+
+  .product-gallery-detailed,
+  .product-info-section-detailed {
+    max-width: 100%; /* Allow both sections to take full width in column layout */
+    min-width: 100%; /* Ensure they take full width */
+    flex-basis: auto; /* Reset flex-basis for column layout */
+    max-height: none; /* Reset max-height for info section or set a new mobile-specific one */
+  }
+
+  .product-info-section-detailed {
+    overflow-y: visible; /* Or 'auto' if you still want scroll on mobile for very long content */
+    /* Consider adjusting max-height specifically for mobile if needed */
+  }
+}
+
+/* You might have existing styles for .product-details-card. 
+   If .product-detail-container is a new wrapper, ensure it's used in your JSX.
+   If you are modifying an existing container like .product-details-card, 
+   apply the .product-detail-container styles to it directly. 
+   For example: 
+
+.product-details-card { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 20px; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 15px; 
+  box-sizing: border-box; 
+} 
+
+And then in the media query:
+
+@media (max-width: 768px) {
+  .product-details-card {
+    flex-direction: column;
+  }
+  // .product-gallery-detailed and .product-info-section-detailed rules as above
+}
+
+*/
