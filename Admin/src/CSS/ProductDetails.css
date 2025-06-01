@@ -35,6 +35,8 @@
   grid-template-columns: 1fr 1.2fr; /* Adjust ratio as needed */
   gap: 2rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  /* Add overflow: hidden if direct children are still overflowing the card's padding */
+  /* overflow: hidden; */ 
 }
 
 .product-gallery-detailed {
@@ -121,6 +123,9 @@
 .product-info-section-detailed {
   display: flex;
   flex-direction: column;
+  min-width: 0; /* Add this to allow shrinking in grid/flex context */
+  width: 100%; /* Ensure it tries to take full width of its grid area */
+  box-sizing: border-box; /* Ensure padding/border don't add to width */
 }
 
 .product-title-detailed {
@@ -179,7 +184,9 @@
   font-size: 0.95rem;
   color: #555;
   line-height: 1.6;
-  white-space: pre-line; /* Respects newlines in description */
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  max-width: 100%; /* Ensure text content doesn't push parent wider */
 }
 
 .list-section-detailed ul {
@@ -283,6 +290,14 @@
   }
   .product-title-detailed {
     font-size: 1.6rem;
+  }
+  .product-info-section-detailed {
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0; /* Reiterate for stacked layout */
+  }
+  .description-section-detailed {
+    max-width: 100%;
   }
 }
 
