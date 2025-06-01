@@ -26,37 +26,31 @@ const Allproduct = () => {
   return (
     <div className="all-products-container">
       <h1 className="page-title">All Products</h1>
-      <div className="products-grid">
-        {products.map((product) => (
-          <div key={product._id} className="product-card">
-            <Link to={`/admin/products/${product._id}`} className="product-card-link">
-              <div className="product-image-container">
-                <img 
-                  src={product.photos && product.photos.length > 0 ? product.photos[0] : 'placeholder-image.jpg'} 
-                  alt={product.productName} 
-                  className="product-image"
-                />
-              </div>
-              <div className="product-info-preview">
-                <h3 className="product-name-preview">{product.productName}</h3>
-                <div className="price-details-preview">
-                  <span className="current-price-preview">
-                    ₹{calculateDiscountedPrice(product.actualPrice, product.discount)}
-                  </span>
-                  {product.discount > 0 && (
-                    <span className="original-price-preview">₹{product.actualPrice}</span>
-                  )}
+      <div className="mm">
+        <div className="ml">
+          {
+            products.map((product) => (
+              <div className="Menucard" key={product._id}>
+                <Link to={`/admin/products/${product._id}`} className="details-button-link">
+                  <div className="menui">
+                    <img src={product.photos[0]} alt={product.productName} className="ig" />
+                  </div>
+                </Link>
+                <div className="pname">
+                  <p>{product.productName}</p>
                 </div>
-                {product.discount > 0 && (
-                  <span className="discount-badge-preview">{product.discount}% OFF</span>
-                )}
+                <div className="pprice">
+                  <p className="dis">{product.discount}%OFF</p>
+                  <p className="dsp">₹{product.actualPrice}</p>
+                  <p className="acp">₹{Math.floor(product.actualPrice + ((product.discount) * (product.actualPrice) / 100))}</p>
+                </div>
+                <Link to={`/admin/products/${product._id}`} className="details-button-link">
+                  <button className="menucart">Details</button>
+                </Link>
               </div>
-            </Link>
-            <Link to={`/admin/products/${product._id}`} className="details-button-link">
-              <button className="details-button">Details</button>
-            </Link>
-          </div>
-        ))}
+            ))
+          }
+        </div>
       </div>
     </div>
   );
