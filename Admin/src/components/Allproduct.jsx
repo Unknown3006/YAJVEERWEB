@@ -6,7 +6,7 @@ import LoadingAnimation from './LoadingAnimation'; // Assuming you have this
 
 const Allproduct = () => {
   const { data: products, loading, error } = useSelector((state) => state.cart); // Assuming 'cart' slice holds products
-
+  console.log(products);
   const calculateDiscountedPrice = (actualPrice, discount) => {
     return Math.round(actualPrice - (actualPrice * discount) / 100);
   };
@@ -29,7 +29,7 @@ const Allproduct = () => {
       <div className="products-grid">
         {products.map((product) => (
           <div key={product._id} className="product-card">
-            <Link to={`/admin/products/product/${product._id}`} className="product-card-link">
+            <Link to={`/admin/products/${product._id}`} className="product-card-link">
               <div className="product-image-container">
                 <img 
                   src={product.photos && product.photos.length > 0 ? product.photos[0] : 'placeholder-image.jpg'} 
@@ -52,7 +52,7 @@ const Allproduct = () => {
                 )}
               </div>
             </Link>
-            <Link to={`/admin/products/product/${product._id}`} className="details-button-link">
+            <Link to={`/admin/products/${product._id}`} className="details-button-link">
               <button className="details-button">Details</button>
             </Link>
           </div>

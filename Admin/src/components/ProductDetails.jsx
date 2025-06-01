@@ -17,19 +17,32 @@ const ProductDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-    // Find the product from the Redux store or fetch if not available (basic example)
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);    // Find the product from the Redux store or fetch if not available
     useEffect(() => {
-        if (products && products.length > 0) {
-            const foundProduct = products.find(p => p._id === id);
-            setProduct(foundProduct);
-        } else if (!productsLoading) {
-            // Optionally, fetch single product if not in store, or rely on Fectchdata to get all
-            // For simplicity, we assume Fectchdata gets all products
-            // If you have an endpoint for a single product, you can call it here.
-        }
-    }, [products, id, productsLoading]);
+        const getProduct = async () => {
+            if (products && products.length > 0) {
+                const foundProduct = products.find(p => p._id === id);
+                if (foundProduct) {
+                    setProduct(foundProduct);
+                    return;
+                }
+            }
+            
+            // If product not found in store, fetch it directly
+            try {
+                setIsLoading(true);
+                const response = await axios.get(`${import.meta.env.VITE_SERVER}/api/v1/products/${id}`);
+                setProduct(response.data.data);
+            } catch (err) {
+                setError(err.response?.data?.message || 'Failed to fetch product details');
+                console.error('Error fetching product:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        getProduct();
+    }, [products, id]);
 
     const calculateDiscountedPrice = (actualPrice, discount) => {
         return Math.round(actualPrice - (actualPrice * discount) / 100);

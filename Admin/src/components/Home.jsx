@@ -3,6 +3,7 @@ import { Link, Routes, Route } from 'react-router-dom'
 import { FiHome, FiUsers, FiBox, FiMessageSquare, FiSettings, FiMenu, FiX } from 'react-icons/fi'
 import { HiOutlineDocumentReport, HiOutlineCash } from 'react-icons/hi'
 import Products from './Products'
+import ProductDetails from './ProductDetails'
 import '../CSS/Home.css'
 
 function Home() {
