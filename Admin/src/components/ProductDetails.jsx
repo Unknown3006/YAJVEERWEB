@@ -1,188 +1,204 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { FiArrowLeft, FiTrash2 } from "react-icons/fi";
-import axios from "axios";
-import { Fectchdata } from "../Redux/CartSlice";
-import "../CSS/ProductDetails.css";
-import LoadingAnimation from "./LoadingAnimation";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { Fectchdata } from '../Redux/CartSlice'; // Assuming this is your data fetching thunk
+import '../CSS/ProductDetails.css'; // We'll create this CSS file
+import LoadingAnimation from './LoadingAnimation';
+import { FiArrowLeft, FiTrash2, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: products } = useSelector((state) => state.cart);
-  
+  const { data: products, loading: productsLoading, error: productsError } = useSelector((state) => state.cart);
+
   const [product, setProduct] = useState(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  // Find the product from the Redux store or fetch if not available (basic example)
   useEffect(() => {
-    if (products?.length) {
+    if (products && products.length > 0) {
       const foundProduct = products.find(p => p._id === id);
-      if (foundProduct) {
-        setProduct(foundProduct);
-      }
+      setProduct(foundProduct);
+    } else if (!productsLoading) {
+      // Optionally, fetch single product if not in store, or rely on Fectchdata to get all
+      // For simplicity, we assume Fectchdata gets all products
+      // If you have an endpoint for a single product, you can call it here.
     }
-  }, [products, id]);
-
-  // Auto slide functionality
-  useEffect(() => {
-    if (!product || product.photos.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentSlide(prev => (prev + 1) % product.photos.length);
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, [product]);
+  }, [products, id, productsLoading]);
 
   const calculateDiscountedPrice = (actualPrice, discount) => {
     return Math.round(actualPrice - (actualPrice * discount) / 100);
   };
 
-  const handleDeleteProduct = async () => {
-    if (!deleteConfirm) {
-      setDeleteConfirm(true);
-      return;
-    }
-    
+  const handleDelete = async () => {
     setIsLoading(true);
+    setError(null);
     try {
-      const response = await axios.delete(
-        `${import.meta.env.VITE_SERVER}/api/v1/products/admin/deleteproduct/${id}`,
-        { withCredentials: true }
-      );
-      
-      if (response.status === 200) {
-        // Refresh products list
-        dispatch(Fectchdata());
-        navigate("/admin/products");
-      }
+      // Replace with your actual API endpoint for deleting a product
+      await axios.delete(`${import.meta.env.VITE_SERVER}/api/v1/products/admin/deleteproduct/${id}`, { withCredentials: true });
+      dispatch(Fectchdata()); // Refresh the product list
+      navigate('/admin/products'); // Navigate back to the products list
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete product");
+      setError(err.response?.data?.message || 'Failed to delete product. Please try again.');
+      console.error('Delete error:', err);
     } finally {
       setIsLoading(false);
-      setDeleteConfirm(false);
+      setShowDeleteConfirm(false);
     }
   };
 
-  const parseJSONString = (jsonString) => {
+  const nextImage = useCallback(() => {
+    if (product && product.photos && product.photos.length > 0) {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % product.photos.length);
+    }
+  }, [product]);
+
+  const prevImage = () => {
+    if (product && product.photos && product.photos.length > 0) {
+      setCurrentImageIndex((prevIndex) => (prevIndex - 1 + product.photos.length) % product.photos.length);
+    }
+  };
+  
+  // Auto slide functionality
+  useEffect(() => {
+    if (!product || !product.photos || product.photos.length <= 1) return;
+    const timer = setInterval(nextImage, 5000); // Change image every 5 seconds
+    return () => clearInterval(timer);
+  }, [product, nextImage]);
+
+  // Helper to parse potentially stringified JSON arrays (like ingredients, benefits)
+  const parseArrayField = (field) => {
+    if (!field) return [];
+    if (Array.isArray(field)) return field;
     try {
-      return JSON.parse(jsonString);
+      const parsed = JSON.parse(field);
+      return Array.isArray(parsed) ? parsed : [parsed.toString()];
     } catch (e) {
-      return [];
+      return [field.toString()]; // Fallback if not JSON
     }
   };
 
-  if (isLoading) {
+  if (productsLoading || isLoading) {
     return <LoadingAnimation />;
   }
 
-  if (!product) {
-    return (
-      <div className="product-details-container">
-        <div className="back-button" onClick={() => navigate("/admin/products")}>
-          <FiArrowLeft /> Back to Products
-        </div>
-        <div className="product-not-found">
-          <h2>Product not found</h2>
-          <p>The product you're looking for doesn't exist or has been removed.</p>
-        </div>
-      </div>
-    );
+  if (productsError) {
+    return <div className="error-message">Error loading product details: {productsError.message || 'Unknown error'}</div>;
   }
+
+  if (!product) {
+    return <div className="product-not-found">Product not found. It might have been removed or the ID is incorrect.</div>;
+  }
+
+  const ingredientsList = parseArrayField(product.ingredients);
+  const benefitsList = parseArrayField(product.benefits);
 
   return (
     <div className="product-details-container">
-      {error && <div className="error-message">{error}</div>}
-      
-      <div className="back-button" onClick={() => navigate("/admin/products")}>
+      <button onClick={() => navigate('/admin/products')} className="back-to-products-btn">
         <FiArrowLeft /> Back to Products
-      </div>
-      
-      <div className="product-details-content">
-        <div className="product-gallery">
-          <div className="main-image-container">
-            {product.photos.map((photo, index) => (
-              <img
-                key={index}
-                src={photo}
-                alt={`${product.productName} - ${index + 1}`}
-                className={`main-image ${index === currentSlide ? 'active' : ''}`}
+      </button>
+
+      {error && <div className="error-message main-error-message">{error}</div>}
+
+      <div className="product-details-card">
+        <div className="product-gallery-detailed">
+          {product.photos && product.photos.length > 0 ? (
+            <>
+              <img 
+                src={product.photos[currentImageIndex]} 
+                alt={`${product.productName} - Image ${currentImageIndex + 1}`} 
+                className="main-product-image-detailed"
               />
-            ))}
-          </div>
-          
-          {product.photos.length > 1 && (
-            <div className="image-thumbnails">
-              {product.photos.map((photo, index) => (
-                <div 
-                  key={index} 
-                  className={`thumbnail ${index === currentSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(index)}
-                >
-                  <img src={photo} alt={`Thumbnail ${index + 1}`} />
-                </div>
-              ))}
-            </div>
+              {product.photos.length > 1 && (
+                <>
+                  <button onClick={prevImage} className="gallery-nav-btn prev-btn"><FiChevronLeft /></button>
+                  <button onClick={nextImage} className="gallery-nav-btn next-btn"><FiChevronRight /></button>
+                  <div className="image-thumbnails-detailed">
+                    {product.photos.map((photo, index) => (
+                      <img
+                        key={index}
+                        src={photo}
+                        alt={`Thumbnail ${index + 1}`}
+                        className={`thumbnail-image ${index === currentImageIndex ? 'active' : ''}`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <img src="placeholder-image.jpg" alt="Placeholder" className="main-product-image-detailed placeholder" />
           )}
         </div>
-        
-        <div className="product-info-detailed">
-          <h1 className="product-title">{product.productName}</h1>
+
+        <div className="product-info-section-detailed">
+          <h1 className="product-title-detailed">{product.productName}</h1>
           
-          <div className="price-section">
-            <div className="price-display">
-              <span className="current-price">₹{calculateDiscountedPrice(product.actualPrice, product.discount)}</span>
-              {product.discount > 0 && (
-                <span className="original-price">₹{product.actualPrice}</span>
-              )}
-            </div>
+          <div className="price-section-detailed">
+            <span className="current-price-detailed">
+              ₹{calculateDiscountedPrice(product.actualPrice, product.discount)}
+            </span>
             {product.discount > 0 && (
-              <span className="discount-tag">{product.discount}% OFF</span>
+              <span className="original-price-detailed">₹{product.actualPrice}</span>
+            )}
+            {product.discount > 0 && (
+              <span className="discount-badge-detailed">{product.discount}% OFF</span>
             )}
           </div>
-          
-          <div className="packaging-info">
-            <span className="info-label">Packaging Type:</span>
-            <span className="info-value">{product.type}</span>
-          </div>
-          
-          <div className="product-description">
-            <h3>Description</h3>
-            <p>{product.description}</p>
-          </div>
-          
-          <div className="product-details-lists">
-            <div className="ingredients-list">
+
+          {product.description && (
+            <div className="description-section-detailed">
+              <h3>Description</h3>
+              <p>{product.description}</p>
+            </div>
+          )}
+
+          {ingredientsList.length > 0 && (
+            <div className="list-section-detailed">
               <h3>Ingredients</h3>
               <ul>
-                {parseJSONString(product.ingredients).map((ingredient, index) => (
-                  <li key={index}>{ingredient}</li>
-                ))}
+                {ingredientsList.map((item, index) => <li key={`ing-${index}`}>{item}</li>)}
               </ul>
             </div>
-            
-            <div className="benefits-list">
+          )}
+
+          {benefitsList.length > 0 && (
+            <div className="list-section-detailed">
               <h3>Benefits</h3>
               <ul>
-                {parseJSONString(product.benefits).map((benefit, index) => (
-                  <li key={index}>{benefit}</li>
-                ))}
+                {benefitsList.map((item, index) => <li key={`ben-${index}`}>{item}</li>)}
               </ul>
             </div>
-          </div>
+          )}
           
-          <button 
-            className={`delete-product-btn ${deleteConfirm ? 'confirm' : ''}`}
-            onClick={handleDeleteProduct}
-          >
-            <FiTrash2 />
-            {deleteConfirm ? 'Confirm Delete' : 'Delete Product'}
-          </button>
+          {/* Add other product fields here as needed */}
+          {/* Example: product.type, product.category etc. */}
+          {product.type && <p><strong>Type:</strong> {product.type}</p>}
+
+          <div className="delete-section">
+            {!showDeleteConfirm ? (
+              <button onClick={() => setShowDeleteConfirm(true)} className="delete-btn initial-delete-btn">
+                <FiTrash2 /> Delete Product
+              </button>
+            ) : (
+              <div className="confirm-delete-actions">
+                <p>Are you sure you want to delete this product?</p>
+                <button onClick={handleDelete} className="delete-btn confirm-delete-btn" disabled={isLoading}>
+                  {isLoading ? 'Deleting...' : 'Yes, Delete'}
+                </button>
+                <button onClick={() => setShowDeleteConfirm(false)} className="delete-btn cancel-delete-btn" disabled={isLoading}>
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

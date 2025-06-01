@@ -6,8 +6,8 @@ import "../CSS/Products.css";
 import LoadingAnimation from "./LoadingAnimation";
 import axios from "axios";
 import Allproduct from "./Allproduct";
-import { Routes, Route } from "react-router-dom";
-import ProductDetails from "./ProductDetails";
+import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
+import ProductDetails from './ProductDetails'; // Import ProductDetails
 
 const Products = () => {
   const [showForm, setShowForm] = useState(false);
@@ -262,12 +262,11 @@ const Products = () => {
             </button>
           </div>
 
-          <div className="products-grid">
-            <Routes>
-              <Route path="/" element={<Allproduct />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
-            </Routes>
-          </div>
+          {/* Replace existing products-grid div with Routes */}
+          <Routes>
+            <Route path="/" element={<Allproduct />} />
+            <Route path="product/:id" element={<ProductDetails />} />
+          </Routes>
 
           {showForm && (
             <div
