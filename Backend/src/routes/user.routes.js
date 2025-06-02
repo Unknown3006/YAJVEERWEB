@@ -6,6 +6,8 @@ import { submitContactForm } from "../controllers/contact.controllers.js";
 import { addReview } from "../controllers/review.controllers.js";
 import { upload } from "../middlewares/multer.midddleware.js";
 import { forgotPassword , verifyOtp , resetPassword } from "../controllers/user.controller.js";
+import { getAllContacts  } from "../controllers/contact.controllers.js";
+import { getAllReviews } from "../controllers/review.controllers.js";
 const router = Router();
 
 router.route("/userregister").post(registerUser);
@@ -18,6 +20,8 @@ router.route("/review").post(verifyJWT ,upload.single("productPhoto"),addReview)
 router.route("/forgotpassword").post(forgotPassword);
 router.route("/verifyOtp").post(verifyOtp);
 router.route("/resetpassword").post(resetPassword);
+router.route("/getallcontacts").get(verifyJWT1,getAllContacts);
+router.route("/getallreview").get(verifyJWT1,getAllReviews);
 
 
 export default router;

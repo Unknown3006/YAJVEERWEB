@@ -1,0 +1,596 @@
+/* ProductDetails.css - Premium Ayurvedic Theme */
+:root {
+  --primary-green: #2E7D32; /* Deep Ayurvedic green */
+  --secondary-green: #388E3C; /* Vibrant green */
+  --accent-green: #43A047; /* Lighter accent green */
+  --gold-accent: #FFD700; /* Ayurvedic gold for highlights */
+  --light-bg: #F1F8E9; /* Very light green background */
+  --card-bg: #FFFFFF; /* Pure white for cards */
+  --text-dark: #263238; /* Dark blue-grey for text */
+  --text-medium: #455A64; /* Medium blue-grey */
+  --text-light: #78909C; /* Light blue-grey */
+  --border-light: #C8E6C9; /* Subtle green border */
+  --shadow-light: 0 4px 12px rgba(46, 125, 50, 0.1);
+  --shadow-medium: 0 8px 24px rgba(46, 125, 50, 0.15);
+}
+
+/* Base Styles */
+.product-details-container {
+  max-width: 1280px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: 'Poppins', 'Open Sans', sans-serif;
+  background-color: var(--light-bg);
+}
+
+/* Main Product Card */
+.product-details {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-medium);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-details:hover {
+  box-shadow: 0 12px 28px rgba(46, 125, 50, 0.2);
+}
+
+/* Top Section - Image and Info */
+.product-top-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+/* Image Gallery */
+.product-gallery {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #F1F8E9 0%, #E8F5E9 100%);
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-image-slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slider-container {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+/* Slider Controls */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border: none;
+  color: var(--primary-green);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.slider-arrow:hover {
+  background: var(--primary-green);
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-arrow.prev {
+  left: 20px;
+}
+
+.slider-arrow.next {
+  right: 20px;
+}
+
+.thumbnail-nav {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.thumbnail-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(46, 125, 50, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.thumbnail-indicator.active {
+  background: var(--primary-green);
+  border-color: white;
+  transform: scale(1.2);
+}
+
+/* Product Info */
+.product-basic-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.product-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: var(--primary-green);
+}
+
+/* Weight Variants */
+.weight-variant-selection {
+  background: rgba(232, 245, 233, 0.5);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px dashed var(--border-light);
+}
+
+.weight-variant-selection h3 {
+  font-size: 1.2rem;
+  color: var(--primary-green);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weight-variant-selection h3::before {
+  content: '⚖';
+}
+
+.weight-variant-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(200, 230, 201, 0.5);
+}
+
+.weight-variant-item:last-child {
+  border-bottom: none;
+}
+
+.variant-weight {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.variant-actual-price {
+  font-weight: 700;
+  color: var(--primary-green);
+  font-size: 1.1rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-controls button {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary-green);
+  color: white;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quantity-controls button:hover {
+  background: var(--secondary-green);
+  transform: translateY(-2px);
+}
+
+.quantity-controls button:disabled {
+  background: #E0E0E0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quantity-controls span {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.add-to-cart-btn,
+.buy-now-btn {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-to-cart-btn {
+  background: var(--secondary-green);
+  color: white;
+  border: 2px solid var(--secondary-green);
+}
+
+.add-to-cart-btn:hover {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.buy-now-btn {
+  background: white;
+  color: var(--primary-green);
+  border: 2px solid var(--primary-green);
+}
+
+.buy-now-btn:hover {
+  background: var(--primary-green);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* Bottom Section - Description, Ingredients, Benefits */
+.product-bottom-section {
+  padding: 2.5rem;
+  background: linear-gradient(to bottom, rgba(241, 248, 233, 0.2), rgba(232, 245, 233, 0.4));
+  border-top: 1px solid var(--border-light);
+  border-radius: 0 0 16px 16px;
+  display: flex; /* Ensure vertical stacking of content-rows */
+  flex-direction: column;
+  gap: 2.5rem; /* Space between the description, ingredients, benefits sections */
+}
+
+/* Styling for each content row (Description, Ingredients, Benefits) */
+.content-row.section-box { /* Using .section-box to target specific content rows */
+  position: relative;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-row.section-box:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.content-row h3 {
+  font-size: 1.4rem;
+  color: var(--primary-green);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.content-row h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-green), var(--accent-green));
+  border-radius: 3px;
+}
+
+.content-row h3 .icon { /* Using a more general class for icons */
+  font-size: 1.6rem;
+  color: var(--accent-green); /* Sticking with green for consistency */
+}
+
+/* Description Styling - This will naturally wrap */
+.horizontal-description {
+  line-height: 1.8;
+  color: var(--text-medium);
+  font-size: 1.05rem;
+  /* No special flex/grid for this, it's just a paragraph */
+}
+
+/* Horizontal List Styling (for Ingredients and Benefits) */
+.horizontal-list {
+  display: flex; /* Make the list items flow horizontally */
+  flex-wrap: wrap; /* Allow items to wrap to the next line */
+  gap: 0.8rem 1.5rem; /* Vertical and horizontal gap between items */
+  padding-left: 0; /* Remove default list padding */
+  margin: 0; /* Remove default list margin */
+}
+
+.horizontal-point {
+  display: flex;
+  align-items: flex-start; /* Align bullet to the top of the text */
+  /* If you want items to take up variable width, remove flex-shrink on span */
+  white-space: normal; /* Allow text to wrap within each point */
+  /* Add some minimum width if desired to prevent awkward breaking */
+  min-width: 150px; /* Example: minimum width for each ingredient/benefit point */
+}
+
+.horizontal-point .bullet-point {
+  color: var(--gold-accent);
+  font-size: 1.4rem;
+  line-height: 1; /* Align bullet better with text */
+  margin-right: 0.5rem; /* Space between bullet and text */
+  flex-shrink: 0; /* Prevent bullet from shrinking */
+}
+
+.horizontal-point span {
+  color: var(--text-medium);
+  font-size: 1rem;
+}
+
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .list-section-detailed {
+    padding: 0.25rem;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .product-top-section {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .action-buttons {
+    flex-direction: row;
+  }
+
+  .product-bottom-section {
+    padding: 3rem; /* Slightly more padding */
+  }
+
+  .product-title {
+    font-size: 2.5rem;
+  }
+
+  .horizontal-description {
+    font-size: 1.1rem;
+  }
+
+  .horizontal-list {
+    gap: 1rem 2rem; /* Adjusted gap for larger screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-bottom-section {
+    padding: 3.5rem;
+  }
+
+  .content-row.section-box {
+    padding: 2.5rem;
+  }
+
+  .content-row h3 {
+    font-size: 1.5rem;
+  }
+
+  .product-details-container {
+    padding: 3rem;
+  }
+
+  .product-details {
+    padding: 3rem;
+  }
+
+  .product-title {
+    font-size: 2.8rem;
+  }
+
+  .weight-variant-selection {
+    padding: 2rem;
+  }
+
+  .action-buttons {
+    gap: 1.5rem;
+  }
+
+  .add-to-cart-btn,
+  .buy-now-btn {
+    padding: 1.2rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content-row.section-box {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.content-row.section-box:nth-child(1) { animation-delay: 0.1s; }
+.content-row.section-box:nth-child(2) { animation-delay: 0.2s; }
+.content-row.section-box:nth-child(3) { animation-delay: 0.3s; }
+
+/* Loading States */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-size: 1.2rem;
+  color: var(--primary-green);
+}
+
+/* Error States */
+.error-state {
+  color: #D32F2F;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 235, 238, 0.5);
+  border-radius: 12px;
+  margin: 2rem;
+}
+
+/* Tooltip for Additional Info */
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-green);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  cursor: help;
+  position: relative;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: var(--text-dark);
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.5rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.tooltip-icon:hover .tooltip-text {
+  visibility: visible;
+  opacity:1;
+}
+
+
+.list-section-detailed {
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.list-section-detailed h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.list-section-detailed ul {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+  white-space: normal;
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
+  margin: 0;
+  padding: 0;
+}
+
+.list-section-detailed ul {
+  list-style: none;
+  padding-left: 0.5rem;
+}
+
+.list-section-detailed li {
+  margin-bottom: 0.3rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.list-section-detailed li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-green);
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+

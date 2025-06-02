@@ -107,7 +107,7 @@ export default function Login() {
                 <div className="wel">
                   <p className="logn">Login</p>
                   <p>Welcome to Yajveer!</p>
-                  <p> Please Login to your account</p>
+                  <p>Login to your account</p>
                 </div>
                 <div className="field">
                   <form action="" className="logf" onSubmit={handleSubmit}>
@@ -133,7 +133,9 @@ export default function Login() {
                         onChange={handleChange}
                       ></input>
                     </div>
-                    <Link to="/forgotpassword"><p>Forgot Your Password</p></Link>
+                    <Link to="/forgotpassword">
+                      <p>Forgot Your Password</p>
+                    </Link>
                     <button>Login</button>
                   </form>
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import '../CSS/Allproduct.css'; // We'll create this CSS file
-import LoadingAnimation from './LoadingAnimation'; // Assuming you have this
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import "../CSS/Allproduct.css"; // We'll create this CSS file
+import LoadingAnimation from "./LoadingAnimation"; // Assuming you have this
 
 const Allproduct = () => {
   const { data: products, loading, error } = useSelector((state) => state.cart); // Assuming 'cart' slice holds products
@@ -16,7 +16,11 @@ const Allproduct = () => {
   }
 
   if (error) {
-    return <div className="error-message">Error loading products: {error.message || 'Unknown error'}</div>;
+    return (
+      <div className="error-message">
+        Error loading products: {error.message || "Unknown error"}
+      </div>
+    );
   }
 
   if (!products || products.length === 0) {
@@ -28,28 +32,42 @@ const Allproduct = () => {
       <h1 className="page-title">All Products</h1>
       <div className="mm">
         <div className="ml">
-          {
-            products.map((product) => (
-              <div className="Menucard" key={product._id}>
-                <Link to={`/admin/products/${product._id}`} className="details-button-link">
-                  <div className="menui">
-                    <img src={product.photos[0]} alt={product.productName} className="ig" />
-                  </div>
-                </Link>
-                <div className="pname">
-                  <p>{product.productName}</p>
+          {products.map((product) => (
+            <div className="Menucard" key={product._id}>
+              <Link
+                to={`/admin/products/${product._id}`}
+                className="details-button-link"
+              >
+                <div className="menui">
+                  <img
+                    src={product.photos[0]}
+                    alt={product.productName}
+                    className="ig"
+                  />
                 </div>
-                <div className="pprice">
-                  <p className="dis">{product.discount}%OFF</p>
-                  <p className="dsp">₹{product.actualPrice}</p>
-                  <p className="acp">₹{Math.floor(product.actualPrice + ((product.discount) * (product.actualPrice) / 100))}</p>
-                </div>
-                <Link to={`/admin/products/${product._id}`} className="details-button-link">
-                  <button className="menucart">Details</button>
-                </Link>
+              </Link>
+              <div className="pname">
+                <p>{product.productName}</p>
               </div>
-            ))
-          }
+              <div className="pprice">
+                <p className="dis">{product.discount}%OFF</p>
+                <p className="dsp">₹{product.actualPrice}</p>
+                <p className="acp">
+                  ₹
+                  {Math.floor(
+                    product.actualPrice +
+                      (product.discount * product.actualPrice) / 100
+                  )}
+                </p>
+              </div>
+              <Link
+                to={`/admin/products/${product._id}`}
+                className="details-button-link"
+              >
+                <button className="menucart">Details</button>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>

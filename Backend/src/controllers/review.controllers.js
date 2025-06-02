@@ -3,7 +3,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/Apierror.js";
 import { uploadoncloudinary } from "../utils/cloudinary.js";
 
-export const addReview = async (req, res, next) => {
+const addReview = async (req, res, next) => {
   try {
     const { name, review, rating } = req.body;
     const user = req.user;
@@ -37,3 +37,17 @@ export const addReview = async (req, res, next) => {
     next(error);
   }
 };
+
+const getAllReviews = async (req, res, next) => {
+  try {
+    const reviews = await Review.find().sort({ createdAt: -1 });
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, reviews, "All reviews fetched successfully."));
+  } catch (error) {
+    next(new ApiError(500, "Failed to fetch reviews."));
+  }
+};
+
+export { addReview, getAllReviews };

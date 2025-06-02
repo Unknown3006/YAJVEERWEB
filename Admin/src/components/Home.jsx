@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
-import { FiHome, FiUsers, FiBox, FiMessageSquare, FiSettings, FiMenu, FiX } from 'react-icons/fi'
+import { FiHome, FiUsers, FiBox, FiMessageSquare, FiSettings, FiMenu, FiX ,  FiSearch } from 'react-icons/fi'
 import { HiOutlineDocumentReport, HiOutlineCash } from 'react-icons/hi'
-import Products from './Products'
-import ProductDetails from './ProductDetails'
+import Contactus from './Contactus'
+import Products from './Products';
+import ProductDetails from './Productdetails'
+import Reviews from "./Reviews";
 import '../CSS/Home.css'
 
 function Home() {
@@ -45,6 +47,10 @@ function Home() {
           <Link to="/admin/orders" className="nav-item">
             <span className="nav-icon"><HiOutlineCash /></span>
             Orders
+          </Link>
+          <Link to="/admin/query" className='nav-item'>
+            <span className='nav-icon'><FiSearch></FiSearch></span>
+            Query
           </Link>
           <Link to="/admin/reviews" className="nav-item">
             <span className="nav-icon"><FiMessageSquare /></span>
@@ -88,11 +94,12 @@ function Home() {
               </div>
             </>
           } />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products/*" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/users" element={<div>Users Page (Coming Soon)</div>} />
           <Route path="/orders" element={<div>Orders Page (Coming Soon)</div>} />
-          <Route path="/reviews" element={<div>Reviews Page (Coming Soon)</div>} />
+          <Route path="/query" element={<Contactus></Contactus>} />
+          <Route path="/reviews" element={<Reviews></Reviews>} />
           <Route path="/reports" element={<div>Reports Page (Coming Soon)</div>} />
           <Route path="/settings" element={<div>Settings Page (Coming Soon)</div>} />
         </Routes>

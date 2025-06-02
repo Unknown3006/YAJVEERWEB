@@ -109,7 +109,7 @@ export default function SignUp() {
                 <div className="wel">
                   <p className="logn">Register Here</p>
                   <p>Welcome to Yajveer!</p>
-                  <p> Please Register your account</p>
+                  <p>Register your account</p>
                 </div>
                 <div className="field">
                   <form action="" className="logf" onSubmit={handleSubmit}>

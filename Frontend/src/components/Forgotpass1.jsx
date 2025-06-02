@@ -4,69 +4,125 @@ import MainNav from "./mainnav";
 import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
 import Footer from "./Footer/Footer";
-import { Link } from "react-router";
 import { useState } from "react";
 import "../CSS/Forgotpass1.css";
 import Ayur from "../assets/logp.jpg";
 import ErrorPopup from "./ErrorPopup";
+import LoadingAnimation from "./LoadingAnimation";
+import { Navigate } from "react-router";
+import axios from "axios";
 
 export default function Forgotpass1() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [otp, setOtp] = useState("");
+  const [code, setOtp] = useState("");
+  const [email, setEmail] = useState("");
   const [popupMessage, setPopupMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const handleOpenSidebar = () => setSidebarOpen(true);
   const handleCloseSidebar = () => setSidebarOpen(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!otp) {
+
+    if (!code) {
       setMessage("Please enter the OTP.");
-    } else {
-      setMessage("OTP verified successfully ✅");
-      // OTP verification logic
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/api/v1/users/verifyOtp`,
+        { email , code },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const result = response.data;
+      if (result.success) {
+        setPopupMessage(result.message);
+        setTimeout(() => setRedirect(true), 2000);
+      } else {
+        setPopupMessage(result.message);
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setPopupMessage(error.response.data.message);
+      } else {
+        setPopupMessage("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (redirect) {
+    return <Navigate to="/forgotpassword2" replace />;
+  }
+
   return (
     <>
-      {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
-      <Sidebar onOpenSidebar={handleOpenSidebar} />
-      <Navbar />
-      <Navbar2 />
-      <MainNav />
-      <div className="log">
-        <div className="imgsec">
-          <img src={Ayur} alt="Yajveer" />
-        </div>
-        <div className="logform">
-          <div className="mainlog">
-            <div className="wel">
-              <p className="logn">OTP Verification</p>
-              <p>Please enter the OTP sent to your email.</p>
+      {isLoading ? (
+        <LoadingAnimation></LoadingAnimation>
+      ) : (
+        <>
+          {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+          <Sidebar onOpenSidebar={handleOpenSidebar} />
+          <Navbar />
+          <Navbar2 />
+          <MainNav />
+          <div className="log">
+            <div className="imgsec">
+              <img src={Ayur} alt="Yajveer" />
             </div>
-            <div className="field">
-              <form className="logf" onSubmit={handleSubmit}>
-                <div className="usn">
-                  <label htmlFor="otp">OTP : </label>
-                  <input
-                    type="text"
-                    id="otp"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                  />
+            <div className="logform">
+              <div className="mainlog">
+                <div className="wel">
+                  <p className="logn">OTP Verification</p>
+                  <p>Please enter the OTP sent to your email.</p>
                 </div>
-                <Link to="/forgotpassword2">
-                  <button type="submit">Verify OTP</button>
-                </Link>
-              </form>
+                <div className="field">
+                  <form className="logf" onSubmit={handleSubmit}>
+                     <div className="usn">
+                      <label htmlFor="email">Email : </label>
+                      <input
+                        type="text"
+                        id="email"
+                        placeholder="Enter email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="usn">
+                      <label htmlFor="otp">OTP : </label>
+                      <input
+                        type="text"
+                        id="otp"
+                        placeholder="Enter OTP"
+                        value={code}
+                        onChange={(e) => setOtp(e.target.value)}
+                      />
+                    </div>
+                    <button type="submit" className="forgot-btn3">
+                      Verify OTP
+                    </button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <Footer />
-      <ErrorPopup message={popupMessage} onClose={() => setPopupMessage("")} />
+          <Footer />
+          <ErrorPopup
+            message={popupMessage}
+            onClose={() => setPopupMessage("")}
+          />
+        </>
+      )}
     </>
   );
 }

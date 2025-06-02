@@ -4,68 +4,123 @@ import MainNav from "./mainnav";
 import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
 import Footer from "./Footer/Footer";
-import { Link } from "react-router";
 import { useState } from "react";
 import "../CSS/Forgotpass.css";
 import Ayur from "../assets/logp.jpg";
 import ErrorPopup from "./ErrorPopup";
+import LoadingAnimation from "./LoadingAnimation";
+import { Navigate } from "react-router";
+import axios from "axios";
 
 export default function Forgotpassword() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const [email, setEmail] = useState("");
-  const [popupMessage,setPopupMessage] = useState("");
+  const [popupMessage, setPopupMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOpenSidebar = () => setSidebarOpen(true);
   const handleCloseSidebar = () => setSidebarOpen(false);
 
-  const handleSubmit = (e) => {
+  const validate = (email) => {
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|icloud\.com|protonmail\.com|hotmail\.com)$/i;
+
+    if (!email || !emailRegex.test(email)) {
+      setPopupMessage("Please enter a valid email address.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email) {
-     setPopupMessage("Please enter your email.");
-    } else {
-     setPopupMessage("OTP sent to your email! 📧");
-      // API call logic here
+
+    if (!validate(email)) return;
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/api/v1/users/forgotpassword`,
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const result = response.data;
+      if (result.success) {
+        setPopupMessage(result.message);
+        setTimeout(() => setRedirect(true), 2000);
+      } else {
+        setPopupMessage(result.message);
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setPopupMessage(error.response.data.message);
+      } else {
+        setPopupMessage("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  if (redirect) {
+    return <Navigate to="/forgotpassword1" replace />;
+  }
+
   return (
     <>
-      {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
-      <Sidebar onOpenSidebar={handleOpenSidebar} />
-      <Navbar />
-      <Navbar2 />
-      <MainNav />
-      <div className="log">
-        <div className="imgsec">
-          <img src={Ayur} alt="Yajveer" />
-        </div>
-        <div className="logform">
-          <div className="mainlog">
-            <div className="wel">
-              <p className="logn">Forgot Password</p>
-              <p>Enter your registered email</p>
-              <p>We’ll send you an OTP!</p>
+      {isLoading ? (
+        <LoadingAnimation></LoadingAnimation>
+      ) : (
+        <>
+          {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+          <Sidebar onOpenSidebar={handleOpenSidebar} />
+          <Navbar />
+          <Navbar2 />
+          <MainNav />
+          <div className="log">
+            <div className="imgsec">
+              <img src={Ayur} alt="Yajveer" />
             </div>
-            <div className="field">
-            <form className="logf" onSubmit={handleSubmit}>
-              <div className="usn">
-                <label htmlFor="email">Email : </label>
-                <input
-                  type="text"
-                  id="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+            <div className="logform">
+              <div className="mainlog">
+                <div className="wel">
+                  <p className="logn">Forgot Password</p>
+                  <p>Enter your registered email</p>
+                </div>
+                <div className="field">
+                  <form className="logf" onSubmit={handleSubmit}>
+                    <div className="usn">
+                      <label htmlFor="email">Email : </label>
+                      <input
+                        type="text"
+                        id="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <button type="submit" className="forgot-btn3">
+                      Send OTP
+                    </button>
+                  </form>
+                </div>
               </div>
-              <Link to="/forgotpassword1"><button type="submit">Send OTP</button></Link>
-            </form>
+            </div>
           </div>
-          </div>
-        </div>
-      </div>
-      <Footer />
-      <ErrorPopup message={popupMessage} onClose={() => setPopupMessage("")} />
+          <Footer />
+          <ErrorPopup
+            message={popupMessage}
+            onClose={() => setPopupMessage("")}
+          />
+        </>
+      )}
     </>
   );
 }
