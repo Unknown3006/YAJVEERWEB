@@ -398,8 +398,130 @@
 
 /* Responsive Design */
 @media (max-width: 480px) {
+  /* Container and Card */
+  .product-details-container {
+    margin: 1rem auto;
+    padding: 0.5rem;
+  }
+
+  .product-details {
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+  }
+
+  /* Top Section */
+  .product-top-section {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .product-gallery {
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+  }
+
+  .slider-image {
+    padding: 0.5rem;
+  }
+
+  .slider-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+
+  .slider-arrow.prev { left: 10px; }
+  .slider-arrow.next { right: 10px; }
+
+  /* Product Info */
+  .product-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .weight-variant-selection {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .weight-variant-selection h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .variant-actual-price {
+    font-size: 1rem;
+  }
+
+  /* Controls and Buttons */
+  .quantity-controls button {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: row;
+    gap: 0.5rem;
+    margin: 1rem -0.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .add-to-cart-btn,
+  .buy-now-btn {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+    letter-spacing: 0;
+    width: 50%;
+    min-width: 0;
+    white-space: nowrap;
+    border-radius: 8px;
+  }
+
+  /* Bottom Section */
+  .product-bottom-section {
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .content-row.section-box {
+    padding: 1rem;
+  }
+
+  .content-row h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .horizontal-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* List Styling */
   .list-section-detailed {
     padding: 0.25rem;
+  }
+
+  .list-section-detailed ul {
+    font-size: 0.9rem;
+  }
+
+  .list-section-detailed li {
+    padding-left: 1.25rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* States */
+  .error-state {
+    padding: 1rem;
+    margin: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .loading-state {
+    min-height: 200px;
+    font-size: 1rem;
   }
 }
 
