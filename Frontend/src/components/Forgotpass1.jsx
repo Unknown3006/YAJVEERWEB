@@ -9,7 +9,7 @@ import "../CSS/Forgotpass1.css";
 import Ayur from "../assets/logp.jpg";
 import ErrorPopup from "./ErrorPopup";
 import LoadingAnimation from "./LoadingAnimation";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Forgotpass1() {
@@ -19,6 +19,7 @@ export default function Forgotpass1() {
   const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpenSidebar = () => setSidebarOpen(true);
   const handleCloseSidebar = () => setSidebarOpen(false);
@@ -27,14 +28,14 @@ export default function Forgotpass1() {
     e.preventDefault();
 
     if (!code) {
-      setMessage("Please enter the OTP.");
+      setPopupMessage("Please enter the OTP.");
       return;
     }
     setIsLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER}/api/v1/users/verifyOtp`,
-        { email , code },
+        { email, code },
         {
           headers: {
             "Content-Type": "application/json",
@@ -51,77 +52,55 @@ export default function Forgotpass1() {
         setPopupMessage(result.message);
       }
     } catch (error) {
-      if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
-      } else {
-        setPopupMessage("Something went wrong. Please try again.");
-      }
+      setPopupMessage(error.response?.data?.message || "An error occurred");
     } finally {
       setIsLoading(false);
     }
   };
 
   if (redirect) {
-    return <Navigate to="/forgotpassword2" replace />;
+    return <Navigate to="/forgotpassword2" />;
   }
 
   return (
     <>
-      {isLoading ? (
-        <LoadingAnimation></LoadingAnimation>
-      ) : (
-        <>
-          {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
-          <Sidebar onOpenSidebar={handleOpenSidebar} />
-          <Navbar />
-          <Navbar2 />
-          <MainNav />
-          <div className="log">
-            <div className="imgsec">
-              <img src={Ayur} alt="Yajveer" />
-            </div>
-            <div className="logform">
-              <div className="mainlog">
-                <div className="wel">
-                  <p className="logn">OTP Verification</p>
-                  <p>Please enter the OTP sent to your email.</p>
-                </div>
-                <div className="field">
-                  <form className="logf" onSubmit={handleSubmit}>
-                     <div className="usn">
-                      <label htmlFor="email">Email : </label>
-                      <input
-                        type="text"
-                        id="email"
-                        placeholder="Enter email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="usn">
-                      <label htmlFor="otp">OTP : </label>
-                      <input
-                        type="text"
-                        id="otp"
-                        placeholder="Enter OTP"
-                        value={code}
-                        onChange={(e) => setOtp(e.target.value)}
-                      />
-                    </div>
-                    <button type="submit" className="forgot-btn3">
-                      Verify OTP
-                    </button>
-                  </form>
-                </div>
+      {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
+      <Sidebar onOpenSidebar={handleOpenSidebar} />
+      <Navbar />
+      <Navbar2 />
+      <MainNav />
+      <div className="forgotMain1">
+        <div className="forgotImage1">
+          <img src={Ayur} alt="Ayurvedic" />
+        </div>
+        <div className="forgotForm1">
+          <div className="form-content1">
+            <h2>Verify OTP</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="input-field1">
+                <label htmlFor="otp">Enter OTP</label>
+                <input
+                  type="text"
+                  id="otp"
+                  value={code}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter OTP sent to your email"
+                />
               </div>
-            </div>
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? "Verifying..." : "Verify OTP"}
+              </button>
+            </form>
           </div>
-          <Footer />
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
-        </>
+        </div>
+      </div>
+      <Footer />
+      {isLoading && <LoadingAnimation />}
+      {popupMessage && (
+        <ErrorPopup
+          message={popupMessage}
+          onClose={() => setPopupMessage("")}
+        />
       )}
     </>
   );
