@@ -118,7 +118,7 @@ export default function ProductDetails() {
       reset[weight] = 0;
     });
     setSelectedQuantities(reset);
-  };    const handleAddToCart = () => {
+  };  const handleAddToCart = () => {
     const { items, totalQuantity } = getSelectedItems();
 
     if (items.length === 0) {
@@ -127,9 +127,19 @@ export default function ProductDetails() {
     }
 
     items.forEach(item => {
-      dispatch(addToCart({ item }));
+      dispatch(addToCart({ 
+        item: {
+          _id: item._id,
+          productName: item.productName,
+          selectedWeight: item.selectedWeight,
+          price: item.price,
+          image: item.image
+        }, 
+        quantity: item.quantity 
+      }));
     });
     
+    toast.success(`Added ${totalQuantity} item(s) to cart!`);
     resetSelectedQuantities();
   };
 

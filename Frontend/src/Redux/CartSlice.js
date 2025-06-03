@@ -44,27 +44,23 @@ const CartSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {
-    addToCart: (state, action) => {
+  reducers: {    addToCart: (state, action) => {
       const { item, quantity = 1 } = action.payload;
       const existingItem = state.items.find(
         cartItem => cartItem._id === item._id && cartItem.selectedWeight === item.selectedWeight
       );
-
-      const parsedQuantity = parseInt(quantity) || 1;
       
       if (existingItem) {
-        existingItem.quantity = parseInt(existingItem.quantity) + parsedQuantity;
-        existingItem.price = parseFloat(existingItem.price);
+        const newQuantity = parseInt(existingItem.quantity) + parseInt(quantity);
+        existingItem.quantity = newQuantity;
       } else {
         state.items.push({ 
           ...item, 
-          quantity: parsedQuantity,
+          quantity: parseInt(quantity),
           price: parseFloat(item.price)
         });
       }
       saveCartState(state.items);
-      toast.success('Item added to cart');
     },    removeFromCart: (state, action) => {
       const { _id, selectedWeight } = action.payload;
       state.items = state.items.filter(

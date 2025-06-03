@@ -54,17 +54,17 @@ export default function Cart() {
         selectedWeight: item.selectedWeight,
         quantity: newQuantity
       }));
-            toast.success('Quantity updated');
+      toast.success('Quantity updated');
     }
     
-    // Remove item from updating set and allow next update
+    // Remove from updating set after a short delay
     setTimeout(() => {
       setUpdatingItems(prev => {
         const newSet = new Set(prev);
         newSet.delete(updateKey);
         return newSet;
       });
-    }, 500);
+    }, 300);
   };  const handleRemoveItem = (item) => {
     const updateKey = `${item._id}-${item.selectedWeight}`;
     
