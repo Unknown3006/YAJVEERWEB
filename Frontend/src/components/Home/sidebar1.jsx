@@ -1,6 +1,6 @@
 import "../../CSS/Home/sidebar1.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import ErrorPopup from "../ErrorPopup";
 import axios from "axios";
 import LoadingAnimation from "../LoadingAnimation";

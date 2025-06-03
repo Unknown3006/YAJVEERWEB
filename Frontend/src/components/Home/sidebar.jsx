@@ -1,7 +1,7 @@
 import "../../CSS/Home/sidebar.css";
 import Logo from "../../assets/Yajveer.png";
 import "../../CSS/font.css";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 export default function sidebar({ onOpenSidebar }){
     return(
         <>
@@ -16,7 +16,7 @@ export default function sidebar({ onOpenSidebar }){
                     <p style={{fontFamily : 'Constantia'}}>Yajveer Ayurvedic</p>
                 </div>
                 <div className="mnadd">
-                    <Link>
+                    <Link to="/cart">
                      <div className="mn1like">
                         <i className="bi bi-cart-plus"></i>
                     </div>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Fectchdata } from "../Redux/CartSlice.js";
+import { fetchProducts, addToCart } from "../Redux/CartSlice.js";
+import { toast } from 'react-hot-toast';
 import Navbar from "./navbar";
 import Navbar2 from "./navbar2";
 import MainNav from "./mainnav";
@@ -37,10 +38,9 @@ export default function ProductDetails() {
       },
     },
   };
-
   useEffect(() => {
     if (!products || products.length === 0) {
-      dispatch(Fectchdata());
+      dispatch(fetchProducts());
     }
   }, [dispatch, products]);
 
@@ -118,20 +118,18 @@ export default function ProductDetails() {
       reset[weight] = 0;
     });
     setSelectedQuantities(reset);
-  };
-
-  const handleAddToCart = () => {
+  };    const handleAddToCart = () => {
     const { items, totalQuantity } = getSelectedItems();
 
     if (items.length === 0) {
-      alert(
-        "Please select at least one quantity for a weight variant to add to cart."
-      );
+      toast.error("Please select at least one quantity for a weight variant to add to cart.");
       return;
     }
 
-    console.log("Adding to cart:", items);
-    alert(`Added ${totalQuantity} item(s) to cart!`);
+    items.forEach(item => {
+      dispatch(addToCart({ item }));
+    });
+    
     resetSelectedQuantities();
   };
 

@@ -3,7 +3,8 @@ import reactDom from "react-dom/client";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Login from "./components/login";
-import { Routes, Route } from "react-router";
+import { Toaster } from "react-hot-toast";
+import { Routes, Route } from "react-router-dom";
 import Home from "./components/home";
 import SignUp from "./components/signup";
 import ReviewForm from "./components/ReviewForm";
@@ -17,18 +18,19 @@ import Returnpolicy from "./components/Footer/returnpolicy";
 import TermsAndConditions from "./components/TermsConditions";
 import ShippingPolicy from "./components/ShippingPolices";
 import LoadingAnimation from "./components/LoadingAnimation";
-import { Fectchdata } from "./Redux/CartSlice";
+import { fetchProducts } from "./Redux/CartSlice"; // Corrected import name
 import Forgotpassword from "./components/Forgotpass";
 import Forgotpassword1 from "./components/Forgotpass1";
 import Forgotpassword2 from "./components/Forgotpass2";
+import Cart from "./components/Cart";
 
 const App = () => {
   const dispatch = useDispatch();
   const { loading, data, error } = useSelector((state) => state.cart);
 
   useEffect(() => {
-    dispatch(Fectchdata());
-  }, []);
+    dispatch(fetchProducts()); // Use the corrected name here as well
+  }, [dispatch]); // Added dispatch to dependency array as per ESLint best practices
 
   if (loading) {
     return <LoadingAnimation />;
@@ -43,9 +45,17 @@ const App = () => {
       </div>
     );
   }
-
-  return (
-    <>
+  return (    <>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 2000,
+          style: {
+            background: '#333',
+            color: '#fff',
+          },
+        }}
+      />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home></Home>}></Route>
@@ -56,6 +66,7 @@ const App = () => {
           path="/product/:id"
           element={<ProductDetails></ProductDetails>}
         ></Route>
+        
         <Route path="/aboutUs" element={<AboutUs></AboutUs>}></Route>
         <Route path="/faq" element={<FAQ></FAQ>}></Route>
         <Route path="/contact" element={<ContactUs></ContactUs>}></Route>
@@ -76,8 +87,8 @@ const App = () => {
           element={<ShippingPolicy></ShippingPolicy>}
         ></Route>
         <Route path="/forgotpassword" element={<Forgotpassword></Forgotpassword>}></Route>
-        <Route path="/forgotpassword1" element={<Forgotpassword1></Forgotpassword1>}></Route>
-        <Route path="/forgotpassword2" element={<Forgotpassword2></Forgotpassword2>}></Route>
+        <Route path="/forgotpassword1" element={<Forgotpassword1></Forgotpassword1>}></Route>        <Route path="/forgotpassword2" element={<Forgotpassword2></Forgotpassword2>}></Route>
+        <Route path="/cart" element={<Cart />}></Route>
       </Routes>
     </>
   );

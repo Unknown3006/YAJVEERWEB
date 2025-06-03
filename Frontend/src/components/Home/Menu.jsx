@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import "../../CSS/Home/Menu.css";
 export default function Menu(){
 

@@ -9,7 +9,7 @@ import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
 import axios from "axios";
 import ErrorPopup from "./ErrorPopup";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import LoadingAnimation from "./LoadingAnimation";
 
 export default function ReviewForm() {

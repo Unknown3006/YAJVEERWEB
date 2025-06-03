@@ -1,6 +1,11 @@
 import "../CSS/navabar2.css";
 import Logo from "../assets/yajveer-logo.jpg";
+import { useSelector } from 'react-redux';
+import { selectCartItemsCount } from '../Redux/CartSlice';
+import { Link } from 'react-router-dom';
+
 export default function Navbar2() {
+  const cartItemsCount = useSelector(selectCartItemsCount);
   return (
     <>
       <nav className="Navbar2">
@@ -42,10 +47,27 @@ export default function Navbar2() {
             <i className="bi bi-heart" style={{ color: "white" }}></i>
             <p>Wishlist</p>
           </div>
-          <div className="add">
-            <i className="bi bi-cart-plus" style={{ color: "white" }}></i>
+          <Link to="/cart" className="add">
+            <div className="cart-icon-container" style={{ position: 'relative' }}>
+              <i className="bi bi-cart-plus" style={{ color: "white" }}></i>
+              {cartItemsCount > 0 && (
+                <span className="cart-count" style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  background: '#ff4444',
+                  color: 'white',
+                  borderRadius: '50%',
+                  padding: '2px 6px',
+                  fontSize: '12px',
+                  fontWeight: 'bold'
+                }}>
+                  {cartItemsCount}
+                </span>
+              )}
+            </div>
             <p>Cart</p>
-          </div>
+          </Link>
         </div>
       </nav>
     </>

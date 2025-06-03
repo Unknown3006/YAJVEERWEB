@@ -3,13 +3,12 @@ import "../CSS/login.css";
 import Navbar from "./navbar";
 import Navbar2 from "./navbar2";
 import Ayur from "../assets/logp.jpg";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router-dom";
 import MainNav from "./mainnav";
 import Footer from "./Footer/Footer";
 import Sidebar1 from "./Home/sidebar1";
 import Sidebar from "./Home/sidebar";
 import ErrorPopup from "./ErrorPopup";
-import { Navigate } from "react-router";
 import axios from "axios";
 import LoadingAnimation from "./LoadingAnimation";
 
