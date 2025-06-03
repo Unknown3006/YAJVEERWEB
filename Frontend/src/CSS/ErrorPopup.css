@@ -3,43 +3,46 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #111;
-  color: #0f0;
+  background-color: #22c55e;
+  color: white;
   padding: 16px 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
-   z-index: 99999; 
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 99999; 
   animation: slideDown 0.5s ease-out;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   min-width: 300px;
   max-width: 90%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
 }
 
 .error-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+  text-align: center;
 }
 
 .error-message {
   flex-grow: 1;
-  padding-right: 10px;
+  padding: 0 10px;
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: #0f0;
-  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
   cursor: pointer;
   transition: color 0.2s;
+  padding: 0 0 0 16px;
 }
 
 .close-btn:hover {
-  color: #f00;
+  color: #fff;
 }
 
 @keyframes slideDown {

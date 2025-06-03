@@ -49,13 +49,13 @@ const CartSlice = createSlice({
       const existingItem = state.items.find(
         cartItem => cartItem._id === item._id && cartItem.selectedWeight === item.selectedWeight
       );
-      
-      if (existingItem) {
+        if (existingItem) {
         const newQuantity = parseInt(existingItem.quantity) + parseInt(quantity);
         existingItem.quantity = newQuantity;
       } else {
         state.items.push({ 
-          ...item, 
+          ...item,
+          photos: [...(item.photos || [])], // Ensure photos array is properly copied
           quantity: parseInt(quantity),
           price: parseFloat(item.price)
         });

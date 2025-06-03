@@ -9,7 +9,7 @@ const ErrorPopup = ({ message, onClose }) => {
     <div className="error-popup">
       <div className="error-content">
         <span className="error-message">{message}</span>
-        <button className="close-btn" onClick={onClose}>✖</button>
+        <button className="close-btn" onClick={onClose}>×</button>
       </div>
     </div>
   );

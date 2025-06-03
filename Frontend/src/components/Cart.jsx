@@ -155,9 +155,17 @@ export default function Cart() {
             <div className="cart-items">
               {cartItems.map((item) => (
                 <div key={`${item._id}-${item.selectedWeight}`} className="cart-item">
-                  <div className="item-info">
-                    <div className="item-image">
-                      <img src={item.image} alt={item.productName} />
+                  <div className="item-info">                    <div className="item-image">
+                      <img 
+                        src={Array.isArray(item.photos) && item.photos.length > 0 
+                          ? item.photos[0] 
+                          : item.image || '/yajveer-logo.jpg'} 
+                        alt={item.productName}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/yajveer-logo.jpg';
+                        }}
+                      />
                     </div>
                     <div className="item-details">
                       <h3>{item.productName}</h3>
