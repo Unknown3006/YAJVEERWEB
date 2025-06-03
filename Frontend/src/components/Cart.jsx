@@ -9,53 +9,125 @@ import MainNav from './mainnav';
 import Footer from './Footer/Footer';
 import Sidebar from './Home/sidebar';
 import Sidebar1 from './Home/sidebar1';
+import ConfirmModal from './ConfirmModal';
 import '../CSS/Cart.css';
 
 export default function Cart() {
   const dispatch = useDispatch();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const cartItems = useSelector(state => state.cart.items);
-  const cartTotal = useSelector(state => 
-    state.cart.items.reduce((total, item) => total + (item.price * item.quantity), 0)
-  );
+  const [updatingItems, setUpdatingItems] = useState(new Set());
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: null
+  });
+  const cartItems = useSelector(state => state.cart.items);  const cartTotal = useSelector(state => 
+    state.cart.items.reduce((total, item) => {
+      const price = parseFloat(item.price) || 0;
+      const quantity = parseInt(item.quantity) || 0;
+      return total + (price * quantity);
+    }, 0)
+  ).toFixed(2);
 
   const handleOpenSidebar = () => setSidebarOpen(true);
-  const handleCloseSidebar = () => setSidebarOpen(false);
+  const handleCloseSidebar = () => setSidebarOpen(false);  const handleQuantityChange = (item, change) => {
+    const currentQuantity = parseInt(item.quantity) || 1;
+    const newQuantity = currentQuantity + change;
+    
+    // Don't allow quantities below 1
+    if (newQuantity < 1) return;
+    
+    // Prevent duplicate updates while processing
+    const updateKey = `${item._id}-${item.selectedWeight}`;
+    if (updatingItems.has(updateKey)) return;
+    
+    // Add item to updating set to prevent duplicate updates
+    setUpdatingItems(prev => new Set([...prev, updateKey]));
 
-  const handleQuantityChange = (item, change) => {
-    const newQuantity = item.quantity + change;
-    if (newQuantity <= 0) {
-      dispatch(removeFromCart({
-        _id: item._id,
-        selectedWeight: item.selectedWeight
-      }));
-      toast.success('Item removed from cart');
+    // Dispatch update action
+    if (newQuantity === 0) {
+      handleRemoveItem(item);
     } else {
       dispatch(updateQuantity({
         _id: item._id,
         selectedWeight: item.selectedWeight,
         quantity: newQuantity
       }));
+            toast.success('Quantity updated');
     }
-  };
+    
+    // Remove item from updating set and allow next update
+    setTimeout(() => {
+      setUpdatingItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(updateKey);
+        return newSet;
+      });
+    }, 500);
+  };  const handleRemoveItem = (item) => {
+    const updateKey = `${item._id}-${item.selectedWeight}`;
+    
+    if (updatingItems.has(updateKey)) return;
 
-  const handleRemoveItem = (item) => {
-    dispatch(removeFromCart({
-      _id: item._id,
-      selectedWeight: item.selectedWeight
-    }));
-    toast.success('Item removed from cart');
+    setModalConfig({
+      isOpen: true,
+      title: 'Remove Item',
+      message: 'Are you sure you want to remove this item from your cart?',
+      onConfirm: () => {
+        setUpdatingItems(prev => new Set([...prev, updateKey]));
+        
+        dispatch(removeFromCart({
+          _id: item._id,
+          selectedWeight: item.selectedWeight
+        }));
+        
+        toast.success('Item removed from cart');
+        
+        setTimeout(() => {
+          setUpdatingItems(prev => {
+            const newSet = new Set(prev);
+            newSet.delete(updateKey);
+            return newSet;
+          });
+        }, 300);
+      }
+    });
   };
 
   const handleClearCart = () => {
-    dispatch(clearCart());
-    toast.success('Cart cleared');
+    setModalConfig({
+      isOpen: true,
+      title: 'Clear Cart',
+      message: 'Are you sure you want to remove all items from your cart?',
+      onConfirm: () => {
+        dispatch(clearCart());
+        toast.success('Cart cleared');
+        setModalConfig(prev => ({ ...prev, isOpen: false }));
+      }
+    });
   };
 
   const handleCheckout = () => {
-    // Save cart items to local storage before checkout
-    localStorage.setItem('checkoutItems', JSON.stringify(cartItems));
-    toast.success('Proceeding to checkout!');
+    if (cartItems.length === 0) {
+      toast.error('Your cart is empty');
+      return;
+    }
+
+    setModalConfig({
+      isOpen: true,
+      title: 'Confirm Checkout',
+      message: `Proceed to checkout with ${cartItems.length} items for ₹${cartTotal}?`,
+      onConfirm: () => {
+        // TODO: Implement actual checkout logic here
+        toast.success('Proceeding to checkout...');
+        setModalConfig(prev => ({ ...prev, isOpen: false }));
+      }
+    });
+  };
+
+  const closeModal = () => {
+    setModalConfig(prev => ({ ...prev, isOpen: false }));
   };
 
   return (
@@ -66,56 +138,90 @@ export default function Cart() {
       <Navbar2 />
       <MainNav />
       <div className="cart-container">
-        <h1>Shopping Cart</h1>
+        <h1>Your Cart ({cartItems.length} items)</h1>
         {cartItems.length === 0 ? (
           <div className="empty-cart">
             <h2>Your cart is empty</h2>
             <Link to="/" className="continue-shopping">Continue Shopping</Link>
           </div>
         ) : (
-          <>
+          <div className="cart-layout">
+            <div className="cart-header">
+              <span className="header-item">Item</span>
+              <span className="header-price">Price</span>
+              <span className="header-quantity">Quantity</span>
+              <span className="header-total">Total</span>
+            </div>
             <div className="cart-items">
               {cartItems.map((item) => (
                 <div key={`${item._id}-${item.selectedWeight}`} className="cart-item">
-                  <div className="item-image">
-                    <img src={item.image} alt={item.productName} />
-                  </div>
-                  <div className="item-details">
-                    <h3>{item.productName}</h3>
-                    <p>Weight: {item.selectedWeight}</p>
-                    <p>Price: ₹{item.price}</p>
-                    <div className="quantity-controls">
-                      <button onClick={() => handleQuantityChange(item, -1)}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => handleQuantityChange(item, 1)}>+</button>
+                  <div className="item-info">
+                    <div className="item-image">
+                      <img src={item.image} alt={item.productName} />
                     </div>
-                    <p>Total: ₹{item.price * item.quantity}</p>
+                    <div className="item-details">
+                      <h3>{item.productName}</h3>
+                      <p className="item-weight">Weight: {item.selectedWeight}</p>
+                      <button 
+                        className="remove-item"
+                        onClick={() => handleRemoveItem(item)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <div className="item-price">
+                    ₹{parseFloat(item.price).toFixed(2)}
+                  </div>                  <div className="quantity-controls">
                     <button 
-                      className="remove-item"
-                      onClick={() => handleRemoveItem(item)}
+                      onClick={() => handleQuantityChange(item, -1)}
+                      className="quantity-btn"
+                      aria-label="Decrease quantity"
+                      disabled={parseInt(item.quantity) <= 1}
                     >
-                      Remove
+                      −
                     </button>
+                    <span>{parseInt(item.quantity)}</span>
+                    <button 
+                      onClick={() => handleQuantityChange(item, 1)}
+                      className="quantity-btn"
+                      aria-label="Increase quantity"
+                      disabled={updatingItems.has(`${item._id}-${item.selectedWeight}`)}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="item-total">
+                    ₹{(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="cart-summary">
-              <div className="cart-total">
-                <h3>Cart Total: ₹{cartTotal}</h3>
+            </div>            <div className="cart-footer">
+              <div className="cart-summary">
+                <div className="summary-row total">
+                  <span>Total:</span>
+                  <span>₹{cartTotal}</span>
+                </div>
+                <div className="cart-actions">
+                  <button className="clear-cart" onClick={handleClearCart}>
+                    Clear Cart
+                  </button>
+                  <button className="checkout-button" onClick={handleCheckout}>
+                    Check out
+                  </button>
+                </div>
               </div>
-              <div className="cart-actions">
-                <button className="clear-cart" onClick={handleClearCart}>
-                  Clear Cart
-                </button>
-                <button className="checkout-button" onClick={handleCheckout}>
-                  Proceed to Checkout (₹{cartTotal})
-                </button>
-              </div>
             </div>
-          </>
+          </div>
         )}
       </div>
+      <ConfirmModal
+        isOpen={modalConfig.isOpen}
+        title={modalConfig.title}
+        message={modalConfig.message}
+        onConfirm={modalConfig.onConfirm}
+        onClose={closeModal}
+      />
       <Footer />
     </>
   );

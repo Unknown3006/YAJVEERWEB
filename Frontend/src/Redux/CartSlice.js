@@ -35,70 +35,76 @@ export const fetchProducts = createAsyncThunk(
 const CartSlice = createSlice({
   name: 'cart',
   initialState: {
-    data: [], // Products data
-    items: loadCartState(), // Cart items
+    data: [],
+    items: loadCartState().map(item => ({
+      ...item,
+      quantity: Math.max(1, parseInt(item.quantity) || 1),
+      price: parseFloat(item.price) || 0
+    })),
     loading: false,
     error: null,
-  },    reducers: {
-        addToCart: (state, action) => {
-            const { item, quantity = 1 } = action.payload;
-            const existingItem = state.items.find(
-                cartItem => cartItem._id === item._id && cartItem.selectedWeight === item.selectedWeight
-            );
+  },
+  reducers: {
+    addToCart: (state, action) => {
+      const { item, quantity = 1 } = action.payload;
+      const existingItem = state.items.find(
+        cartItem => cartItem._id === item._id && cartItem.selectedWeight === item.selectedWeight
+      );
 
-            if (existingItem) {
-                existingItem.quantity += quantity;
-            } else {
-                state.items.push({ ...item, quantity });
-            }
-            saveCartState(state.items);
-            toast.success('Item added to cart');
-        },
-        removeFromCart: (state, action) => {
-            const { _id, selectedWeight } = action.payload;
-            state.items = state.items.filter(
-                item => !(item._id === _id && item.selectedWeight === selectedWeight)
-            );
-            saveCartState(state.items);
-            toast.success('Item removed from cart');
-        },
-        updateQuantity: (state, action) => {
-            const { _id, selectedWeight, quantity } = action.payload;
-            const item = state.items.find(
-                item => item._id === _id && item.selectedWeight === selectedWeight
-            );
-            if (item) {
-                item.quantity = Math.max(0, quantity);
-                if (item.quantity === 0) {
-                    state.items = state.items.filter(
-                        i => !(i._id === _id && i.selectedWeight === selectedWeight)
-                    );
-                }
-                saveCartState(state.items);
-            }
-        },
-        clearCart: (state) => {
-            state.items = [];
-            saveCartState(state.items);
-            toast.success('Cart cleared');
-        }
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchProducts.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(fetchProducts.fulfilled, (state, action) => {
-                state.data = action.payload;
-                state.loading = false;
-                state.error = null;
-            })
-            .addCase(fetchProducts.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            });
+      const parsedQuantity = parseInt(quantity) || 1;
+      
+      if (existingItem) {
+        existingItem.quantity = parseInt(existingItem.quantity) + parsedQuantity;
+        existingItem.price = parseFloat(existingItem.price);
+      } else {
+        state.items.push({ 
+          ...item, 
+          quantity: parsedQuantity,
+          price: parseFloat(item.price)
+        });
+      }
+      saveCartState(state.items);
+      toast.success('Item added to cart');
+    },    removeFromCart: (state, action) => {
+      const { _id, selectedWeight } = action.payload;
+      state.items = state.items.filter(
+        item => !(item._id === _id && item.selectedWeight === selectedWeight)
+      );
+      saveCartState(state.items);
+    },    updateQuantity: (state, action) => {
+      const { _id, selectedWeight, quantity } = action.payload;
+      const item = state.items.find(
+        item => item._id === _id && item.selectedWeight === selectedWeight
+      );
+      if (item) {
+        const newQuantity = Math.max(1, parseInt(quantity));
+        item.quantity = newQuantity;
+        item.price = parseFloat(item.price);
+        
+        // Save cart state after successful update
+        saveCartState(state.items);
+      }
+    },    clearCart: (state) => {
+      state.items = [];
+      saveCartState(state.items);
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  }
 });
 
 // Selectors
