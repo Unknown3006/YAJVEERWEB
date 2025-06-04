@@ -9,6 +9,76 @@ import Reviews from "./Reviews";
 import '../CSS/Home.css'
 import LineChart from './LineChart'
 
+
+const mockLineData = [
+  {
+    id: 1,
+    title: 'Users Growth',
+    data: [ 
+      { x: "Jan", y: 1000 },
+      { x: "Feb", y: 1150 },
+      { x: "Mar", y: 1234 },
+      { x: "Apr", y: 1300 },
+      { x: "May", y: 1450 },
+      { x: "Jun", y: 1600 },
+      { x: "Jul", y: 1750 },
+      { x: "Aug", y: 1900 },
+      { x: "Sep", y: 2050 },
+      { x: "Oct", y: 2200 },
+      { x: "Nov", y: 2350 },
+      { x: "Dec", y: 2500 }
+     ],
+  },
+  {
+    id: 2,
+    title: 'Products Growth',
+    data: [ { x: "Jan", y: 20 },
+      { x: "Feb", y: 25 },
+      { x: "Mar", y: 30 },
+      { x: "Apr", y: 32 },
+      { x: "May", y: 35 },
+      { x: "Jun", y: 38 },
+      { x: "Jul", y: 40 },
+      { x: "Aug", y: 42 },
+      { x: "Sep", y: 43 },
+      { x: "Oct", y: 44 },
+      { x: "Nov", y: 45 },
+      { x: "Dec", y: 48 } ],
+  },
+  {
+    id: 3,
+    title: 'Orders Growth',
+    data: [ { x: "Jan", y: 500 },
+      { x: "Feb", y: 600 },
+      { x: "Mar", y: 700 },
+      { x: "Apr", y: 800 },
+      { x: "May", y: 900 },
+      { x: "Jun", y: 1000 },
+      { x: "Jul", y: 1100 },
+      { x: "Aug", y: 1200 },
+      { x: "Sep", y: 1300 },
+      { x: "Oct", y: 1400 },
+      { x: "Nov", y: 1500 },
+      { x: "Dec", y: 1600 } ],
+  },
+  {
+    id: 4,
+    title: 'Reviews Growth',
+    data: [ { x: "Jan", y: 100 },
+      { x: "Feb", y: 150 },
+      { x: "Mar", y: 200 },
+      { x: "Apr", y: 250 },
+      { x: "May", y: 300 },
+      { x: "Jun", y: 350 },
+      { x: "Jul", y: 400 },
+      { x: "Aug", y: 450 },
+      { x: "Sep", y: 500 },
+      { x: "Oct", y: 550 },
+      { x: "Nov", y: 600 },
+      { x: "Dec", y: 650 } ],
+  },
+];
+
 function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
@@ -93,7 +163,38 @@ function Home() {
                   </div>
                 ))}
               </div>
-              <LineChart />
+              <div className="charts-grid" style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '20px',
+                padding: '20px',
+                marginTop: '20px'
+              }}>
+                <div className="chart-card">
+                    <LineChart 
+                        data={mockLineData[0]} 
+                        title="Users Growth"
+                    />
+                </div>
+                <div className="chart-card">
+                    <LineChart 
+                        data={mockLineData[1]} 
+                        title="Products Growth"
+                    />
+                </div>
+                <div className="chart-card">
+                    <LineChart 
+                        data={mockLineData[2]} 
+                        title="Orders Growth"
+                    />
+                </div>
+                <div className="chart-card">
+                    <LineChart 
+                        data={mockLineData[3]} 
+                        title="Reviews Growth"
+                    />
+                </div>
+              </div>
             </>
           } />
           <Route path="/products/*" element={<Products />} />
