@@ -153,15 +153,13 @@ export default function Cart() {
               <span className="header-total">Total</span>
             </div>
             <div className="cart-items">
-              {cartItems.map((item) => (
-                <div key={`${item._id}-${item.selectedWeight}`} className="cart-item">
-                  <div className="item-info">                    <div className="item-image">
+              {cartItems.map((item) => (                <div key={`${item._id}-${item.selectedWeight}`} className="cart-item">                  <div className="item-info">                    <div className="item-image">
                       <img 
-                        src={Array.isArray(item.photos) && item.photos.length > 0 
-                          ? item.photos[0] 
-                          : item.image || '/yajveer-logo.jpg'} 
+                        src={item.image} 
                         alt={item.productName}
+                        loading="lazy"
                         onError={(e) => {
+                          console.error('Image load failed:', item.image);
                           e.target.onerror = null;
                           e.target.src = '/yajveer-logo.jpg';
                         }}

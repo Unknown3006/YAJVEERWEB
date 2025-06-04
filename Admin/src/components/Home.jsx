@@ -7,6 +7,7 @@ import Products from './Products';
 import ProductDetails from './Productdetails'
 import Reviews from "./Reviews";
 import '../CSS/Home.css'
+import LineChart from './LineChart'
 
 function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -92,6 +93,7 @@ function Home() {
                   </div>
                 ))}
               </div>
+              <LineChart />
             </>
           } />
           <Route path="/products/*" element={<Products />} />
