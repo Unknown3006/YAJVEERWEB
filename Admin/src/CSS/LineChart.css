@@ -1,0 +1,47 @@
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chart-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #22c55e;
+}
+
+.chart-wrapper {
+    height: 300px;
+    position: relative;
+}
+
+/* Remove any curve-related styles */
+.line {
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        padding: 15px;
+    }
+
+    .chart-title {
+        font-size: 1.1rem;
+    }
+
+    .chart-wrapper {
+        height: 250px;
+    }
+}
