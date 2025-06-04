@@ -167,6 +167,38 @@
     text-align: center;
 }
 
+.close-form-btn {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background: transparent;
+    border: none;
+    color: #4b5563;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.close-form-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.close-form-btn:hover {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+.close-form-btn:active {
+    transform: scale(0.95);
+}
+
 /* Update responsive styles */
 @media (max-width: 768px) {
     .checkout-form-container {
@@ -191,6 +223,18 @@
     .proceed-payment-btn {
         padding: 1rem;
         font-size: 1rem;
+    }
+
+    .close-form-btn {
+        right: 0.5rem;
+        top: 0.5rem;
+        width: 28px;
+        height: 28px;
+    }
+
+    .close-form-btn svg {
+        width: 20px;
+        height: 20px;
     }
 }
 

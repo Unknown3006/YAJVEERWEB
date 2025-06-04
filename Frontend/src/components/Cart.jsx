@@ -10,6 +10,7 @@ import Footer from './Footer/Footer';
 import Sidebar from './Home/sidebar';
 import Sidebar1 from './Home/sidebar1';
 import ConfirmModal from './ConfirmModal';
+import CheckoutForm from './CheckoutForm';
 import '../CSS/Cart.css';
 
 export default function Cart() {
@@ -23,6 +24,7 @@ export default function Cart() {
     message: '',
     onConfirm: null
   });
+  const [showCheckoutForm, setShowCheckoutForm] = useState(false);
   const cartItems = useSelector(state => state.cart.items);  const cartTotal = useSelector(state => 
     state.cart.items.reduce((total, item) => {
       const price = parseFloat(item.price) || 0;
@@ -114,7 +116,13 @@ export default function Cart() {
       toast.error('Your cart is empty');
       return;
     }
-    navigate('/checkout'); // Add this line
+    setShowCheckoutForm(true);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const handleCloseCheckout = () => {
+    setShowCheckoutForm(false);
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
   };
 
   const closeModal = () => {
@@ -128,7 +136,7 @@ export default function Cart() {
       <Navbar />
       <Navbar2 />
       <MainNav />
-      <div className="cart-container">
+      <div className={`cart-container ${showCheckoutForm ? 'blur-background' : ''}`}>
         <h1>Your Cart ({cartItems.length} items)</h1>
         {cartItems.length === 0 ? (
           <div className="empty-cart">
@@ -219,6 +227,13 @@ export default function Cart() {
         onConfirm={modalConfig.onConfirm}
         onClose={closeModal}
       />
+      {showCheckoutForm && (
+        <div className="checkout-overlay">
+          <div className="checkout-modal">
+            <CheckoutForm onClose={handleCloseCheckout} cartTotal={cartTotal} />
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );

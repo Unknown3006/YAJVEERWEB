@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { IoClose } from 'react-icons/io5'; // Import close icon
 import '../CSS/CheckoutForm.css';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ onClose }) => {
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
@@ -97,13 +98,14 @@ const CheckoutForm = () => {
     <div className="checkout-form-container">
       <div className="form-header">
         <h2>Checkout Details</h2>
-        {/* <button 
-          className="back-to-cart-btn"
-          onClick={handleBackToCart}
+        <button 
+          className="close-form-btn"
+          onClick={onClose}
           type="button"
+          aria-label="Close checkout form"
         >
-          Back to Cart
-        </button> */}
+          <IoClose />
+        </button>
       </div>
       <form onSubmit={handleSubmit} className="checkout-form">
         <div className="form-group">
