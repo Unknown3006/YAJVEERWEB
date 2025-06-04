@@ -354,8 +354,8 @@
     display: grid;
     grid-template-columns: 1fr !important; /* Force single column */
     gap: 20px;
-    padding: 20px;
-    margin: 20px auto; /* Center the grid */
+    margin-top: 2rem; /* Keep spacing between sections */
+    padding: 0; /* Remove padding to match other sections */
     width: 95%; /* Reduced from 100% to prevent overlap */
     box-sizing: border-box;
 }
@@ -390,13 +390,40 @@
     margin: 0 auto;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .chart-wrapper {
-        height: 300px;
+/* Update the shared container styles */
+.dashboard-header,
+.metrics-grid,
+.charts-grid {
+    width: 95%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0; /* Remove padding from all sections */
+}
+
+/* Specific adjustments for charts grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    margin-top: 2rem; /* Keep spacing between sections */
+}
+
+/* Remove duplicate .charts-grid styles */
+/* Delete or comment out the earlier .charts-grid definition that had padding */
+
+/* Responsive adjustments remain the same */
+@media (max-width: 1024px) {
+    .dashboard-header,
+    .metrics-grid,
+    .charts-grid {
+        width: 90%;
     }
-    
-    .chart-card {
-        padding: 15px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-header,
+    .metrics-grid,
+    .charts-grid {
+        width: 95%;
     }
 }
