@@ -20,51 +20,52 @@ const LineChart = ({ data, title }) => {
                 <ResponsiveLine
                     data={[data]}
                     theme={{
+                        background: '#1a1a1a',
+                        textColor: '#ffffff',
+                        fontSize: 12,
                         axis: {
                             domain: {
                                 line: {
-                                    stroke: '#22c55e',
-                                    strokeWidth: 2
+                                    stroke: '#525252',
+                                    strokeWidth: 1
                                 }
                             },
                             legend: {
                                 text: {
-                                    fill: '#333',
+                                    fill: '#ffffff',
                                     fontSize: 14,
                                     fontWeight: 600
                                 }
                             },
                             ticks: {
                                 line: {
-                                    stroke: '#22c55e',
+                                    stroke: '#525252',
                                     strokeWidth: 1
                                 },
                                 text: {
-                                    fill: '#666',
-                                    fontSize: 12,
-                                    fontWeight: 500
+                                    fill: '#ffffff',
+                                    fontSize: 12
                                 }
                             }
                         },
                         grid: {
                             line: {
-                                stroke: '#eee',
+                                stroke: '#2a2a2a',
                                 strokeWidth: 1
                             }
                         },
                         legends: {
                             text: {
-                                fill: '#333',
-                                fontSize: 12,
-                                fontWeight: 500
+                                fill: '#ffffff'
                             }
                         },
                         tooltip: {
                             container: {
-                                background: '#fff',
+                                background: '#1a1a1a',
+                                color: '#ffffff',
                                 fontSize: 12,
                                 borderRadius: '6px',
-                                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                                boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
                                 padding: '8px 12px'
                             }
                         }
@@ -109,8 +110,8 @@ const LineChart = ({ data, title }) => {
                     gridYValues={5}  // Show fewer horizontal grid lines
                     lineWidth={2}  // Thinner line for stock-like appearance
                     enableArea={true}
-                    areaOpacity={0.1}  // More subtle area fill
-                    colors={['#22c55e']}
+                    areaOpacity={0.2} // Slightly increased opacity for dark theme
+                    colors={['#22c55e']} // Keep the green color for contrast
                     axisBottom={{
                         tickSize: 5,
                         tickPadding: 8,
