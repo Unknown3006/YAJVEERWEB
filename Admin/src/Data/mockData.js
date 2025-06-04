@@ -1,55 +1,56 @@
 export const mockLineData = [
   {
-    "id": "japan",
-    "data": [
+    id: "Website Visits",
+    color: "hsl(340, 70%, 50%)",
+    data: [
       {
-        "x": "plane",
-        "y": 200
+        x: "Jan",
+        y: 1234
       },
       {
-        "x": "helicopter",
-        "y": 102
+        x: "Feb",
+        y: 2100
       },
       {
-        "x": "boat",
-        "y": 47
+        x: "Mar",
+        y: 1850
       },
       {
-        "x": "train",
-        "y": 90
+        x: "Apr",
+        y: 2300
       },
       {
-        "x": "subway",
-        "y": 97
+        x: "May",
+        y: 2800
       },
       {
-        "x": "bus",
-        "y": 211
+        x: "Jun",
+        y: 3100
       },
       {
-        "x": "car",
-        "y": 134
+        x: "Jul",
+        y: 2950
       },
       {
-        "x": "moto",
-        "y": 48
+        x: "Aug",
+        y: 3500
       },
       {
-        "x": "bicycle",
-        "y": 81
+        x: "Sep",
+        y: 3200
       },
       {
-        "x": "horse",
-        "y": 237
+        x: "Oct",
+        y: 3800
       },
       {
-        "x": "skateboard",
-        "y": 135
+        x: "Nov",
+        y: 4100
       },
       {
-        "x": "others",
-        "y": 81
+        x: "Dec",
+        y: 4500
       }
     ]
-  },
+  }
 ];
