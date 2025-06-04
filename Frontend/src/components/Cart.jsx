@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { removeFromCart, updateQuantity, clearCart } from '../Redux/CartSlice';
 import { toast } from 'react-hot-toast';
 import Navbar from './navbar';
@@ -14,6 +14,7 @@ import '../CSS/Cart.css';
 
 export default function Cart() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [updatingItems, setUpdatingItems] = useState(new Set());
   const [modalConfig, setModalConfig] = useState({
@@ -113,17 +114,7 @@ export default function Cart() {
       toast.error('Your cart is empty');
       return;
     }
-
-    setModalConfig({
-      isOpen: true,
-      title: 'Confirm Checkout',
-      message: `Proceed to checkout with ${cartItems.length} items for ₹${cartTotal}?`,
-      onConfirm: () => {
-        // TODO: Implement actual checkout logic here
-        toast.success('Proceeding to checkout...');
-        setModalConfig(prev => ({ ...prev, isOpen: false }));
-      }
-    });
+    navigate('/checkout'); // Add this line
   };
 
   const closeModal = () => {

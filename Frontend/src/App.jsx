@@ -23,6 +23,7 @@ import Forgotpassword from "./components/Forgotpass";
 import Forgotpassword1 from "./components/Forgotpass1";
 import Forgotpassword2 from "./components/Forgotpass2";
 import Cart from "./components/Cart";
+import CheckoutForm from "./components/CheckoutForm";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -89,6 +90,7 @@ const App = () => {
         <Route path="/forgotpassword" element={<Forgotpassword></Forgotpassword>}></Route>
         <Route path="/forgotpassword1" element={<Forgotpassword1></Forgotpassword1>}></Route>        <Route path="/forgotpassword2" element={<Forgotpassword2></Forgotpassword2>}></Route>
         <Route path="/cart" element={<Cart />}></Route>
+        <Route path="/checkout" element={<CheckoutForm />}></Route>
       </Routes>
     </>
   );
