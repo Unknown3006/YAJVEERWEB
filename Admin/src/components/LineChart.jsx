@@ -7,6 +7,12 @@ const LineChart = ({ data, title }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     
+    // Calculate min and max for better scaling
+    const yValues = data.data.map(d => d.y);
+    const minY = Math.min(...yValues);
+    const maxY = Math.max(...yValues);
+    const padding = (maxY - minY) * 0.2; // Add 20% padding
+
     return (
         <div className="chart-container">
             <h3 className="chart-title">{title}</h3>
@@ -66,11 +72,12 @@ const LineChart = ({ data, title }) => {
                     margin={{ top: 40, right: 110, bottom: 60, left: 70 }}
                     xScale={{ type: 'point' }}
                     yScale={{ 
-                        type: 'linear', 
-                        min: 'auto', 
-                        max: 'auto', 
-                        stacked: false, 
-                        reverse: false 
+                        type: 'linear',
+                        min: Math.floor(minY - padding), // Round down min
+                        max: Math.ceil(maxY + padding),  // Round up max
+                        stacked: false,
+                        reverse: false,
+                        nice: true // Add nice round numbers
                     }}
                     curve="linear"  // Changed to linear for stock-like appearance
                     enablePoints={true}  // Enable points
@@ -123,6 +130,8 @@ const LineChart = ({ data, title }) => {
                         legend: 'COUNT',
                         legendOffset: -55,
                         legendPosition: 'middle',
+                        tickValues: 5, // Show 5 tick values
+                        format: value => Number(value).toLocaleString(), // Format large numbers
                         legendStyle: {
                             fontWeight: 700,
                             fontSize: 14
