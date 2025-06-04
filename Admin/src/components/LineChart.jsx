@@ -72,7 +72,38 @@ const LineChart = ({ data, title }) => {
                         stacked: false, 
                         reverse: false 
                     }}
-                    curve="stepBefore"  // Changed to step style
+                    curve="linear"  // Changed to linear for stock-like appearance
+                    enablePoints={true}  // Enable points
+                    pointSize={4}  // Small point size
+                    pointBorderWidth={2}
+                    pointBorderColor="#22c55e"
+                    pointColor="white"
+                    enableSlices="x"
+                    sliceTooltip={({ slice }) => (
+                        <div
+                            style={{
+                                background: 'white',
+                                padding: '9px 12px',
+                                border: '1px solid #ccc',
+                                borderRadius: '4px'
+                            }}
+                        >
+                            <div style={{color: '#333', fontSize: '14px', fontWeight: 'bold'}}>
+                                {slice.points[0].data.x}
+                            </div>
+                            <div style={{color: '#22c55e'}}>
+                                Value: {slice.points[0].data.y}
+                            </div>
+                        </div>
+                    )}
+                    crosshairType="x"  // Only show vertical crosshair
+                    enableGridX={false}  // Disable vertical grid
+                    enableGridY={true}
+                    gridYValues={5}  // Show fewer horizontal grid lines
+                    lineWidth={2}  // Thinner line for stock-like appearance
+                    enableArea={true}
+                    areaOpacity={0.1}  // More subtle area fill
+                    colors={['#22c55e']}
                     axisBottom={{
                         tickSize: 5,
                         tickPadding: 8,
@@ -97,15 +128,6 @@ const LineChart = ({ data, title }) => {
                             fontSize: 14
                         }
                     }}
-                    enablePoints={false}
-                    enableGridX={true}
-                    enableGridY={true}
-                    lineWidth={3}
-                    enableArea={true}
-                    areaOpacity={0.15}
-                    colors={['#22c55e']}
-                    enableSlices="x"
-                    crosshairType="cross"
                 />
             </div>
         </div>

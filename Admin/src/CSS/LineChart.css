@@ -24,12 +24,29 @@
 .chart-wrapper {
     height: 300px;
     position: relative;
+    background: linear-gradient(to bottom, rgba(34, 197, 94, 0.05), transparent);
+    border-radius: 8px;
+    padding: 10px;
 }
 
 /* Remove any curve-related styles */
 .line {
     stroke-linecap: square;
     stroke-linejoin: miter;
+}
+
+/* Custom crosshair */
+.react-financial-charts-crosshair {
+    stroke: rgba(34, 197, 94, 0.3);
+    stroke-width: 1;
+    stroke-dasharray: 3;
+}
+
+/* Point hover effect */
+.point:hover {
+    fill: #22c55e !important;
+    r: 6;
+    transition: all 0.2s ease;
 }
 
 @media (max-width: 768px) {
