@@ -97,13 +97,13 @@ const CheckoutForm = () => {
     <div className="checkout-form-container">
       <div className="form-header">
         <h2>Checkout Details</h2>
-        <button 
+        {/* <button 
           className="back-to-cart-btn"
           onClick={handleBackToCart}
           type="button"
         >
           Back to Cart
-        </button>
+        </button> */}
       </div>
       <form onSubmit={handleSubmit} className="checkout-form">
         <div className="form-group">
