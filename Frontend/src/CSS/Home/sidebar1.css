@@ -3,14 +3,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999; 
   width: 40vw;
   height: 100vh;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .sidebar1-content {
@@ -20,53 +18,51 @@
   z-index: 10000;
   box-shadow: 0 0 30px gray;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  overflow-y: scroll;
-  overflow-x: auto;
   animation: slideIn 0.3s ease forwards;
+  overflow: hidden;
 }
-
 
 @keyframes slideIn {
   from {
     transform: translateX(-100%);
   }
+
   to {
     transform: translateX(0%);
   }
 }
 
-.sdclose{
-    width: 100%;
-    height: 5%;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 5%;
-    color: gray;
-    font-size: larger;
+.sdclose {
+  width: 100%;
+  height: 5%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 5%;
+  color: gray;
+  font-size: larger;
 }
 
-.closeico{
-    cursor: pointer;
+.closeico {
+  cursor: pointer;
 }
 
 .sidebar1cont {
-  width: 100%;
-  background-color: white;
+  flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
   box-sizing: border-box;
 }
 
-.side1con {
+.side1con1 {
   width: 100%;
   margin-bottom: 15px;
 }
 
-.itemsName {
+.itemsName1 {
   width: 100%;
   border-bottom: 1.5px solid gray;
   color: gray;
@@ -77,14 +73,15 @@
   cursor: pointer;
 }
 
-.itemsName:hover{
-    color: green;
-    border-bottom: 1.5px solid green;
+.itemsName1:hover {
+  color: green;
+  border-bottom: 1.5px solid green;
 }
 
 .contactSection {
-  padding-left: 20px;
+  padding: 5px 20px 20px 20px;
   color: gray;
+  flex-shrink: 0;
 }
 
 .contactHeader {
@@ -92,7 +89,7 @@
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 15px;
-  color:gray;
+  color: gray;
 }
 
 .contactItem {
@@ -105,9 +102,9 @@
   color: gray;
 }
 
-.contactItem:hover{
-    color: green;
-    cursor: pointer;
+.contactItem:hover {
+  color: green;
+  cursor: pointer;
 }
 
 .contactItem i {
@@ -115,13 +112,13 @@
   color: #444;
 }
 
-
 .contactItem:hover i {
   color: green;
 }
 
 .authSection {
-  margin-top: 20px;
+  margin: 20px 0 30px;
+  padding-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -139,21 +136,20 @@
   text-decoration: underline;
 }
 
-
 @media (min-width:1024px) {
-    .sidebar1-overlay{
-        display: none;
-    }
+  .sidebar1-overlay {
+    display: none;
+  }
 }
 
 @media (max-width:650px) {
-    .sidebar1-overlay{
-        width: 60vw;
-    }
+  .sidebar1-overlay {
+    width: 60vw;
+  }
 }
 
 @media (max-width:450px) {
-    .sidebar1-overlay{
-        width: 80vw;
-    }
+  .sidebar1-overlay {
+    width: 80vw;
+  }
 }

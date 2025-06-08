@@ -17,7 +17,7 @@ const addReview = async (req, res, next) => {
       throw new ApiError(400, "Rating must be between 1 and 5.");
     }
 
-    const result = await uploadoncloudinary(req.file.path);
+    const result = await uploadoncloudinary(req.file.buffer);
     if (!result || !result.secure_url) {
       throw new ApiError(500, "Please Upload Another photo!!");
     }
@@ -50,4 +50,24 @@ const getAllReviews = async (req, res, next) => {
   }
 };
 
-export { addReview, getAllReviews };
+const deleteReview = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // Check if review exists
+    const review = await Review.findById(id);
+    if (!review) {
+      throw new ApiError(404, "Review not found.");
+    }
+
+    await Review.findByIdAndDelete(id);
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "Review deleted successfully."));
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { addReview, getAllReviews , deleteReview};

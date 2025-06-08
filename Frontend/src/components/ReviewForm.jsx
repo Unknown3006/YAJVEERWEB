@@ -3,20 +3,20 @@ import Navbar from "./navbar";
 import Navbar2 from "./navbar2";
 import MainNav from "./mainnav";
 import Footer from "./Footer/Footer";
-import "../CSS/ReviewForm.css";
-import Logo from "../assets/Yajveer.png";
+import "../CSS/ReviewForm.css"; // Ensure this path is correct
+import Logo from "../assets/Yajveer.png"; // Ensure this path is correct
 import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
 import axios from "axios";
 import ErrorPopup from "./ErrorPopup";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import LoadingAnimation from "./LoadingAnimation";
 
 export default function ReviewForm() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [review, setReview] = useState("");
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState(""); // Rating is still a string initially
   const [image, setImage] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -28,11 +28,22 @@ export default function ReviewForm() {
 
   const validate = () => {
     const newErrors = {};
-    if (!name.trim()) newErrors.name = "Name is required";
-    else if (!image) newErrors.image = "Photo is required";
-    else if (!review.trim()) newErrors.review = "Review is required";
-    else if (!rating || rating < 1 || rating > 5)
-      newErrors.rating = "Rating must be between 1 and 5";
+
+    if (!name.trim()) {
+      newErrors.name = "Name is required";
+    }
+    if (!image) {
+      newErrors.image = "Photo is required";
+    }
+    if (!review.trim()) {
+      newErrors.review = "Review is required";
+    }
+
+    // Convert rating to a number for validation
+    const numericRating = parseFloat(rating);
+    if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
+      newErrors.rating = "Rating must be between 0 and 5";
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setPopupMessage(Object.values(newErrors).join(", "));
@@ -44,40 +55,61 @@ export default function ReviewForm() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file);
-    setSelectedFileName(file ? file.name : "");
+    if (file) {
+      setImage(file);
+      setSelectedFileName(file.name);
+    } else {
+      setImage(null);
+      setSelectedFileName("");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validate()) return;
+    if (!validate()) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", name);
     formData.append("review", review);
-    formData.append("rating", rating);
+    formData.append("rating", parseFloat(rating)); // Ensure rating is sent as a number
     formData.append("productPhoto", image);
 
     setIsLoading(true);
 
     try {
+      // It's good practice to log the formData content for debugging,
+      // but avoid logging sensitive data in production.
+      // for (let pair of formData.entries()) {
+      //   console.log(pair[0]+ ': ' + pair[1]);
+      // }
+
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER}/api/v1/users/review`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Essential for sending FormData
           },
-          withCredentials: true,
+          withCredentials: true, // If your backend requires cookies/sessions
         }
       );
-      setPopupMessage("Review submitted successfully!");
-      setName("");
-      setReview("");
-      setRating("");
-      setImage(null);
-      setSelectedFileName("");
+
+      // Check for a success status if needed, though axios typically throws for non-2xx
+      if (response.status === 201 || response.status === 200) {
+        setPopupMessage("Review submitted successfully!");
+        // Clear form fields on successful submission
+        setName("");
+        setReview("");
+        setRating("");
+        setImage(null);
+        setSelectedFileName("");
+      } else {
+        // Handle unexpected non-error responses
+        setPopupMessage("Failed to submit review. Unexpected response.");
+      }
     } catch (err) {
       console.error("Error submitting review:", err.response?.data || err);
 
@@ -86,27 +118,33 @@ export default function ReviewForm() {
           setPopupMessage("Please login to submit a review.");
           setTimeout(() => {
             navigate("/login");
-          }, 2000);
+          }, 2000); // Redirect after a delay
+        } else if (err.response.data && err.response.data.message) {
+          // Use specific error message from backend if available
+          setPopupMessage(err.response.data.message);
         } else {
-          setPopupMessage(
-            err.response.data.message ||
-              "Failed to submit review. Please try again."
-          );
+          setPopupMessage("Failed to submit review. Please try again.");
         }
+      } else if (err.request) {
+        // The request was made but no response was received
+        setPopupMessage(
+          "No response from server. Please check your network connection."
+        );
       } else {
-        console.error("Error submitting review:", err);
-        setPopupMessage("Something went wrong. Please try again.");
+        // Something happened in setting up the request that triggered an Error
+        setPopupMessage("An unknown error occurred. Please try again.");
       }
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Always stop loading animation
     }
   };
 
   return (
     <>
-      {isLoading ? (
-        <LoadingAnimation />
-      ) : (
+      {isLoading && <LoadingAnimation />}{" "}
+      {/* Render LoadingAnimation when isLoading is true */}
+      {/* Only render content when not loading to avoid flickering */}
+      {!isLoading && (
         <>
           {isSidebarOpen && <Sidebar1 onClose={handleCloseSidebar} />}
           <Sidebar onOpenSidebar={handleOpenSidebar} />
@@ -117,7 +155,7 @@ export default function ReviewForm() {
           <section className="review-section">
             <div className="review-box">
               <div className="review-left">
-                <img src={Logo} alt="Ayurvedic Review" />
+                <img src={Logo} alt="Yajveer Ayurvedic Logo" />
               </div>
               <div className="review-right">
                 <h2>Share Your Experience</h2>
@@ -128,26 +166,56 @@ export default function ReviewForm() {
                       placeholder="Your Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
+                      required // Make name required via HTML5 validation too
                     />
                   </div>
-                  <div className="form-group image-upload-section">
+                  <div className="image-upload-section">
                     <label className="image-upload-label">
-                      Upload Your Photo
+                      Upload <span className="highlight-text">Your</span> Photo
                     </label>
+                    <p className="upload-instruction">
+                      Click below to select an image (JPEG, PNG, WEBP)
+                    </p>
+
                     <div className="image-upload-container">
                       <input
                         type="file"
                         id="imageInput"
-                        accept="image/png, image/jpeg"
+                        accept="image/png, image/jpeg, image/webp"
                         onChange={handleImageChange}
                       />
                       <label htmlFor="imageInput" className="browse-button">
-                        Browse
+                        <svg viewBox="0 0 24 24" width="18" height="18">
+                          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                        </svg>
+                        Browse Files
                       </label>
-                      <span className="file-name">
-                        {selectedFileName || "No file chosen"}
-                      </span>
+
+                      <div className="file-info">
+                        {selectedFileName && (
+                          <span className="file-name">{selectedFileName}</span>
+                        )}
+                      </div>
                     </div>
+
+                    {image && (
+                      <div className="preview-box">
+                        <img
+                          src={URL.createObjectURL(image)}
+                          alt="Preview"
+                          className="preview-image"
+                        />
+                        <span
+                          className="remove-image"
+                          onClick={() => {
+                            setImage(null);
+                            setSelectedFileName("");
+                          }}
+                        >
+                          Remove Image
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <textarea
@@ -155,14 +223,19 @@ export default function ReviewForm() {
                       rows="4"
                       value={review}
                       onChange={(e) => setReview(e.target.value)}
+                      required // Make review required via HTML5 validation
                     ></textarea>
                   </div>
                   <div className="form-group">
                     <input
                       type="number"
-                      placeholder="Rating (1-5)"
+                      placeholder="Rating (0-5)" // Placeholder updated
                       value={rating}
                       onChange={(e) => setRating(e.target.value)}
+                      min="0" // HTML5 min attribute
+                      max="5" // HTML5 max attribute
+                      step="0.1" // Allow decimal ratings, e.g., 4.5
+                      required // Make rating required via HTML5 validation
                     />
                   </div>
                   <button type="submit" className="submit-btn">
@@ -179,6 +252,6 @@ export default function ReviewForm() {
           />
         </>
       )}
-    </>
-  );
+    </>
+  );
 }

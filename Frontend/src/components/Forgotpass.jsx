@@ -9,7 +9,7 @@ import "../CSS/Forgotpass.css";
 import Ayur from "../assets/logp.jpg";
 import ErrorPopup from "./ErrorPopup";
 import LoadingAnimation from "./LoadingAnimation";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import axios from "axios";
 
 export default function Forgotpassword() {

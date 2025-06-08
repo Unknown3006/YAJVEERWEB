@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useState, useEffect } from "react";
 import "../CSS/navbar.css";
 import ErrorPopup from "./ErrorPopup";
@@ -52,13 +52,14 @@ export default function Navbar() {
         <>
           <nav className="navbar">
             <div className="navbar-left">
-              <p>Become A Seller</p>
               <Link to="/aboutUs">
                 <p>About Us</p>
               </Link>
-              <p>Free Delivery</p>
               <Link to="/returnpolicy">
-              <p>Returns Policy</p>
+                <p>Returns Policy</p>
+              </Link>
+              <Link to="/faq">
+                  <p>FAQs</p>
               </Link>
             </div>
             <div className="navbar-right">
@@ -66,7 +67,9 @@ export default function Navbar() {
                 <p>Help Center</p>
                 <ul className="dropdown-menu">
                   <li>
-                    <i className="bi bi-headset"></i> Call Center
+                    <Link to="tel:+917405430230">
+                      <i className="bi bi-headset"></i> Call Center
+                    </Link>
                   </li>
                   <li>
                     <i className="bi bi-chat-dots"></i> Live Chat

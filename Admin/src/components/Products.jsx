@@ -6,10 +6,11 @@ import "../CSS/Products.css";
 import LoadingAnimation from "./LoadingAnimation";
 import axios from "axios";
 import Allproduct from "./Allproduct";
-import { Routes, Route } from 'react-router-dom'; // Import Routes and Route
-import ProductDetails from "./Productdetails";
+import { useDispatch } from "react-redux";
+import { Fectchdata } from "../Redux/CartSlice.js";
 
 const Products = () => {
+  const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +67,7 @@ const Products = () => {
 
     // Validate file types and sizes
     const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 10 * 1024 * 1024; // 5MB
 
     const invalidFiles = files.filter(
       (file) => !validTypes.includes(file.type) || file.size > maxSize
@@ -216,9 +217,7 @@ const Products = () => {
         setPopupMessage("Product successfully added!");
         setShowForm(false);
         resetForm();
-
-        // You might want to refresh the products list here
-        // await fetchProducts();
+        dispatch(Fectchdata());
       } else {
         throw new Error(response.data?.message || "Failed to add product");
       }

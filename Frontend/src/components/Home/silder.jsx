@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
-import product1 from '../../assets/Karela.jpg';
-import product4 from '../../assets/Moringa.jpg';
+import { useState, useEffect } from "react";
+import product1 from "../../assets/Karela.jpg";
+import product4 from "../../assets/Moringa.jpg";
 import product3 from "../../assets/KJP.jpg";
 import product2 from "../../assets/Jamun.jpg";
 import product5 from "../../assets/B12P.jpg";
 import product6 from "../../assets/Diabetes.jpg";
 import "../../CSS/Home/slider.css";
-
+import { Link } from "react-router";
+import { useSelector } from "react-redux";
 const Slider = () => {
+  const { data: products } = useSelector((state) => state.cart);
   const slides = [
-     {
+    {
       text: "Diabets Powder for Sugar Control",
       subText: "Naturally support glucose levels with Diabetsss.",
       buttonText: "Explore Shop",
@@ -25,28 +27,31 @@ const Slider = () => {
     },
     {
       text: "Jamun Magic for Healthy Blood Sugar",
-      subText: "A tasty, traditional remedy to manage sugar levels and promote digestion.",
+      subText:
+        "A tasty, traditional remedy to manage sugar levels and promote digestion.",
       buttonText: "Explore Shop",
       buttonLink: "/shop",
       image: product2,
     },
-        {
+    {
       text: "Karela Jamun Blend – Double the Benefit",
-      subText: "Two powerful ingredients combined to help regulate blood sugar naturally.",
+      subText:
+        "Two powerful ingredients combined to help regulate blood sugar naturally.",
       buttonText: "Explore Shop",
       buttonLink: "/shop",
       image: product3,
     },
-        {
+    {
       text: "Moringa Boost for Natural Wellness",
       subText: "Vitamins and antioxidants for energy and sugar balance.",
       buttonText: "Explore Shop",
       buttonLink: "/shop",
       image: product4,
     },
-        {
+    {
       text: "B12 Energy Powder for Daily Vitality",
-      subText: "Boost your energy and support nerve health—especially for diabetic needs",
+      subText:
+        "Boost your energy and support nerve health—especially for diabetic needs",
       buttonText: "Explore Shop",
       buttonLink: "/shop",
       image: product5,
@@ -72,7 +77,7 @@ const Slider = () => {
         <div
           key={index}
           className={`ms1 absolute top-0 left-0 w-full h-full flex  md:flex-row items-center transition-opacity duration-1000 ${
-            currentSlide === index ? 'opacity-100' : 'opacity-0'
+            currentSlide === index ? "opacity-100" : "opacity-0"
           }`}
         >
           {/* Left Side: Text and Button */}
@@ -83,12 +88,14 @@ const Slider = () => {
             <p className="subh text-lg md:text-xl text-gray-500 mb-6">
               {slide.subText}
             </p>
-            <a
-              href={slide.buttonLink}
-              className="butt inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-colors"
-            >
-             {slide.buttonText}
-            </a>
+            {products?.length > 0 && (
+              <Link
+                to={`/product/${products[0]._id}`}
+                className="butt inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-colors"
+              >
+                {slide.buttonText}
+              </Link>
+            )}
           </div>
           {/* Right Side: Image */}
           <div className="ri w-full md:w-1/2 h-full">
@@ -101,7 +108,6 @@ const Slider = () => {
         </div>
       ))}
 
-
       {/* Slider Dots */}
       <div className="dot absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {slides.map((_, index) => (
@@ -109,7 +115,7 @@ const Slider = () => {
             key={index}
             onClick={() => handleDotClick(index)}
             className={`w-3 h-3 rounded-full ${
-              currentSlide === index ? 'bg-green-600' : 'bg-gray-300'
+              currentSlide === index ? "bg-green-600" : "bg-gray-300"
             }`}
           ></button>
         ))}

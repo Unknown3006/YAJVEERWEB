@@ -20,7 +20,7 @@ app.use(
         callback(new Error("CORS not allowed for this origin"));
       }
     },
-    // origin: "http://localhost:5173",
+    // origin: process.env.CORS_ORIGIN,
     credentials: true, // only if you're using cookies
   })
 );
@@ -31,6 +31,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 // Static files and cookies
 app.use(express.static("public"));
+app.use('/static', express.static('assets'));
 app.use(cookieParser());
 
 // Import routes

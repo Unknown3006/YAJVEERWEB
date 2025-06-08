@@ -1,11 +1,14 @@
 import "../CSS/mainNav.css";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 export default function MainNav() {
+  const dispatch = useDispatch();
+  const { data: products, loading, error } = useSelector((state) => state.cart);
   return (
     <>
       <nav className="mainNav">
         <div className="left">
-          <Link to="/products" className="items deep-inner-button">
+          <Link className="items deep-inner-button">
             <div className="title">
               <p>
                 All Category{" "}
@@ -16,20 +19,29 @@ export default function MainNav() {
               </p>
             </div>
             <div className="Menulist">
-              <p>Herbal Powder</p>
-              <p>Karela powder</p>
+              {products &&
+                products.map((item) => (
+                  <p key={item._id}>
+                    <Link
+                      to={`/product/${item._id}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {item.productName}
+                    </Link>
+                  </p>
+                ))}
             </div>
           </Link>
         </div>
 
         <div className="mid">
-          <Link to='/' className="home deep-inner-button">
+          <Link to="/" className="home deep-inner-button">
             <p>Home</p>
           </Link>
-          <Link to="/products" className="dp deep-inner-button">
+          <Link className="dp deep-inner-button">
             <div className="title">
               <p>
-                 Powder{" "}
+                Powder{" "}
                 <i
                   className="bi bi-caret-down-fill"
                   style={{ fontSize: "1rem" }}
@@ -37,15 +49,24 @@ export default function MainNav() {
               </p>
             </div>
             <div className="Menulist">
-              <p>Herbal Powder</p>
-              <p>Karela powder</p>
+              {products &&
+                products.map((item) => (
+                  <p key={item._id}>
+                    <Link
+                      to={`/product/${item._id}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {item.productName}
+                    </Link>
+                  </p>
+                ))}
             </div>
           </Link>
 
-          <Link to="/packets" className="pack deep-inner-button">
+          <Link className="pack deep-inner-button">
             <div className="title">
               <p>
-                 Packtes{" "}
+                Packtes{" "}
                 <i
                   className="bi bi-caret-down-fill"
                   style={{ fontSize: "1rem" }}
@@ -53,14 +74,25 @@ export default function MainNav() {
               </p>
             </div>
             <div className="Menulist">
-              <p>Herbal Powder</p>
-              <p>Karela powder</p>
+              {products &&
+                products
+                  .filter((item) => item.type !== "box")
+                  .map((item) => (
+                    <p key={item._id}>
+                      <Link
+                        to={`/product/${item._id}`}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {item.productName}
+                      </Link>
+                    </p>
+                  ))}
             </div>
           </Link>
-          <Link to="/instructions" className="use deep-inner-button">
+          <Link to="/greeting" className="use deep-inner-button">
             <p>Instructions</p>
           </Link>
-          
+
           <Link to="/reviewForm" className="review deep-inner-button">
             <p>Reviews</p>
           </Link>

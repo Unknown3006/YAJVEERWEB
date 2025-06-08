@@ -1,19 +1,14 @@
 import "../../CSS/Home/sidebar1.css";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import ErrorPopup from "../ErrorPopup";
 import axios from "axios";
 import LoadingAnimation from "../LoadingAnimation";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Sidebar1({ onClose }) {
-  const product = [
-    { id: 1, Name: "Diabetes Powder" },
-    { id: 2, Name: "Karela Powder" },
-    { id: 3, Name: "Jamun Powder" },
-    { id: 4, Name: "Karela & Jamun Powder" },
-    { id: 5, Name: "Moringa Powder" },
-    { id: 6, Name: "B12 Powder" },
-  ];
+  const { data: products } = useSelector((state) => state.cart);
+ 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
@@ -62,15 +57,18 @@ export default function Sidebar1({ onClose }) {
           <i className="bi bi-x-lg closeico"></i>
         </div>
         <div className="sidebar1cont">
-          {product.map((item) => (
-            <div className="side1con" key={item.id}>
-              <Link>
-                <div className="itemsName">
-                  <p>{item.Name}</p>
+          {products &&
+            products
+              .map((item) => (
+                <div className="side1con1" key={item._id}>
+                  <Link
+                    to={`/product/${item._id}`}>
+                    <div className="itemsName1" onClick={onClose}>
+                      <p>{item.productName}</p>
+                    </div>
+                  </Link>
                 </div>
-              </Link>
-            </div>
-          ))}
+              ))}
         </div>
 
         <div className="contactSection">

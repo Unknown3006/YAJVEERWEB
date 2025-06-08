@@ -1,7 +1,9 @@
 import "../../CSS/Footer/Footer.css";
-import { Link } from "react-router-dom";
-
+import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 export default function Footer() {
+  const dispatch = useDispatch();
+  const { data: products, loading, error } = useSelector((state) => state.cart);
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -38,11 +40,13 @@ export default function Footer() {
             </li>
             <li>
               <i className="bi bi-star"></i>
-              <Link to="/testimonials">Testimonials</Link>
+              <Link to="/Testimonial">Testimonials</Link>
             </li>
             <li>
               <i className="bi bi-box-seam"></i>
-              <Link to="/products">Our Products</Link>
+              {products?.length > 0 && (
+                <Link to={`/product/${products[0]._id}`}>Our Products</Link>
+              )}
             </li>
             <li>
               <i className="bi bi-newspaper"></i>
@@ -77,36 +81,36 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Column 4 */}
         <div className="footer-column contact">
           <h3>Contact Us</h3>
           <ul>
             <li>
-              <i className="bi bi-telephone"></i> +91-7405430230
+              <Link to="tel:+917405430230">
+                <i className="bi bi-telephone"></i> +91-7405430230
+              </Link>
             </li>
             <li>
-              <i className="bi bi-envelope"></i> yajveerayurved@gmail.com
+              <Link to="mailto:yajveerayurved@gmail.com">
+                <i className="bi bi-envelope"></i> yajveerayurved@gmail.com
+              </Link>
             </li>
             <li>
-              <i className="bi bi-geo-alt"></i> 146 , M.G Dreams Near
-              Bapasitaram chok , Kamrej , 394185
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=146%20M.G%20Dreams%20Near%20Bapasitaram%20Chok%2C%20Kamrej%2C%20394185"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="bi bi-geo-alt"></i> 146, M.G Dreams Near
+                Bapasitaram chok, Kamrej, 394185
+              </a>
             </li>
-            {/* <li>
-              <img
-                src={footerLogo}
-                alt="Footer Logo"
-                className="footer-logo"
-              />
-            </li> */}
           </ul>
         </div>
       </div>
 
       {/* Copyright Row */}
       <div className="footer-bottom">
-        <p>
-          Copyright © 2025 Yajveer Ayurvedic Pvt. Ltd. All Rights Reserved.
-        </p>
+        <p>Copyright © 2025 Yajveer Ayurvedic Pvt. Ltd. All Rights Reserved.</p>
       </div>
     </footer>
   );

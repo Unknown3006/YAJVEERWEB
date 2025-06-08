@@ -21,45 +21,6 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
-// const registerAdmin = asyncHandler(async (req, res) => {
-//   const { email, password, mobileNumber } = req.body;
-//   console.log(email);
-//   console.log(req.body);
-//   if (
-//     // console.log(email);
-//     [email, password, mobileNumber].some((field) => field?.trim() === "")
-//   ) {
-//     throw new ApiError(400, "All fields are required");
-//   }
-
-//   const existedUser = await Admin.findOne({
-//     $or: [{ email }],
-//   });
-
-//   if (existedUser) {
-//     console.log(email);
-//     throw new ApiError(409, "Admin with email already exists");
-//   }
-
-//   const user = await Admin.create({
-//     email,
-//     password,
-//     mobileNumber,
-//   });
-
-//   const createdUser = await Admin.findById(user._id).select(
-//     "-password -refreshToken"
-//   );
-
-//   if (!createdUser) {
-//     throw new ApiError(500, "Something went wrong while registering the user");
-//   }
-
-//   return res
-//     .status(201)
-//     .json(new ApiResponse(200, createdUser, "Admin registered successfully"));
-// });
-
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);

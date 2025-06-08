@@ -2,6 +2,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/Apierror.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
+import { sendOtpMail } from "../utils/mail.js";
+import { otp } from "../models/otp.model.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -166,7 +168,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
 const verifyOtp = asyncHandler(async (req, res) => {
   const { email, code } = req.body;
-  if (!email || !code) throw new ApiError(400, "Email and OTP are required");
+  if (!code) throw new ApiError(400, "Email and OTP are required");
 
   const otpRecord = await otp.findOne({ email, code });
   if (!otpRecord || otpRecord.expiresAt < new Date()) {
@@ -196,4 +198,21 @@ const resetPassword = asyncHandler(async (req, res) => {
   res.json(new ApiResponse(200, null, "Password reset successful"));
 });
 
-export { registerUser, loginUser, logoutUser , forgotPassword , verifyOtp , resetPassword };
+const getTotalUsers = asyncHandler(async (req, res) => {
+  const totalUsers = await User.find({}, "-password -refreshToken");
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, { totalUsers }, "Total users retrieved successfully")
+    );
+});
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  forgotPassword,
+  verifyOtp,
+  resetPassword,
+  getTotalUsers,
+};

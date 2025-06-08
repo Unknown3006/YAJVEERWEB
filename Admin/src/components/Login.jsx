@@ -6,6 +6,8 @@ import { Navigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+
+
 export default function Login() {
   const [redirect, setRedirect] = useState(false);
   const [formData, setFormData] = useState({
@@ -61,7 +63,6 @@ export default function Login() {
 
       const result = response.data;
       if (result.success) {
-        console.log(result);
         sessionStorage.setItem("isLoggedInAdmin", "true");
         setPopupMessage(result.message);
         setTimeout(() => setRedirect(true), 2000);

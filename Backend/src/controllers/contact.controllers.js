@@ -51,24 +51,26 @@ const getAllContacts = async (req, res, next) => {
   }
 };
 
-// Admin: Mark Contact as Resolved (optional)
-const markContactResolved = async (req, res, next) => {
+const deleteContact = async (req, res, next) => {
+  console.log("Hello  Rishi Kukadiya  Here!!!");
   try {
     const { id } = req.params;
-    const contact = await Contact.findByIdAndUpdate(
-      id,
-      { isResolved: true },
-      { new: true }
-    ).populate("user", "name email");
+    console.log(id);
+    const contact = await Contact.findById(id);
+    if (!contact) {
+      throw new ApiError(404, "Contact submission not found.");
+    }
 
-    if (!contact) throw new ApiError(404, "Contact submission not found.");
+    await Contact.findByIdAndDelete(id);
 
     return res
       .status(200)
-      .json(new ApiResponse(200, contact, "Contact marked as resolved."));
+      .json(
+        new ApiResponse(200, null, "Contact submission deleted successfully.")
+      );
   } catch (error) {
     next(error);
   }
 };
 
-export { submitContactForm, getAllContacts, markContactResolved };
+export { submitContactForm, getAllContacts, deleteContact};
