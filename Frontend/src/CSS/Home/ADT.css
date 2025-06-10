@@ -17,18 +17,22 @@
     height: 80%;
     background-color: #15803d;
     display: flex;
-    /* flex-wrap: wrap; */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem; /* Added padding */
 }
 
 .contentAdt {
-    width: 40%;
+    width: 45%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding-left: 2%;
+    padding-left: 4%; /* Increased from 2% */
+    padding-right: 2%; /* Added padding-right */
     justify-content: center;
     color: white;
     font-family: Roboto, sans-serif;
+    z-index: 2; /* Added to prevent overlap */
 }
 
 .p1Adt {
@@ -71,16 +75,20 @@
 }
 
 .imgAdt {
-    width: 60%;
-    height: 100%;
+    width: 55%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
 .imgAdt img {
+    display: block;
+    width: 100%;
     height: auto;
     object-fit: contain;
+    transform: none;
 }
 
 @media (max-width: 1000px) {
@@ -90,21 +98,24 @@
     }
     .mainAdt{
         flex-direction: column-reverse;
+        padding: 0 1rem;
     }
 
     .imgAdt{
         width: 100%;
-        height: 60%;
+        height: 65%; /* Increased from 60% */
+        padding: 0;
     } 
      
     .imgAdt img{
-        width: 100%;
-        height: 100%;
+        height: 120%;
+        transform: scale(1.1);
     }
 
  .contentAdt {
     width: 100%;
     padding-left: 25%;
+    padding-right: 5%;
   }
 
   .p1Adt p{
