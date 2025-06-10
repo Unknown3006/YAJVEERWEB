@@ -92,17 +92,17 @@
 }
 
 .imgAdt {
-    display: inline-flex; /* Changed from flex to inline-flex */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: min-content; /* Makes container fit content exactly */
-    height: min-content;
+    width: fit-content;
+    height: fit-content;
 }
 
 .imgAdt img {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
 }
 
@@ -119,14 +119,14 @@
     }
 
     .imgAdt {
-        width: min-content;
-        height: min-content;
+        width: fit-content;
+        height: fit-content;
         margin: 0 auto;
     }
     
     .imgAdt img {
-        width: 100%;
-        max-width: 600px;
+        width: auto;
+        height: auto;
     }
 
  .contentAdt {
@@ -179,8 +179,8 @@
     }
 
     .imgAdt {
-        width: min-content;
-        height: min-content;
+        width: fit-content;
+        height: fit-content;
     }
     
     .imgAdt img {
@@ -209,28 +209,27 @@
     }
 
     .imgAdt {
-        width: 80%;
-        min-height: 300px;
+        width: fit-content;
+        height: fit-content;
     }
     
     .imgAdt img {
-        width: 80%;
-        min-width: 300px;
+        width: auto;
+        height: auto;
     }
 }
 
 @media (max-width:400px) {
      .imgAdt {
-        width: 90%; /* Increased from 100% */
-        height: auto;
-        min-height: 280px;
-        padding: 1rem;
+        width: fit-content;
+        height: fit-content;
+        padding: 0;
     }
     
     .imgAdt img {
-        width: 90%;
-        min-width: 280px; /* Increased minimum width */
-        transform: scale(1.05);
+        width: auto;
+        height: auto;
+        transform: none;
     }
      .p2Adt {
         gap: 5vw;
@@ -256,4 +255,31 @@
     }
 
 
+}
+
+@media (max-width: 620px) {
+    .mainAdt {
+        width: 100%;
+        overflow: hidden; /* Added to prevent overflow */
+    }
+
+    .imgAdt {
+        width: fit-content;
+        height: fit-content;
+        max-width: 100%; /* Added to prevent overflow */
+        padding: 0.5rem; /* Added small padding */
+    }
+    
+    .imgAdt img {
+        width: 100%;
+        height: auto;
+        max-width: 100%; /* Ensures image doesn't overflow */
+        object-fit: contain;
+    }
+
+    .contentAdt {
+        width: 100%;
+        padding: 1rem;
+        padding-left: 10%;
+    }
 }
