@@ -13,13 +13,30 @@
 }
 
 .mainAdt {
-    width: 100%;
-    height: 80%;
+    width: fit-content;
+    height: auto;
     background-color: #15803d;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2rem; /* Added padding */
+}
+
+/* Update media query if needed */
+@media (max-width: 1000px) {
+    .mainAdt {
+        width: 100%;
+        flex-direction: column-reverse;
+    }
+
+    .imgAdt {
+        width: 90%;
+        margin: 0 auto;
+    }
+    
+    .imgAdt img {
+        width: 100%;
+        max-width: 600px;
+    }
 }
 
 .contentAdt {
@@ -75,41 +92,41 @@
 }
 
 .imgAdt {
-    width: 55%;
-    height: auto;
-    display: flex;
+    display: inline-flex; /* Changed from flex to inline-flex */
     align-items: center;
     justify-content: center;
-    padding: 0;
+    width: min-content; /* Makes container fit content exactly */
+    height: min-content;
 }
 
 .imgAdt img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
-    transform: none;
 }
 
 @media (max-width: 1000px) {
 
-    .adtm{
-        height: 89vh;
+    .adtm {
+        height: auto;
+        min-height: 89vh;
     }
-    .mainAdt{
+    
+    .mainAdt {
         flex-direction: column-reverse;
         padding: 0 1rem;
     }
 
-    .imgAdt{
+    .imgAdt {
+        width: min-content;
+        height: min-content;
+        margin: 0 auto;
+    }
+    
+    .imgAdt img {
         width: 100%;
-        height: 65%; /* Increased from 60% */
-        padding: 0;
-    } 
-     
-    .imgAdt img{
-        height: 120%;
-        transform: scale(1.1);
+        max-width: 600px;
     }
 
  .contentAdt {
@@ -118,47 +135,57 @@
     padding-right: 5%;
   }
 
-  .p1Adt p{
+  .p1Adt p {
     font-size: 20px;
   }
 
-  .p1Adt h1{
+  .p1Adt h1 {
     font-size: 26px;
   }
 
-  .p1Adt h4{
+  .p1Adt h4 {
     font-size: 17px;
   }
 
-  .p2Adt{
+  .p2Adt {
     font-size: 15px;
   }
     
 }
 
 @media  (max-width:870px) {
-    .contentAdt{
+    .contentAdt {
         padding-left: 18%;
     }
 }
 
 @media (max-width:750px) {
-    .contentAdt{
+    .contentAdt {
         padding-left: 15%;
     }
 
-    .p1Adt p{
+    .p1Adt p {
         font-size: 18px;
         padding: 5px;
     }
 
-    .p1Adt h1{
+    .p1Adt h1 {
         font-size: 21px;
         padding: 5px;
     }
-    .p1Adt h4{
+    .p1Adt h4 {
         font-size: 15px;
         padding: 5px;
+    }
+
+    .imgAdt {
+        width: min-content;
+        height: min-content;
+    }
+    
+    .imgAdt img {
+        width: auto;
+        height: auto;
     }
 }
 
@@ -166,46 +193,64 @@
     .p2Adt {
         gap: 2.5vw;
     }
-    .p1Adt p{
+    .p1Adt p {
         font-size: 17px;
         padding: 5px;
     }
 
-    .p1Adt h1{
+    .p1Adt h1 {
         font-size: 17px;
         padding: 5px;
     }
 
-    .p1Adt h4{
+    .p1Adt h4 {
         font-size: 15px;
         padding: 5px;
+    }
+
+    .imgAdt {
+        width: 80%;
+        min-height: 300px;
+    }
+    
+    .imgAdt img {
+        width: 80%;
+        min-width: 300px;
     }
 }
 
 @media (max-width:400px) {
-     .imgAdt{
-        width: 100%;
-        height: 40%;
-    } 
+     .imgAdt {
+        width: 90%; /* Increased from 100% */
+        height: auto;
+        min-height: 280px;
+        padding: 1rem;
+    }
+    
+    .imgAdt img {
+        width: 90%;
+        min-width: 280px; /* Increased minimum width */
+        transform: scale(1.05);
+    }
      .p2Adt {
         gap: 5vw;
     }
-     .contentAdt{
+     .contentAdt {
         padding-left: 5%;
     }
 
    
-    .p1Adt p{
+    .p1Adt p {
         font-size: 14px;
         padding: 5px;
     }
 
-    .p1Adt h1{
+    .p1Adt h1 {
         font-size: 15px;
            padding: 5px;
     }
 
-    .p1Adt h4{
+    .p1Adt h4 {
         font-size: 14px;
            padding: 5px;
     }
