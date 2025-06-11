@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import LoadingAnimation from "./LoadingAnimation";
 import axios from "axios";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import { deleteContact } from "../Redux/Contactus";
 import ConfirmDialog from "./ConfirmDialog";
 
 export default function Contactus() {
   const { data: Contacts = [] } = useSelector((state) => state.contactus);
   const [messages, setMessages] = useState([]);
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [confirmingContact, setConfirmingContact] = useState(null);
   const dispatch = useDispatch();
@@ -38,18 +37,18 @@ export default function Contactus() {
       );
 
       if (response.data.success) {
-        setPopupMessage("Query Solved Successfully!!");
+        toast.success("Query Solved Successfully!!");
         setMessages((prev) => prev.filter((msg) => msg._id !== _id));
         dispatch(deleteContact(_id));
       } else {
-        setPopupMessage("Server responded but failed to delete.");
+        toast.error("Server responded but failed to delete.");
       }
     } catch (error) {
       console.error("Error deleting contact:", error);
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Server is Down or Unreachable!");
+        toast.error("Server is Down or Unreachable!");
       }
     } finally {
       setIsLoading(false);
@@ -106,10 +105,6 @@ export default function Contactus() {
               </tbody>
             </table>
           </div>
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </div>
       )}
 

@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 export default function MainNav() {
   const dispatch = useDispatch();
-  const { data: products, loading, error } = useSelector((state) => state.cart);
+  const { data: products } = useSelector((state) => state.cart);
   return (
     <>
       <nav className="mainNav">
@@ -89,8 +89,8 @@ export default function MainNav() {
                   ))}
             </div>
           </Link>
-          <Link to="/greeting" className="use deep-inner-button">
-            <p>Instructions</p>
+          <Link to="/Testimonial" className="use deep-inner-button">
+            <p>Testimonials</p>
           </Link>
 
           <Link to="/reviewForm" className="review deep-inner-button">

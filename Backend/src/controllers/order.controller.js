@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { Order } from "../models/order.model.js";
 import { OrderHistory } from "../models/orderhistory.model.js";
 import { sendSelfMail, sendPaymentConfirmationMail } from "../utils/mail.js";
+import { OrderConfirmation } from "../utils/mail.js";
 import { shapeOrderForInvoice } from "../utils/shapeOrderForInvoice.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -65,8 +66,12 @@ const createOrder = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Failed to create order");
   }
 
+  const io = req.app.get("io");
+  io.emit("newOrder", order);
+
   try {
     await sendSelfMail(order);
+    await OrderConfirmation(order.email , order);
   } catch (error) {
     console.error(
       "Failed to send self notification email & Invoice of User:",

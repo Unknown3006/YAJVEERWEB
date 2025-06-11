@@ -2,14 +2,13 @@ import "../CSS/Reviews.css";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { deleteReview } from "../Redux/Review";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import { useState } from "react";
 import LoadingAnimation from "./LoadingAnimation";
 
 export default function Reviews() {
   const dispatch = useDispatch();
   const { data: Reviews } = useSelector((state) => state.reviews);
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async (id) => {
@@ -19,12 +18,12 @@ export default function Reviews() {
         `${import.meta.env.VITE_SERVER}/api/v1/users/reviews/${id}`
       );
       dispatch(deleteReview(id));
-      setPopupMessage("Review deleted successfully.");
+      toast.success("Review deleted successfully.");
     } catch (error) {
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Failed to delete Reviews!!");
+        toast.error("Failed to delete Reviews!!");
       }
     } finally {
       setIsLoading(false);
@@ -67,11 +66,6 @@ export default function Reviews() {
         ) : (
           <p>No reviews available.</p>
         )}
-
-        <ErrorPopup
-          message={popupMessage}
-          onClose={() => setPopupMessage("")}
-        />
       </div>
     </>
   );

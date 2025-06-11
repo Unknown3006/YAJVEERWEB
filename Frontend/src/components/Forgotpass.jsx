@@ -7,7 +7,7 @@ import Footer from "./Footer/Footer";
 import { useState } from "react";
 import "../CSS/Forgotpass.css";
 import Ayur from "../assets/logp.jpg";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import LoadingAnimation from "./LoadingAnimation";
 import { Navigate } from "react-router";
 import axios from "axios";
@@ -16,7 +16,6 @@ export default function Forgotpassword() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [email, setEmail] = useState("");
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOpenSidebar = () => setSidebarOpen(true);
@@ -27,7 +26,7 @@ export default function Forgotpassword() {
       /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|icloud\.com|protonmail\.com|hotmail\.com)$/i;
 
     if (!email || !emailRegex.test(email)) {
-      setPopupMessage("Please enter a valid email address.");
+     toast.error("Please enter a valid email address.");
       return false;
     }
     return true;
@@ -53,16 +52,16 @@ export default function Forgotpassword() {
 
       const result = response.data;
       if (result.success) {
-        setPopupMessage(result.message);
+        toast.success(result.message);
         setTimeout(() => setRedirect(true), 2000);
       } else {
-        setPopupMessage(result.message);
+        toast.error(result.message);
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -115,10 +114,6 @@ export default function Forgotpassword() {
             </div>
           </div>
           <Footer />
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </>
       )}
     </>

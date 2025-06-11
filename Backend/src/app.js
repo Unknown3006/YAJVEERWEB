@@ -5,10 +5,10 @@ import ServerlessHttp from "serverless-http";
 
 const app = express();
 const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://yajveer.vercel.app" ,
-  "https://yajveer-admin.vercel.app"
+  "https://yajveer.vercel.app",
+  "https://yajveer-admin.vercel.app",
+  "https://admin.yajveer.in",
+  "https://www.yajveer.in"
 ];
 // CORS middleware
 app.use(
@@ -20,8 +20,7 @@ app.use(
         callback(new Error("CORS not allowed for this origin"));
       }
     },
-    // origin: process.env.CORS_ORIGIN,
-    credentials: true, // only if you're using cookies
+    credentials: true, 
   })
 );
 
@@ -31,17 +30,15 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 // Static files and cookies
 app.use(express.static("public"));
-app.use('/static', express.static('assets'));
+app.use("/static", express.static("assets"));
 app.use(cookieParser());
 
 // Import routes
 import userRouter from "./routes/user.routes.js";
-import productrouter from "./routes/product.routes.js"
+import productrouter from "./routes/product.routes.js";
 
-app.use("/api/v1/users", userRouter); 
-app.use("/api/v1/products",productrouter);
-
-
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productrouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statuscode || 500;
@@ -55,11 +52,8 @@ app.use((err, req, res, next) => {
 });
 
 app.get("/api/v1", (req, res) => {
-    res.send("Welcome to CKS_dev");
+  res.send("Welcome to CKS_dev");
 });
 
 export { app };
 export const handler = ServerlessHttp(app);
-
-
-

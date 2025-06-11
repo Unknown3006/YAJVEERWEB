@@ -2,8 +2,7 @@ import "../../CSS/Footer/Footer.css";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 export default function Footer() {
-  const dispatch = useDispatch();
-  const { data: products, loading, error } = useSelector((state) => state.cart);
+  const { data: products } = useSelector((state) => state.cart);
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -15,17 +14,14 @@ export default function Footer() {
             supporting your health and well-being.
           </p>
           <div className="social-icons">
-            <Link to="#">
+            <Link to="https://www.facebook.com/share/1At1kGfEAX/">
               <i className="bi bi-facebook"></i>
             </Link>
-            <Link to="#">
-              <i className="bi bi-twitter"></i>
-            </Link>
-            <Link to="#">
+            <Link to="https://www.instagram.com/yajveerayurved?igsh=MTEzZHYxd3doMW44Ng%3D%3D">
               <i className="bi bi-instagram"></i>
             </Link>
-            <Link to="#">
-              <i className="bi bi-youtube"></i>
+            <Link to="https://wa.me/917405430230">
+              <i className="bi bi-whatsapp"></i>
             </Link>
           </div>
         </div>

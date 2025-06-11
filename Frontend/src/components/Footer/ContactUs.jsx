@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import Sidebar from "../Home/sidebar";
 import Sidebar1 from "../Home/sidebar1";
 import axios from "axios";
-import ErrorPopup from "../ErrorPopup";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import LoadingAnimation from "../LoadingAnimation";
 
@@ -22,7 +22,6 @@ const ContactUs = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
   const handleOpenSidebar = () => setSidebarOpen(true);
   const handleCloseSidebar = () => setSidebarOpen(false);
 
@@ -46,7 +45,7 @@ const ContactUs = () => {
       newErrors.message = "Message is required";
 
     if (Object.keys(newErrors).length > 0) {
-      setPopupMessage(Object.values(newErrors).join(", "));
+      toast.error(Object.values(newErrors).join(", "));
       return false;
     }
 
@@ -93,7 +92,7 @@ const ContactUs = () => {
           withCredentials: true,
         }
       );
-      setPopupMessage(response.data.message);
+      toast.success(response.data.message);
       setFormData({
         name: "",
         email: "",
@@ -107,18 +106,18 @@ const ContactUs = () => {
 
       if (err.response) {
         if (err.response.status === 401) {
-          setPopupMessage("Please login to submit a review.");
+          toast.error("Please login to submit a review.");
           setTimeout(() => {
             navigate("/login");
           }, 2000);
         } else {
-          setPopupMessage(
+          toast.error(
             err.response.data.message || "Failed to submit . Please try again."
           );
         }
       } else {
         console.error("Error submitting review:", err);
-        setPopupMessage("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -238,10 +237,6 @@ const ContactUs = () => {
           </div>
 
           <Footer />
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </>
       )}
     </>

@@ -7,7 +7,7 @@ import Footer from "./Footer/Footer";
 import { useState } from "react";
 import "../CSS/Forgotpass1.css";
 import Ayur from "../assets/logp.jpg";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import LoadingAnimation from "./LoadingAnimation";
 import { Navigate } from "react-router";
 import axios from "axios";
@@ -16,7 +16,6 @@ export default function Forgotpass1() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [code, setOtp] = useState("");
   const [email, setEmail] = useState("");
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -27,14 +26,14 @@ export default function Forgotpass1() {
     e.preventDefault();
 
     if (!code) {
-      setMessage("Please enter the OTP.");
+      toast.error("Please enter the OTP.");
       return;
     }
     setIsLoading(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER}/api/v1/users/verifyOtp`,
-        { email , code },
+        { email, code },
         {
           headers: {
             "Content-Type": "application/json",
@@ -45,16 +44,16 @@ export default function Forgotpass1() {
 
       const result = response.data;
       if (result.success) {
-        setPopupMessage(result.message);
+        toast.success(result.message);
         setTimeout(() => setRedirect(true), 2000);
       } else {
-        setPopupMessage(result.message);
+        toast.error(result.message);
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -88,7 +87,7 @@ export default function Forgotpass1() {
                 </div>
                 <div className="field">
                   <form className="logf" onSubmit={handleSubmit}>
-                     <div className="usn">
+                    <div className="usn">
                       <label htmlFor="email">Email : </label>
                       <input
                         type="text"
@@ -117,10 +116,6 @@ export default function Forgotpass1() {
             </div>
           </div>
           <Footer />
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </>
       )}
     </>

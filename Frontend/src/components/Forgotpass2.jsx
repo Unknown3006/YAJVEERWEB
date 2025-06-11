@@ -7,7 +7,7 @@ import Footer from "./Footer/Footer";
 import { useState } from "react";
 import "../CSS/Forgotpass2.css";
 import Ayur from "../assets/logp.jpg";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import LoadingAnimation from "./LoadingAnimation";
 import { Navigate } from "react-router";
 import axios from "axios";
@@ -17,7 +17,6 @@ export default function Forgotpass2() {
   const [email, setEmail] = useState("");
   const [code, setOtp] = useState("");
   const [newPassword, setPassword] = useState("");
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [redirect, setRedirect] = useState(false);
 
@@ -29,10 +28,10 @@ export default function Forgotpass2() {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|icloud\.com|protonmail\.com|hotmail\.com)$/i;
     if (!email || !code || !newPassword) {
-      setPopupMessage("Please fill in all fields..");
+      toast.error("Please fill in all fields..");
       return;
     } else if (!emailRegex.test(email)) {
-      setPopupMessage("Please Enter Valid Email!!");
+      toast.error("Please Enter Valid Email!!");
       return;
     }
 
@@ -52,16 +51,16 @@ export default function Forgotpass2() {
 
       const result = response.data;
       if (result.success) {
-        setPopupMessage(result.message);
+        toast.success(result.message);
         setTimeout(() => setRedirect(true), 2000);
       } else {
-        setPopupMessage(result.message);
+        toast.error(result.message);
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -134,10 +133,6 @@ export default function Forgotpass2() {
             </div>
           </div>
           <Footer />
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </>
       )}
     </>

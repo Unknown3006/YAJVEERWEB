@@ -21,24 +21,6 @@ export default function ProductDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
 
-
-  const typeBasedOptions = {
-    box: {
-      weights: ["75g", "100g", "250g"],
-      prices: {
-        "75g": 350,
-        "100g": 650,
-        "250g": 999,
-      },
-    },
-    pouch: {
-      weights: ["100g", "200g"],
-      prices: {
-        "100g": 230,
-        "200g": 280,
-      },
-    },
-  };
   useEffect(() => {
     if (!products || products.length === 0) {
       dispatch(Fectchdata());
@@ -46,6 +28,23 @@ export default function ProductDetails() {
   }, [dispatch, products]);
 
   const product = products.find((p) => p._id === id);
+  const typeBasedOptions = {
+    box: {
+      weights: ["75g", "100g", "250g"],
+      prices: {
+        "75g": `${product.actualPrice}`,
+        "100g": `${(1.9*product.actualPrice*0.97).toFixed(0)}`,
+        "250g": `${(2.6*product.actualPrice*0.988).toFixed(0)}`,
+      },
+    },
+    pouch: {
+      weights: ["100g", "200g"],
+      prices: {
+        "100g": `${product.actualPrice}`,
+        "200g": `${(2 * product.actualPrice * 0.65).toFixed(0)}`,
+      },
+    },
+  };
 
   useEffect(() => {
     if (product) {

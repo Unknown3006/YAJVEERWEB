@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { FiPlus, FiEdit2, FiTrash2, FiX } from "react-icons/fi";
+import { FiPlus, FiTrash2, FiX } from "react-icons/fi";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import "../CSS/Products.css";
 import LoadingAnimation from "./LoadingAnimation";
 import axios from "axios";
@@ -12,7 +12,6 @@ import { Fectchdata } from "../Redux/CartSlice.js";
 const Products = () => {
   const dispatch = useDispatch();
   const [showForm, setShowForm] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -61,7 +60,7 @@ const Products = () => {
 
     // Validate total number of photos
     if (files.length + formData.photos.length > 7) {
-      setPopupMessage("You can only upload up to 7 photos in total");
+      toast.error("You can only upload up to 7 photos in total");
       return;
     }
 
@@ -74,7 +73,7 @@ const Products = () => {
     );
 
     if (invalidFiles.length > 0) {
-      setPopupMessage(
+      toast.error(
         "Please only upload images (JPG, PNG, WEBP) less than 5MB in size"
       );
       return;
@@ -90,12 +89,12 @@ const Products = () => {
 
   const validateForm = () => {
     if (formData.files.length === 0) {
-      setPopupMessage("At least one product photo is required");
+      toast.error("At least one product photo is required");
       return false;
     }
 
     if (!formData.productName.trim()) {
-      setPopupMessage("Product name is required");
+      toast.error("Product name is required");
       return false;
     }
 
@@ -103,36 +102,36 @@ const Products = () => {
       !formData.description.trim() ||
       formData.description.trim().length < 10
     ) {
-      setPopupMessage(
+      toast.error(
         "Description is required and should be at least 10 characters long"
       );
       return false;
     }
 
     if (!formData.actualPrice || formData.actualPrice <= 0) {
-      setPopupMessage("Price must be greater than 0");
+      toast.error("Price must be greater than 0");
       return false;
     }
 
     if (formData.discount < 0 || formData.discount > 100) {
-      setPopupMessage("Discount must be between 0 and 100");
+      toast.error("Discount must be between 0 and 100");
       return false;
     }
 
     if (!formData.type) {
-      setPopupMessage("Please select a packaging type");
+      toast.error("Please select a packaging type");
       return false;
     }
 
     const filledIngredients = formData.ingredients.filter((ing) => ing.trim());
     if (filledIngredients.length === 0) {
-      setPopupMessage("At least one ingredient is required");
+      toast.error("At least one ingredient is required");
       return false;
     }
 
     const filledBenefits = formData.benefits.filter((ben) => ben.trim());
     if (filledBenefits.length === 0) {
-      setPopupMessage("At least one benefit is required");
+      toast.error("At least one benefit is required");
       return false;
     }
 
@@ -214,16 +213,16 @@ const Products = () => {
       );
 
       if (response.data && response.data.statusCode === 201) {
-        setPopupMessage("Product successfully added!");
+        toast.success("Product successfully added!");
         setShowForm(false);
         resetForm();
         dispatch(Fectchdata());
       } else {
-        throw new Error(response.data?.message || "Failed to add product");
+        toast.error(response.data?.message || "Failed to add product");
       }
     } catch (error) {
       console.error("Error adding product:", error);
-      setPopupMessage(
+      toast.error(
         "Error adding product: " +
           (error.response?.data?.message ||
             error.message ||
@@ -454,10 +453,6 @@ const Products = () => {
               </div>
             </div>
           )}
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </div>
       )}
     </>

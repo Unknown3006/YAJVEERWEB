@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import ForgotPass from "./components/ForgotPass";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoadingAnimation from "./components/LoadingAnimation";
 import { useDispatch, useSelector } from "react-redux";
@@ -112,7 +111,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route path="/forgotPassword" element={<ForgotPass />} />
       <Route path="*" element={<Notfound></Notfound>}></Route>
     </Routes>
     </>

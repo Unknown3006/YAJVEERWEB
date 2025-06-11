@@ -8,8 +8,8 @@ import Logo from "../assets/Yajveer.png"; // Ensure this path is correct
 import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
 import axios from "axios";
-import ErrorPopup from "./ErrorPopup";
 import { useNavigate } from "react-router";
+import { toast } from "react-hot-toast";
 import LoadingAnimation from "./LoadingAnimation";
 
 export default function ReviewForm() {
@@ -20,7 +20,6 @@ export default function ReviewForm() {
   const [image, setImage] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOpenSidebar = () => setSidebarOpen(true);
@@ -28,25 +27,19 @@ export default function ReviewForm() {
 
   const validate = () => {
     const newErrors = {};
-
+    const numericRating = parseFloat(rating);
     if (!name.trim()) {
       newErrors.name = "Name is required";
-    }
-    if (!image) {
+    } else if (!image) {
       newErrors.image = "Photo is required";
-    }
-    if (!review.trim()) {
+    }else if (!review.trim()) {
       newErrors.review = "Review is required";
-    }
-
-    // Convert rating to a number for validation
-    const numericRating = parseFloat(rating);
-    if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
+    }else if (isNaN(numericRating) || numericRating < 0 || numericRating > 5) {
       newErrors.rating = "Rating must be between 0 and 5";
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setPopupMessage(Object.values(newErrors).join(", "));
+      toast.error(Object.values(newErrors).join(", "));
       return false;
     }
 
@@ -80,12 +73,6 @@ export default function ReviewForm() {
     setIsLoading(true);
 
     try {
-      // It's good practice to log the formData content for debugging,
-      // but avoid logging sensitive data in production.
-      // for (let pair of formData.entries()) {
-      //   console.log(pair[0]+ ': ' + pair[1]);
-      // }
-
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER}/api/v1/users/review`,
         formData,
@@ -99,7 +86,7 @@ export default function ReviewForm() {
 
       // Check for a success status if needed, though axios typically throws for non-2xx
       if (response.status === 201 || response.status === 200) {
-        setPopupMessage("Review submitted successfully!");
+         toast.success("Review submitted successfully!");
         // Clear form fields on successful submission
         setName("");
         setReview("");
@@ -108,31 +95,31 @@ export default function ReviewForm() {
         setSelectedFileName("");
       } else {
         // Handle unexpected non-error responses
-        setPopupMessage("Failed to submit review. Unexpected response.");
+         toast.error("Failed to submit review. Unexpected response.");
       }
     } catch (err) {
       console.error("Error submitting review:", err.response?.data || err);
 
       if (err.response) {
         if (err.response.status === 401) {
-          setPopupMessage("Please login to submit a review.");
+           toast.error("Please login to submit a review.");
           setTimeout(() => {
             navigate("/login");
           }, 2000); // Redirect after a delay
         } else if (err.response.data && err.response.data.message) {
           // Use specific error message from backend if available
-          setPopupMessage(err.response.data.message);
+           toast.error(err.response.data.message);
         } else {
-          setPopupMessage("Failed to submit review. Please try again.");
+           toast.error("Failed to submit review. Please try again.");
         }
       } else if (err.request) {
         // The request was made but no response was received
-        setPopupMessage(
+         toast.error(
           "No response from server. Please check your network connection."
         );
       } else {
         // Something happened in setting up the request that triggered an Error
-        setPopupMessage("An unknown error occurred. Please try again.");
+         toast.error("An unknown error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false); // Always stop loading animation
@@ -166,7 +153,6 @@ export default function ReviewForm() {
                       placeholder="Your Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      required // Make name required via HTML5 validation too
                     />
                   </div>
                   <div className="image-upload-section">
@@ -223,7 +209,6 @@ export default function ReviewForm() {
                       rows="4"
                       value={review}
                       onChange={(e) => setReview(e.target.value)}
-                      required // Make review required via HTML5 validation
                     ></textarea>
                   </div>
                   <div className="form-group">
@@ -235,7 +220,6 @@ export default function ReviewForm() {
                       min="0" // HTML5 min attribute
                       max="5" // HTML5 max attribute
                       step="0.1" // Allow decimal ratings, e.g., 4.5
-                      required // Make rating required via HTML5 validation
                     />
                   </div>
                   <button type="submit" className="submit-btn">
@@ -246,10 +230,6 @@ export default function ReviewForm() {
             </div>
           </section>
           <Footer />
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </>
       )}
     </>

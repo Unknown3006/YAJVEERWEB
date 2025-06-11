@@ -112,6 +112,36 @@
     font-size: 16px;
 }
 
+.order-separator td {
+    padding: 0 !important;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.order-separator:hover {
+    background-color: transparent !important;
+}
+
+.order-history-table td {
+    border-bottom: none !important;
+}
+
+.order-separator:hover {
+    background: transparent !important;
+}
+
+/* Expand the Products column width */
+.order-history-table td.products-info,
+.order-history-table th:nth-child(6) {
+    min-width: 240px;
+    width: 240px;
+    white-space: normal;
+    word-wrap: break-word;
+    vertical-align: top;
+}
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .order-history-dashboard {

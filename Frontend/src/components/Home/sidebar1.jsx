@@ -1,21 +1,19 @@
 import "../../CSS/Home/sidebar1.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import ErrorPopup from "../ErrorPopup";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 import LoadingAnimation from "../LoadingAnimation";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Sidebar1({ onClose }) {
   const { data: products } = useSelector((state) => state.cart);
- 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const loginStatus = localStorage.getItem("isLoginUser") === "true";
+    const loginStatus = sessionStorage.getItem("isLoginUser") === "true";
     setIsLoggedIn(loginStatus);
   }, []);
 
@@ -30,18 +28,18 @@ export default function Sidebar1({ onClose }) {
 
       const result = response.data;
       if (result.success) {
-        localStorage.setItem("isLoginUser", "false");
+        sessionStorage.setItem("isLoginUser", "false");
         setIsLoggedIn(false);
-        setPopupMessage("Logout successful");
+        toast.success("Logout successful");
       } else {
         setPopupMessage("Logout failed: " + result.message);
       }
     } catch (error) {
-      localStorage.setItem("isLoginUser", "true");
+      sessionStorage.setItem("isLoginUser", "true");
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -58,17 +56,15 @@ export default function Sidebar1({ onClose }) {
         </div>
         <div className="sidebar1cont">
           {products &&
-            products
-              .map((item) => (
-                <div className="side1con1" key={item._id}>
-                  <Link
-                    to={`/product/${item._id}`}>
-                    <div className="itemsName1" onClick={onClose}>
-                      <p>{item.productName}</p>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+            products.map((item) => (
+              <div className="side1con1" key={item._id}>
+                <Link to={`/product/${item._id}`}>
+                  <div className="itemsName1" onClick={onClose}>
+                    <p>{item.productName}</p>
+                  </div>
+                </Link>
+              </div>
+            ))}
         </div>
 
         <div className="contactSection">
@@ -106,7 +102,6 @@ export default function Sidebar1({ onClose }) {
           </div>
         </div>
       </div>
-      <ErrorPopup message={popupMessage} onClose={() => setPopupMessage("")} />
     </div>
   );
 }

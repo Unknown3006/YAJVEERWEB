@@ -51,7 +51,7 @@ const sendSelfMail = async (order) => {
           Delivery Address: ${order.deliveryAddress}
           Order ID: ${order.orderId}
           Total Amount: ${order.totalAmount}
-          Payment Status: ${order.paymentStatus}`
+          Payment Status: ${order.paymentStatus}`,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -63,7 +63,56 @@ const sendSelfMail = async (order) => {
   }
 };
 
-const sendPaymentConfirmationMail = async (to, order , invoiceData) => {
+const OrderConfirmation = async (to, order) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: `"Yajveer Store" <${process.env.EMAIL_USER}>`,
+      to,
+      subject: `🛍️ Thank You for Your Order! [Order ID: ${order.orderId}]`,
+      text: `
+Hi ${order.fullname},
+
+Thank you for shopping with us at Yajveer!
+
+We're excited to let you know that we've received your order and it's now being processed. Below are your order details:
+
+🔹 Order ID: ${order.orderId}  
+🔹 Name: ${order.fullname}  
+🔹 Email: ${order.email}  
+🔹 Phone: ${order.mobilenumber}  
+🔹 Delivery Address: ${order.deliveryAddress}  
+🔹 Total Amount: ₹${order.totalAmount}  
+🔹 Payment Status: ${order.paymentStatus}
+
+
+If you have any questions, feel free to reply to this email — we’re happy to help.
+
+Thanks again for choosing Yajveer!  
+Warm regards,  
+**Team Yajveer**
+
+🌐 Visit us: https://www.yajveer.in
+      `,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Customer confirmation email sent:", info.response);
+    return info;
+  } catch (error) {
+    console.error("Error sending customer confirmation email:", error);
+    throw error;
+  }
+};
+
+const sendPaymentConfirmationMail = async (to, order, invoiceData) => {
   try {
     const pdfBuffer = await buildInvoicePdf(invoiceData);
     const transporter = nodemailer.createTransport({
@@ -106,8 +155,4 @@ const sendPaymentConfirmationMail = async (to, order , invoiceData) => {
   }
 };
 
-export{
-  sendOtpMail,
-  sendSelfMail,
-  sendPaymentConfirmationMail,
-}
+export { sendOtpMail, sendSelfMail, sendPaymentConfirmationMail , OrderConfirmation };

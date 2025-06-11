@@ -187,6 +187,29 @@
     min-width: 120px;
 }
 
+.orders-table td {
+  border-bottom: none !important;
+}
+
+.order-separator td {
+  height: 0;
+  padding: 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.order-separator:hover {
+  background: transparent !important;
+}
+
+.customer-info {
+  gap: 0;
+}
+
+.product-details {
+  gap: 6px;
+  margin-top: 2px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .orders-dashboard {
@@ -227,4 +250,82 @@
     .orders-table {
         min-width: 100%;
     }
+}
+
+
+.orders-table td {
+  border-bottom: none !important;
+}
+
+.order-separator td {
+  height: 0;
+  padding: 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.order-separator:hover {
+  background: transparent !important;
+}
+
+.customer-info {
+  gap: 0;
+}
+
+.product-details {
+  gap: 6px;
+  margin-top: 2px;
+}
+
+/* Address Column */
+.customer-address {
+    white-space: pre-wrap;
+    font-size: 14px;
+    color: #34495e;
+}
+
+/* Created At Column */
+.created-at {
+    font-size: 13px;
+    color: #6c757d;
+    white-space: nowrap;
+}
+
+.orders-table th:nth-child(4),
+.orders-table td:nth-child(4), 
+.orders-table th:nth-child(5),
+.orders-table td:nth-child(5)   {
+    min-width: 160px;
+    max-width: 200px;
+    word-wrap: break-word;
+}
+
+.orders-table td.products-info,
+.orders-table th:nth-child(6) {
+  min-width: 240px;
+  width: 240px;
+  white-space: normal;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+
+@media (max-width: 480px) {
+    .customer-address,
+    .created-at {
+        font-size: 12px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+        font-size: 12px;
+    }
+}
+
+
+.orders-table td.products-info,
+.orders-table th:nth-child(6) {
+  min-width: 240px;
+  width: 240px;
+  white-space: normal;
+  word-wrap: break-word;
+  vertical-align: top;
 }

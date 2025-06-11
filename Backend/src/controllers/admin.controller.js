@@ -21,6 +21,8 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
+
+
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
@@ -58,6 +60,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
     maxAge: 24 * 60 * 60 * 1000,
     // domain : "https://yajveerback.vercel.app"
   };
+
+  
+
 
   return res
     .status(200)

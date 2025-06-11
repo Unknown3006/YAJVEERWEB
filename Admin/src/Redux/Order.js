@@ -20,6 +20,12 @@ const OrderSlice = createSlice({
     error: null,
   },
   reducers: {
+    addOrder: (state, action) => {
+      const incoming = action.payload;
+      if (!state.data.some((o) => o._id === incoming._id)) {
+        state.data.unshift(incoming); 
+      }
+    },
     deleteOrder: (state, action) => {
       const idToDelete = action.payload;
       state.data = state.data.filter((review) => review.orderId !== idToDelete);
@@ -44,5 +50,5 @@ const OrderSlice = createSlice({
 });
 
 export default OrderSlice.reducer;
-export const { deleteOrder } = OrderSlice.actions;
+export const { deleteOrder , addOrder } = OrderSlice.actions;
 export { orderdata };

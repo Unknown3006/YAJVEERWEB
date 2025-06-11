@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import {
   FiHome,
   FiUsers,
   FiBox,
   FiMessageSquare,
-  FiSettings,
   FiMenu,
   FiX,
   FiSearch,
@@ -21,6 +20,11 @@ import "../CSS/Home.css";
 import Order from "./Order";
 import OrderHistory from "./OrderHistory.";
 import LineChart from "./LineChart";
+import axios from "axios";
+import LoadingAnimation from "./LoadingAnimation";
+import { useNavigate } from "react-router";
+import { toast } from "react-hot-toast";
+import { FiLogOut } from "react-icons/fi";
 
 const mockLineData = [
   {
@@ -97,9 +101,42 @@ const mockLineData = [
   },
 ];
 function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const Navigate = useNavigate();
+  const handleLogout = async () => {
+    console.log("Hii , I am Rishi Kukadiya!!")
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/api/v1/users/adminlogout`,
+        {},
+        { withCredentials: true }
+      );
+
+      const result = response.data;
+      if (result.success) {
+        sessionStorage.setItem("isLoggedInAdmin", "false");
+        toast.success("Logout successful");
+        Navigate("/");
+      } else {
+        toast.error("Logout failed: " + result.message);
+      }
+    } catch (error) {
+      sessionStorage.setItem("isLoggedInAdmin", "true");
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: user } = useSelector((state) => state.users);
-  const { data: products} = useSelector((state) => state.cart);
+  console.log(user);
+  const { data: products } = useSelector((state) => state.cart);
   const { data: reviews } = useSelector((state) => state.reviews);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -109,7 +146,7 @@ function Home() {
     {
       id: 1,
       title: "Total Users",
-      value: `${user.totalUsers.length}`,
+      value: `${user?.totalUsers?.length || 0}`,
       icon: <FiUsers />,
     },
     {
@@ -127,7 +164,9 @@ function Home() {
     },
   ];
 
-  return (
+  return isLoading ? (
+    <LoadingAnimation />
+  ) : (
     <div className="admin-dashboard">
       <aside className={`sidebar ${isSidebarOpen ? "active" : ""}`}>
         <div className="sidebar-header">
@@ -179,11 +218,11 @@ function Home() {
             </span>
             OrderHistory
           </Link>
-          <Link to="/admin/settings" className="nav-item">
+          <Link className="nav-item" onClick={handleLogout}>
             <span className="nav-icon">
-              <FiSettings />
+              <FiLogOut />
             </span>
-            Settings
+            Logout
           </Link>
         </nav>
       </aside>
@@ -243,20 +282,10 @@ function Home() {
           <Route path="/products/*" element={<Products />} />
           <Route path="/products/:id" element={<Detail />} />
           <Route path="/users" element={<Users></Users>} />
-          <Route
-            path="/orders"
-            element={<Order></Order>}
-          />
+          <Route path="/orders" element={<Order></Order>} />
           <Route path="/query" element={<Contactus></Contactus>} />
           <Route path="/reviews" element={<Reviews></Reviews>} />
-          <Route
-            path="/orderHistory"
-            element={<OrderHistory></OrderHistory>}
-          />
-          <Route
-            path="/settings"
-            element={<div>Settings Page (Coming Soon)</div>}
-          />
+          <Route path="/orderHistory" element={<OrderHistory></OrderHistory>} />
         </Routes>
       </main>
     </div>

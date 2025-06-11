@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../CSS/login.css";
+import "../CSS/signup.css";
 import Navbar from "./navbar";
 import Navbar2 from "./navbar2";
 import Ayur from "../assets/logp.jpg";
@@ -8,7 +8,7 @@ import MainNav from "./mainnav";
 import Footer from "./Footer/Footer";
 import Sidebar from "./Home/sidebar";
 import Sidebar1 from "./Home/sidebar1";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import { Navigate } from "react-router";
 import LoadingAnimation from "./LoadingAnimation";
 
@@ -21,7 +21,6 @@ export default function SignUp() {
     mobileNumber: "",
   });
 
-  const [popupMessage, setPopupMessage] = useState("");
 
   const validate = () => {
     const emailRegex =
@@ -29,17 +28,17 @@ export default function SignUp() {
     const phoneRegex = /^\d{10}$/;
 
     if (!formData.email || !emailRegex.test(formData.email)) {
-      setPopupMessage("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       return false;
     }
 
     if (!formData.password || formData.password.length < 6) {
-      setPopupMessage("Password must be at least 6 characters.");
+      toast.error("Password must be at least 6 characters.");
       return false;
     }
 
     if (!formData.mobileNumber || !phoneRegex.test(formData.mobileNumber)) {
-      setPopupMessage("Please enter a valid 10-digit mobile number.");
+      toast.error("Please enter a valid 10-digit mobile number.");
       return false;
     }
     return true;
@@ -68,14 +67,14 @@ export default function SignUp() {
 
       const result = await response.json();
       if (result.success) {
-        setPopupMessage(result.message);
+        toast.success(result.message);
         setTimeout(() => setRedirect(true), 2000);
       } else {
         setPopupMessage(result.message);
       }
     } catch (error) {
       console.error("Error posting data:", error);
-      setPopupMessage("Network error or server not responding.");
+      toast.error("Network error or server not responding.");
     } finally {
       setIsLoading(false);
     }
@@ -100,20 +99,20 @@ export default function SignUp() {
           <Navbar></Navbar>
           <Navbar2></Navbar2>
           <MainNav></MainNav>
-          <div className="log">
-            <div className="imgsec">
+          <div className="signup-container">
+            <div className="signup-img-section">
               <img src={Ayur} alt="Yajveer" />
             </div>
-            <div className="logform ">
-              <div className="mainlog">
-                <div className="wel">
-                  <p className="logn">Register Here</p>
+            <div className="signup-form">
+              <div className="signup-main">
+                <div className="signup-welcome">
+                  <p className="signup-title">Register Here</p>
                   <p>Welcome to Yajveer!</p>
                   <p>Register your account</p>
                 </div>
-                <div className="field">
-                  <form action="" className="logf" onSubmit={handleSubmit}>
-                    <div className="usn">
+                <div className="signup-fields">
+                  <form className="signup-form-elements" onSubmit={handleSubmit}>
+                    <div className="signup-email">
                       <label htmlFor="email">Email : </label>
                       <input
                         type="text"
@@ -124,7 +123,7 @@ export default function SignUp() {
                         onChange={handleChange}
                       />
                     </div>
-                    <div className="usp">
+                    <div className="signup-password">
                       <label htmlFor="password">Password : </label>
                       <input
                         type="password"
@@ -133,9 +132,9 @@ export default function SignUp() {
                         placeholder="Enter Your Password"
                         value={formData.password}
                         onChange={handleChange}
-                      ></input>
+                      />
                     </div>
-                    <div className="usm">
+                    <div className="signup-phone">
                       <label htmlFor="PhoneNo">Mobile No : </label>
                       <input
                         type="tel"
@@ -146,13 +145,13 @@ export default function SignUp() {
                         onChange={handleChange}
                       />
                     </div>
-                    <button>Sign Up</button>
+                    <button className="signup-button">Sign Up</button>
                   </form>
 
-                  <div className="newus">
-                    <p className="ne">Already Have Account ? </p>
+                  <div className="signup-login-redirect">
+                    <p className="signup-redirect-text">Already Have Account ? </p>
                     <Link to="/login">
-                      <p className="ne1">Login</p>
+                      <p className="signup-redirect-link">Login</p>
                     </Link>
                   </div>
                 </div>
@@ -160,12 +159,8 @@ export default function SignUp() {
             </div>
           </div>
           <Footer></Footer>
-          <ErrorPopup
-            message={popupMessage}
-            onClose={() => setPopupMessage("")}
-          />
         </>
       )}
-    </>
-  );
+    </>
+  );
 }

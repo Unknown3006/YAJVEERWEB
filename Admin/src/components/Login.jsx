@@ -1,7 +1,6 @@
 import "../CSS/Login.css";
 import Ayur from "../assets/logp.jpg";
-import { Link } from "react-router";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 import { Navigate } from "react-router";
 import { useState } from "react";
 import axios from "axios";
@@ -22,19 +21,18 @@ export default function Login() {
     }
   }, []);
 
-  const [popupMessage, setPopupMessage] = useState("");
 
   const validate = () => {
     const emailRegex =
       /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|icloud\.com|protonmail\.com|hotmail\.com)$/i;
 
     if (!formData.email || !emailRegex.test(formData.email)) {
-      setPopupMessage("Please enter a valid email address.");
+      toast.error("Please enter a valid email address.");
       return false;
     }
 
     if (!formData.password || formData.password.length < 6) {
-      setPopupMessage("Password must be at least 6 characters.");
+      toast.error("Password must be at least 6 characters.");
       return false;
     }
     return true;
@@ -64,16 +62,16 @@ export default function Login() {
       const result = response.data;
       if (result.success) {
         sessionStorage.setItem("isLoggedInAdmin", "true");
-        setPopupMessage(result.message);
+        toast.success(result.message);
         setTimeout(() => setRedirect(true), 2000);
       } else {
-        setPopupMessage(result.message);
+        toast.error(result.message);
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        setPopupMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setPopupMessage("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       }
     }
   };
@@ -118,16 +116,12 @@ export default function Login() {
                     onChange={handleChange}
                   ></input>
                 </div>
-                <Link to="/forgotpassword">
-                  <p className="fogpass">Forgot Your Password</p>
-                </Link>
                 <button>Login</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <ErrorPopup message={popupMessage} onClose={() => setPopupMessage("")} />
     </>
   );
 }

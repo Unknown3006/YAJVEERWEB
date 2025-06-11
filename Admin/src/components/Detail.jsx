@@ -11,7 +11,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
-import ErrorPopup from "./ErrorPopup";
+import { toast } from "react-hot-toast";
 
 const Detail = () => {
   const { id } = useParams();
@@ -27,7 +27,6 @@ const Detail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0); // Find the product from the Redux store or fetch if not available
-  const [popupMessage, setPopupMessage] = useState("");
   useEffect(() => {
     const getProduct = async () => {
       if (products && products.length > 0) {
@@ -45,7 +44,7 @@ const Detail = () => {
         );
         setProduct(response.data.data);
       } catch (err) {
-        setPopupMessage(
+        toast.error(
           err.response?.data?.message || "Failed to fetch product details"
         );
         console.error("Error fetching product:", err);
@@ -58,12 +57,11 @@ const Detail = () => {
   }, [products, id]);
 
   const calculateDiscountedPrice = (actualPrice, discount) => {
-    return Math.round(actualPrice - (actualPrice * discount) / 100);
+    return Math.round(actualPrice + (actualPrice * discount) / 100);
   };
 
   const handleDelete = async () => {
     setIsLoading(true);
-    setPopupMessage(null);
     console.log("Deleting product with id:", id);
     try {
       await axios.delete(
@@ -71,10 +69,10 @@ const Detail = () => {
         { withCredentials: true }
       );
       dispatch(Fectchdata());
-      setPopupMessage("Product deleted successfully");
+      toast.success("Product deleted successfully");
       navigate("/admin/products");
     } catch (err) {
-      setPopupMessage(
+      toast.error(
         err.response?.data?.message ||
           "Failed to delete product. Please try again."
       );
@@ -102,13 +100,11 @@ const Detail = () => {
     }
   };
 
-
   useEffect(() => {
     if (!product || !product.photos || product.photos.length <= 1) return;
-    const timer = setInterval(nextImage, 5000); 
+    const timer = setInterval(nextImage, 5000);
     return () => clearInterval(timer);
   }, [product, nextImage]);
-
 
   const parseArrayField = (field) => {
     if (!field) return [];
@@ -207,11 +203,15 @@ const Detail = () => {
 
           <div className="price-section-detailed">
             <span className="current-price-detailed">
-              ₹{calculateDiscountedPrice(product.actualPrice, product.discount)}
+              ₹{product.actualPrice}
             </span>
             {product.discount > 0 && (
               <span className="original-price-detailed">
-                ₹{product.actualPrice}
+                ₹
+                {calculateDiscountedPrice(
+                  product.actualPrice,
+                  product.discount
+                )}
               </span>
             )}
             {product.discount > 0 && (
@@ -288,7 +288,6 @@ const Detail = () => {
           </div>
         </div>
       </div>
-      <ErrorPopup message={popupMessage} onClose={() => setPopupMessage("")} />
     </div>
   );
 };
